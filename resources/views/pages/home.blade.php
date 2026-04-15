@@ -773,7 +773,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
         Open source · Installation en 5 minutes · Propulsé par Asterisk
       </div>
 
-      <h1>Aussi simple<br><span class="text-primary">qu'un coup de crayon</span></h1>
+      <h1>La téléphonie VoIP <span class="text-primary">simplifiée</span>,<br>avec une touche d'IA</h1>
 
       <p class="hero-sub">Voxa Center rend la VoIP accessible à tous. Dessinez vos scénarios d'appels en drag & drop, gérez vos lignes en quelques clics — sans jamais toucher un fichier de config.</p>
 
