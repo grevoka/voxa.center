@@ -34,7 +34,7 @@
     </div>
     <div style="padding-top:24px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#475569;flex-wrap:wrap;gap:12px;">
       <span>&copy; {{ date('Y') }} Voxa Center. Tous droits reserves.</span>
-      <span>Open source &middot; Propulse par Asterisk &middot; Made in France</span>
+      <span>Un produit <a href="https://d4.fr" target="_blank" style="color:#8b5cf6;text-decoration:none;font-weight:600;">D4.FR</a> &middot; Open source &middot; Propulse par Asterisk</span>
     </div>
   </div>
 </footer>

@@ -34,6 +34,16 @@ class PageController extends Controller
         return view('pages.contact');
     }
 
+    public function scenarios()
+    {
+        return view('pages.scenarios');
+    }
+
+    public function softphone()
+    {
+        return view('pages.softphone');
+    }
+
     public function cgu()
     {
         return view('pages.legal.cgu');
