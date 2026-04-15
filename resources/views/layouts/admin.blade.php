@@ -64,7 +64,7 @@ body{font-family:var(--font);color:var(--ink);background:var(--bg);-webkit-font-
 <aside class="admin-sidebar">
   <div class="brand">
     <a href="{{ route('admin.dashboard') }}">
-      <span class="brand-icon"><i class="bi bi-telephone-fill" style="color:#fff;font-size:16px"></i></span>
+      <img src="/images/logo.png" alt="Voxa Center" style="width:32px;height:32px;border-radius:8px;">
       Voxa Center
     </a>
     <small>{{ __('Administration') }}</small>

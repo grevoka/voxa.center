@@ -45,15 +45,17 @@
   --gray-800: #1e293b;
   --gray-900: #0f172a;
 
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
-  --primary-light: #3b82f6;
-  --primary-50: #eff6ff;
-  --primary-100: #dbeafe;
+  --primary: #6d28d9;
+  --primary-dark: #5b21b6;
+  --primary-light: #8b5cf6;
+  --primary-50: #f5f3ff;
+  --primary-100: #ede9fe;
 
-  --accent: #7c3aed;
-  --accent-light: #8b5cf6;
-  --accent-50: #f5f3ff;
+  --accent: #06b6d4;
+  --accent-light: #22d3ee;
+  --accent-50: #ecfeff;
+
+  --gradient: linear-gradient(135deg, #06b6d4, #3b82f6, #8b5cf6, #d946ef);
 
   --success: #059669;
   --success-light: #d1fae5;
@@ -101,10 +103,10 @@ a { color: inherit; text-decoration: none; }
   transition: all 0.2s ease; border: none; text-decoration: none; line-height: 1.4;
 }
 .btn-primary {
-  background: var(--primary); color: var(--white);
-  box-shadow: 0 1px 2px rgba(37,99,235,0.3);
+  background: var(--gradient); color: var(--white);
+  box-shadow: 0 2px 8px rgba(109,40,217,0.3);
 }
-.btn-primary:hover { background: var(--primary-dark); box-shadow: 0 4px 12px rgba(37,99,235,0.35); transform: translateY(-1px); }
+.btn-primary:hover { opacity: 0.9; box-shadow: 0 4px 16px rgba(109,40,217,0.4); transform: translateY(-1px); }
 
 .btn-outline {
   background: var(--white); color: var(--gray-700);
@@ -119,7 +121,7 @@ a { color: inherit; text-decoration: none; }
 .section-label {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 5px 14px;
-  background: var(--primary-50); color: var(--primary);
+  background: var(--primary-50); color: var(--primary-light);
   font-size: 13px; font-weight: 600;
   border-radius: var(--radius-full);
   margin-bottom: 16px; letter-spacing: 0.3px;
@@ -156,9 +158,10 @@ a { color: inherit; text-decoration: none; }
 }
 .navbar-logo {
   width: 36px; height: 36px;
-  background: var(--primary); border-radius: var(--radius);
-  display: grid; place-items: center; color: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden; flex-shrink: 0;
 }
+.navbar-logo img { width: 100%; height: 100%; object-fit: contain; }
 
 .navbar-links { display: flex; align-items: center; gap: 32px; }
 .navbar-links a { font-size: 14px; font-weight: 500; color: var(--gray-600); transition: color 0.2s; }
@@ -183,13 +186,13 @@ a { color: inherit; text-decoration: none; }
 .hero::before {
   content: ''; position: absolute;
   top: -200px; right: -200px; width: 700px; height: 700px;
-  background: radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(6,182,212,0.06) 0%, transparent 65%);
   pointer-events: none; z-index: 0;
 }
 .hero::after {
   content: ''; position: absolute;
   bottom: -100px; left: -100px; width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(124,58,237,0.04) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(217,70,239,0.05) 0%, transparent 65%);
   pointer-events: none; z-index: 0;
 }
 
@@ -213,7 +216,7 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(40px, 5.5vw, 64px); font-weight: 800;
   letter-spacing: -2px; line-height: 1.08; margin-bottom: 24px;
 }
-.hero h1 .text-primary { color: var(--primary); }
+.hero h1 .text-primary { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
 .hero-sub {
   font-size: 19px; color: var(--gray-500);
@@ -384,7 +387,7 @@ a { color: inherit; text-decoration: none; }
   display: grid; place-items: center; color: var(--gray-600); margin-bottom: 20px;
 }
 .feature-card.highlighted .feature-icon-wrap {
-  background: var(--primary); border-color: var(--primary); color: var(--white);
+  background: var(--gradient); border-color: transparent; color: var(--white);
 }
 
 .feature-card h3 {
@@ -537,10 +540,10 @@ a { color: inherit; text-decoration: none; }
 }
 .pricing-btn-outline { background: var(--white); color: var(--gray-700); border: 1px solid var(--gray-300); }
 .pricing-btn-outline:hover { background: var(--gray-50); border-color: var(--gray-400); }
-.pricing-btn-primary { background: var(--primary); color: var(--white); box-shadow: 0 2px 8px rgba(37,99,235,0.25); }
-.pricing-btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
-.pricing-btn-accent { background: var(--accent); color: var(--white); box-shadow: 0 2px 8px rgba(124,58,237,0.25); }
-.pricing-btn-accent:hover { background: #6d28d9; transform: translateY(-1px); }
+.pricing-btn-primary { background: var(--gradient); color: var(--white); box-shadow: 0 2px 8px rgba(109,40,217,0.25); }
+.pricing-btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+.pricing-btn-accent { background: var(--gradient); color: var(--white); box-shadow: 0 2px 8px rgba(109,40,217,0.25); }
+.pricing-btn-accent:hover { opacity: 0.9; transform: translateY(-1px); }
 
 /* Services grid */
 .services-subtitle {
@@ -742,8 +745,8 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 <!-- ═══════ NAVBAR ═══════ -->
 <nav class="navbar" id="navbar">
   <div class="container navbar-inner">
-    <a href="#" class="navbar-brand">
-      <div class="navbar-logo"><span class="i" style="width:18px;height:18px;color:#fff"><svg><use href="#ico-phone-call"/></svg></span></div>
+    <a href="/" class="navbar-brand">
+      <div class="navbar-logo"><img src="/images/logo.png" alt="Voxa Center"></div>
       Voxa Center
     </a>
     <div class="navbar-links">
@@ -751,11 +754,11 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
       <a href="#ai">Agent IA</a>
       <a href="#architecture">Architecture</a>
       <a href="#pricing">Tarifs</a>
-      <a href="https://github.com/grevoka/SIP.ctrl" target="_blank">GitHub</a>
+      <a href="https://github.com/grevoka/Voxa.center.app" target="_blank">GitHub</a>
     </div>
     <div class="navbar-actions">
       <a href="#pricing" class="btn btn-outline btn-sm">Voir les tarifs</a>
-      <a href="#" class="btn btn-primary btn-sm">Nous contacter</a>
+      <a href="/nous-contacter" class="btn btn-primary btn-sm">Nous contacter</a>
     </div>
   </div>
 </nav>
@@ -770,14 +773,14 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
         Open source · Installation en 5 minutes · Propulsé par Asterisk
       </div>
 
-      <h1>La téléphonie VoIP<br><span class="text-primary">se dessine</span>, elle ne s'écrit plus</h1>
+      <h1>Aussi simple<br><span class="text-primary">qu'un coup de crayon</span></h1>
 
       <p class="hero-sub">Voxa Center rend la VoIP accessible à tous. Dessinez vos scénarios d'appels en drag & drop, gérez vos lignes en quelques clics — sans jamais toucher un fichier de config.</p>
 
       <div class="hero-actions">
-        <a href="https://github.com/grevoka/SIP.ctrl" target="_blank" class="btn btn-primary btn-lg">
+        <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn btn-primary btn-lg">
           <span class="i"><svg><use href="#ico-download"/></svg></span>
-          Installer gratuitement
+          Commencer gratuitement
         </a>
         <a href="#features" class="btn btn-outline btn-lg">
           <span class="i"><svg><use href="#ico-layers"/></svg></span>
@@ -787,11 +790,16 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 
       <div class="hero-install" id="installCmd">
         <span style="color:var(--gray-500)">$</span>
-        <code>curl -sSL https://…/install.sh | bash</code>
+        <code>curl -sSL https://raw.githubusercontent.com/grevoka/Voxa.center.app/main/install.sh | bash</code>
         <span class="copy-btn" id="copyBtn">
           <span class="i i-xs"><svg><use href="#ico-copy"/></svg></span> Copier
         </span>
       </div>
+
+      <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="github-link" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:14px;font-weight:600;color:var(--gray-500);transition:color 0.2s;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Voir sur GitHub
+      </a>
 
       <div class="powered-bar">
         <div class="powered-chip">
@@ -1099,7 +1107,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
             <div class="pricing-tier" style="margin-bottom:4px">Voxa Center</div>
             <div class="pricing-price">Gratuit <span class="price-unit">· Open source</span></div>
           </div>
-          <button class="pricing-btn pricing-btn-primary" style="width:auto; padding:12px 28px;" onclick="window.open('https://github.com/grevoka/SIP.ctrl','_blank')">
+          <button class="pricing-btn pricing-btn-primary" style="width:auto; padding:12px 28px;" onclick="window.open('https://github.com/grevoka/Voxa.center.app','_blank')">
             <span style="display:flex;align-items:center;gap:8px;">
               <span class="i i-sm" style="color:#fff"><svg><use href="#ico-download"/></svg></span>
               Installer maintenant
@@ -1157,7 +1165,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Mises à jour & maintenance incluses</li>
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Disponibilité garantie 99.9%</li>
         </ul>
-        <button class="pricing-btn pricing-btn-primary">Choisir l'hébergement</button>
+        <a href="/nous-contacter" class="pricing-btn pricing-btn-primary" style="text-decoration:none">Choisir l'hébergement</a>
       </div>
 
       <!-- SUIVI & SUPPORT -->
@@ -1174,7 +1182,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Assistance configuration & debug</li>
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Temps de réponse garanti</li>
         </ul>
-        <button class="pricing-btn pricing-btn-primary">Souscrire au support</button>
+        <a href="/nous-contacter" class="pricing-btn pricing-btn-primary" style="text-decoration:none">Souscrire au support</a>
       </div>
 
       <!-- INSTALLATION -->
@@ -1191,7 +1199,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Tests de bon fonctionnement</li>
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Documentation de votre setup</li>
         </ul>
-        <button class="pricing-btn pricing-btn-outline">Demander un devis</button>
+        <a href="/nous-contacter" class="pricing-btn pricing-btn-outline" style="text-decoration:none">Demander un devis</a>
       </div>
 
       <!-- DÉVELOPPEMENT SUR MESURE -->
@@ -1208,7 +1216,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Agents IA personnalisés</li>
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Cahier des charges & livraison</li>
         </ul>
-        <button class="pricing-btn pricing-btn-accent">Discuter de votre projet</button>
+        <a href="/nous-contacter" class="pricing-btn pricing-btn-accent" style="text-decoration:none">Discuter de votre projet</a>
       </div>
     </div>
 
@@ -1242,11 +1250,11 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
     <h2>Votre téléphonie se dessine<br>en quelques minutes</h2>
     <p>Installez Voxa Center gratuitement sur votre serveur Debian ou Ubuntu.</p>
     <div class="hero-actions">
-      <a href="https://github.com/grevoka/SIP.ctrl" target="_blank" class="btn btn-primary btn-lg">
+      <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn btn-primary btn-lg">
         <span class="i"><svg><use href="#ico-download"/></svg></span>
         Commencer gratuitement
       </a>
-      <a href="#" class="btn btn-outline btn-lg">
+      <a href="/nous-contacter" class="btn btn-outline btn-lg">
         <span class="i"><svg><use href="#ico-mail"/></svg></span>
         Contacter l'équipe
       </a>
@@ -1254,47 +1262,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
   </div>
 </section>
 
-<!-- ═══════ FOOTER ═══════ -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="#" class="navbar-brand">
-          <div class="navbar-logo"><span class="i" style="width:18px;height:18px;color:#fff"><svg><use href="#ico-phone-call"/></svg></span></div>
-          Voxa Center
-        </a>
-        <p class="footer-brand-text">Plateforme open source de gestion de téléphonie VoIP propulsée par Asterisk, avec agent IA intégré.</p>
-      </div>
-      <div class="footer-cols">
-        <div class="footer-col">
-          <h5>Produit</h5>
-          <a href="#features">Fonctionnalités</a>
-          <a href="#ai">Agent IA</a>
-          <a href="#architecture">Architecture</a>
-          <a href="#pricing">Tarifs</a>
-        </div>
-        <div class="footer-col">
-          <h5>Ressources</h5>
-          <a href="#">Documentation</a>
-          <a href="https://github.com/grevoka/SIP.ctrl" target="_blank">GitHub</a>
-          <a href="#">Changelog</a>
-          <a href="#">API Reference</a>
-        </div>
-        <div class="footer-col">
-          <h5>Entreprise</h5>
-          <a href="#">Contact</a>
-          <a href="#">Demander une démo</a>
-          <a href="#">Partenaires</a>
-          <a href="#">Support</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 Voxa Center. Tous droits réservés.</span>
-      <span>Open source &middot; Propulsé par Asterisk &middot; Made in France</span>
-    </div>
-  </div>
-</footer>
+@include('partials.footer')
 
 <script>
 // Navbar scroll
@@ -1305,7 +1273,7 @@ window.addEventListener('scroll', () => {
 
 // Copy install command
 document.getElementById('installCmd').addEventListener('click', function() {
-  navigator.clipboard.writeText('curl -sSL https://raw.githubusercontent.com/grevoka/SIP.ctrl/main/install.sh | bash');
+  navigator.clipboard.writeText('curl -sSL https://raw.githubusercontent.com/grevoka/Voxa.center.app/main/install.sh | bash');
   const btn = document.getElementById('copyBtn');
   btn.innerHTML = '<span class="i i-xs" style="color:var(--success)"><svg><use href="#ico-check"/></svg></span> Copié !';
   btn.style.color = 'var(--success)';
@@ -1441,7 +1409,7 @@ document.querySelectorAll('.feature-card, .pricing-card, .service-card, .arch-ca
           ctx.beginPath();
           ctx.moveTo(nodes[a].x, nodes[a].y);
           ctx.lineTo(nodes[b].x, nodes[b].y);
-          ctx.strokeStyle = 'rgba(37, 99, 235,' + alpha + ')';
+          ctx.strokeStyle = 'rgba(139, 92, 246,' + alpha + ')';
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -1463,7 +1431,7 @@ document.querySelectorAll('.feature-card, .pricing-card, .service-card, .arch-ca
 
       ctx.beginPath();
       ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
-      ctx.fillStyle = isHub ? 'rgba(37, 99, 235, 0.35)' : 'rgba(148, 163, 184, 0.25)';
+      ctx.fillStyle = isHub ? 'rgba(139, 92, 246, 0.35)' : 'rgba(148, 163, 184, 0.25)';
       ctx.fill();
     }
 
@@ -1482,7 +1450,7 @@ document.querySelectorAll('.feature-card, .pricing-card, .service-card, .arch-ca
         ctx.arc(dest.x, dest.y, 6, 0, Math.PI * 2);
         ctx.fillStyle = p.color === 'accent'
           ? 'rgba(124, 58, 237, 0.15)'
-          : 'rgba(37, 99, 235, 0.15)';
+          : 'rgba(6, 182, 212, 0.15)';
         ctx.fill();
         pulses.splice(i, 1);
         continue;
@@ -1504,8 +1472,8 @@ document.querySelectorAll('.feature-card, .pricing-card, .service-card, .arch-ca
         grad.addColorStop(0, 'rgba(124, 58, 237, 0)');
         grad.addColorStop(1, 'rgba(124, 58, 237, 0.5)');
       } else {
-        grad.addColorStop(0, 'rgba(37, 99, 235, 0)');
-        grad.addColorStop(1, 'rgba(37, 99, 235, 0.5)');
+        grad.addColorStop(0, 'rgba(6, 182, 212, 0)');
+        grad.addColorStop(1, 'rgba(6, 182, 212, 0.5)');
       }
 
       ctx.beginPath();
@@ -1520,7 +1488,7 @@ document.querySelectorAll('.feature-card, .pricing-card, .service-card, .arch-ca
       ctx.arc(px, py, 2.5, 0, Math.PI * 2);
       ctx.fillStyle = p.color === 'accent'
         ? 'rgba(124, 58, 237, 0.7)'
-        : 'rgba(37, 99, 235, 0.7)';
+        : 'rgba(6, 182, 212, 0.7)';
       ctx.fill();
     }
 

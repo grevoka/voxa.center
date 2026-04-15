@@ -28,6 +28,8 @@ $showHreflang = $hreflangRoute && in_array($hreflangRoute, $frontendRoutes);
 <body>
 @yield('content')
 
+@include('partials.footer')
+
 @stack('scripts')
 </body>
 </html>
