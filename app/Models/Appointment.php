@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Appointment extends Model
+{
+    protected $fillable = [
+        'contact_id',
+        'date',
+        'time_slot',
+        'status',
+        'notes',
+    ];
+
+    protected $casts = [
+        'date' => 'date',
+    ];
+
+    public function contact(): BelongsTo
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
+    public function scopeConfirmed($query)
+    {
+        return $query->where('status', 'confirmed');
+    }
+}
