@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Politique de confidentialite — Voxa Center')
+@section('title', __('meta.privacy_title'))
 
 @push('styles')
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">

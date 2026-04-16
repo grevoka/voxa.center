@@ -471,5 +471,15 @@
 
     "stack.label": "Stack technique",
     "Copier": "Copier",
-    "Copie !": "Copié !"
+    "Copie !": "Copié !",
+
+    "meta.default_title": "Voxa Center — Téléphonie VoIP simplifiée & Agent IA",
+    "meta.contact_title": "Nous contacter — Voxa Center",
+    "meta.scenarios_title": "Scénarios d'appels visuels — Voxa Center",
+    "meta.softphone_title": "Softphone WebRTC — Voxa Center",
+    "meta.tarifs_title": "Tarifs — Voxa Center",
+    "meta.features_title": "Fonctionnalités — Voxa Center",
+    "meta.cgu_title": "Conditions Générales d'Utilisation — Voxa Center",
+    "meta.cgv_title": "Conditions Générales de Vente — Voxa Center",
+    "meta.privacy_title": "Politique de confidentialité — Voxa Center"
 }
