@@ -136,7 +136,7 @@ textarea.fc{resize:vertical;min-height:90px}
         <i class="bi bi-calendar-check"></i> {{ __('Rendez-vous gratuit') }} &middot; {{ __('Sans engagement') }}
       </div>
       <h2>{{ __('Parlons de votre projet') }}<br>{{ __('telephonie') }}</h2>
-      <p>{{ __('Nos equipes vous accompagnent dans la mise en place de Voxa Center. Hebergement, installation, support — nous revenons vers vous sous 24h.') }}</p>
+      <p>{{ __('contact.page.desc') }}</p>
     </div>
 
     @if(session('success'))
@@ -157,23 +157,23 @@ textarea.fc{resize:vertical;min-height:90px}
         <div class="col-lg-5">
           <div class="demo-left h-100">
             <h3>{{ __('Pourquoi nous contacter ?') }}</h3>
-            <p>{{ __('Que vous souhaitiez un hebergement cle en main, une aide a l\'installation, ou un developpement sur mesure — nous adaptons notre offre a votre infrastructure.') }}</p>
+            <p>{{ __('contact.left.desc') }}</p>
 
             <div class="demo-feat">
               <div class="demo-feat-ic"><i class="bi bi-cloud-fill"></i></div>
-              <div><h5>{{ __('Hebergement cle en main') }}</h5><p>{{ __('Voxa Center preinstalle, maintenu et surveille sur un serveur dedie. Vous n\'avez rien a gerer.') }}</p></div>
+              <div><h5>{{ __('contact.left.hosting.title') }}</h5><p>{{ __('contact.left.hosting.desc') }}</p></div>
             </div>
             <div class="demo-feat">
               <div class="demo-feat-ic"><i class="bi bi-tools"></i></div>
-              <div><h5>{{ __('Installation assistee') }}</h5><p>{{ __('Nous installons et configurons Voxa Center sur votre serveur Debian/Ubuntu avec vos trunks SIP.') }}</p></div>
+              <div><h5>{{ __('contact.left.install.title') }}</h5><p>{{ __('contact.left.install.desc') }}</p></div>
             </div>
             <div class="demo-feat">
               <div class="demo-feat-ic"><i class="bi bi-headset"></i></div>
-              <div><h5>{{ __('Support technique') }}</h5><p>{{ __('Suivi mensuel, monitoring, mises a jour de securite, assistance configuration et debug.') }}</p></div>
+              <div><h5>{{ __('contact.left.support.title') }}</h5><p>{{ __('contact.left.support.desc') }}</p></div>
             </div>
             <div class="demo-feat">
               <div class="demo-feat-ic"><i class="bi bi-cpu-fill"></i></div>
-              <div><h5>{{ __('Developpement sur mesure') }}</h5><p>{{ __('Fonctionnalites personnalisees, integrations CRM/ERP, agents IA specifiques a votre metier.') }}</p></div>
+              <div><h5>{{ __('contact.left.custom.title') }}</h5><p>{{ __('contact.left.custom.desc') }}</p></div>
             </div>
 
             <div class="demo-badges">
@@ -188,7 +188,7 @@ textarea.fc{resize:vertical;min-height:90px}
         <div class="col-lg-7">
           <div class="demo-right">
             <h4>{{ __('Demander un rendez-vous') }}</h4>
-            <p class="sub">{{ __('Remplissez ce formulaire — nous revenons vers vous sous 24h pour planifier votre session.') }}</p>
+            <p class="sub">{{ __('contact.form.sub') }}</p>
 
             <form action="{{ lroute('contact.submit') }}" method="POST" id="contactForm">
               @csrf

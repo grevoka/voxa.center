@@ -89,9 +89,9 @@ section.alt{background:var(--gray-50)}
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="hero-badge"><i class="bi bi-pencil-square"></i> Editeur visuel drag & drop</div>
-    <h1>Dessinez vos scenarios d'appels,<br><span>sans ecrire une ligne de config</span></h1>
-    <p>Voxa Center remplace la complexite d'Asterisk par un editeur visuel. Glissez des blocs, connectez-les, et votre parcours d'appel est en production — immediatement.</p>
+    <div class="hero-badge"><i class="bi bi-pencil-square"></i> {{ __('scenarios.badge') }}</div>
+    <h1>{{ __('scenarios.title') }}<br><span>{{ __('scenarios.title.highlight') }}</span></h1>
+    <p>{{ __('scenarios.sub') }}</p>
 
     <!-- MOCKUP -->
     <div class="mockup-wrap">
@@ -103,42 +103,42 @@ section.alt{background:var(--gray-50)}
         <div class="flow-row">
           <div class="flow-block active">
             <div class="icon blue"><i class="bi bi-telephone-inbound-fill"></i></div>
-            <div class="name">Appel entrant</div>
+            <div class="name">{{ __('scenarios.block.appel_entrant') }}</div>
             <div class="detail">DID +33 1 23 45 67</div>
           </div>
           <div class="flow-arrow"><i class="bi bi-arrow-right"></i></div>
           <div class="flow-block">
             <div class="icon green"><i class="bi bi-clock-fill"></i></div>
-            <div class="name">Horaires</div>
-            <div class="detail">Lun-Ven 9h-18h</div>
+            <div class="name">{{ __('scenarios.block.horaires') }}</div>
+            <div class="detail">{{ __('scenarios.mockup.horaires.detail') }}</div>
           </div>
           <div class="flow-arrow"><i class="bi bi-arrow-right"></i></div>
           <div class="flow-block">
             <div class="icon orange"><i class="bi bi-grid-3x2-gap-fill"></i></div>
-            <div class="name">Menu IVR</div>
-            <div class="detail">1 → Ventes · 2 → Support</div>
+            <div class="name">{{ __('scenarios.block.ivr') }}</div>
+            <div class="detail">{{ __('scenarios.mockup.ivr.detail') }}</div>
           </div>
         </div>
         <div class="flow-row">
           <div class="flow-block">
             <div class="icon green"><i class="bi bi-people-fill"></i></div>
-            <div class="name">File d'attente</div>
-            <div class="detail">Equipe Ventes</div>
+            <div class="name">{{ __('scenarios.block.file_attente') }}</div>
+            <div class="detail">{{ __('scenarios.mockup.file.detail') }}</div>
           </div>
           <div style="width:80px"></div>
           <div class="flow-block">
             <div class="icon purple"><i class="bi bi-robot"></i></div>
-            <div class="name">Agent IA</div>
+            <div class="name">{{ __('scenarios.block.agent_ia') }}</div>
             <div class="detail">Support · Coral</div>
           </div>
           <div style="width:80px"></div>
           <div class="flow-block">
             <div class="icon cyan"><i class="bi bi-voicemail"></i></div>
-            <div class="name">Messagerie</div>
-            <div class="detail">Boite vocale</div>
+            <div class="name">{{ __('scenarios.block.messagerie') }}</div>
+            <div class="detail">{{ __('scenarios.mockup.messagerie.detail') }}</div>
           </div>
         </div>
-        <div style="text-align:right;font-size:11px;color:var(--gray-400);margin-top:8px"><i class="bi bi-arrows-move"></i> Glissez-deposez vos blocs</div>
+        <div style="text-align:right;font-size:11px;color:var(--gray-400);margin-top:8px"><i class="bi bi-arrows-move"></i> {{ __('scenarios.mockup.drag') }}</div>
       </div>
     </div>
   </div>
@@ -147,70 +147,70 @@ section.alt{background:var(--gray-50)}
 <!-- BLOCS DISPONIBLES -->
 <section class="alt">
   <div class="container">
-    <div class="section-label"><i class="bi bi-boxes"></i> Blocs disponibles</div>
-    <h2 class="section-title">12 blocs pour composer<br>n'importe quel parcours</h2>
-    <p class="section-desc">Chaque bloc correspond a une action telephonique. Combinez-les pour creer des scenarios aussi simples ou complexes que vous le souhaitez.</p>
+    <div class="section-label"><i class="bi bi-boxes"></i> {{ __('scenarios.blocks.label') }}</div>
+    <h2 class="section-title">{{ __('scenarios.blocks.title') }}<br>{{ __('scenarios.blocks.title2') }}</h2>
+    <p class="section-desc">{{ __('scenarios.blocks.desc') }}</p>
 
     <div class="blocks-grid">
       <div class="block-card">
         <div class="bc-icon" style="background:#eff6ff;color:#3b82f6"><i class="bi bi-telephone-inbound-fill"></i></div>
-        <h3>Appel entrant</h3>
-        <p>Point d'entree du scenario. Declenchement automatique par numero DID ou contexte Asterisk.</p>
+        <h3>{{ __('scenarios.block.appel_entrant') }}</h3>
+        <p>{{ __('scenarios.block.appel_entrant.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:#ecfdf5;color:#059669"><i class="bi bi-clock-fill"></i></div>
-        <h3>Horaires</h3>
-        <p>Branche ouvert/ferme avec ports visuels vert/rouge. Gerez les jours feries et les exceptions.</p>
+        <h3>{{ __('scenarios.block.horaires') }}</h3>
+        <p>{{ __('scenarios.block.horaires.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:#fff7ed;color:#ea580c"><i class="bi bi-grid-3x2-gap-fill"></i></div>
-        <h3>Menu IVR</h3>
-        <p>Menu vocal interactif avec branches par touche DTMF. Boucle configurable et timeout.</p>
+        <h3>{{ __('scenarios.block.ivr') }}</h3>
+        <p>{{ __('scenarios.block.ivr.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:#ecfdf5;color:#059669"><i class="bi bi-telephone-fill"></i></div>
-        <h3>Sonnerie</h3>
-        <p>Fait sonner un ou plusieurs postes simultanement ou sequentiellement. Timeout configurable.</p>
+        <h3>{{ __('scenarios.block.sonnerie') }}</h3>
+        <p>{{ __('scenarios.block.sonnerie.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:#ecfdf5;color:#059669"><i class="bi bi-people-fill"></i></div>
-        <h3>File d'attente</h3>
-        <p>Queue Asterisk avec strategies (ring all, round robin, random), musique d'attente et timeout.</p>
+        <h3>{{ __('scenarios.block.file_attente') }}</h3>
+        <p>{{ __('scenarios.block.file_attente.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:var(--primary-50);color:var(--primary)"><i class="bi bi-robot"></i></div>
-        <h3>Agent IA</h3>
-        <p>Agent conversationnel OpenAI Realtime. Full-duplex, 8 voix, base de connaissances RAG.</p>
+        <h3>{{ __('scenarios.block.agent_ia') }}</h3>
+        <p>{{ __('scenarios.block.agent_ia.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:var(--accent-50);color:var(--accent)"><i class="bi bi-soundwave"></i></div>
-        <h3>Synthese vocale (TTS)</h3>
-        <p>Piper TTS local avec 3 voix francaises. Preview audio directement dans l'editeur.</p>
+        <h3>{{ __('scenarios.block.tts') }}</h3>
+        <p>{{ __('scenarios.block.tts.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:#fef2f2;color:#dc2626"><i class="bi bi-voicemail"></i></div>
-        <h3>Messagerie vocale</h3>
-        <p>Boite vocale avec notification email SMTP. Ecoute et suppression depuis l'interface.</p>
+        <h3>{{ __('scenarios.block.messagerie') }}</h3>
+        <p>{{ __('scenarios.block.messagerie.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:#eff6ff;color:#3b82f6"><i class="bi bi-arrow-return-right"></i></div>
-        <h3>Renvoi</h3>
-        <p>Redirige l'appel vers un numero externe, un autre poste, ou un autre scenario.</p>
+        <h3>{{ __('scenarios.block.renvoi') }}</h3>
+        <p>{{ __('scenarios.block.renvoi.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:#fefce8;color:#ca8a04"><i class="bi bi-music-note-beamed"></i></div>
-        <h3>Musique d'attente</h3>
-        <p>Fichiers locaux, playlists personnalisees, ou flux streaming HTTP via ffmpeg.</p>
+        <h3>{{ __('scenarios.block.moh') }}</h3>
+        <p>{{ __('scenarios.block.moh.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:#faf5ff;color:#9333ea"><i class="bi bi-camera-video-fill"></i></div>
-        <h3>Conference</h3>
-        <p>Salle de conference ConfBridge. Acces par code PIN, moderateur, enregistrement.</p>
+        <h3>{{ __('scenarios.block.conference') }}</h3>
+        <p>{{ __('scenarios.block.conference.desc') }}</p>
       </div>
       <div class="block-card">
         <div class="bc-icon" style="background:#f0fdf4;color:#16a34a"><i class="bi bi-check-circle-fill"></i></div>
-        <h3>Raccrocher</h3>
-        <p>Termine l'appel proprement. Optionnel — par defaut, le dernier bloc raccroche.</p>
+        <h3>{{ __('scenarios.block.raccrocher') }}</h3>
+        <p>{{ __('scenarios.block.raccrocher.desc') }}</p>
       </div>
     </div>
   </div>
@@ -219,22 +219,22 @@ section.alt{background:var(--gray-50)}
 <!-- COMMENT CA MARCHE -->
 <section>
   <div class="container">
-    <div class="section-label"><i class="bi bi-lightning-charge"></i> Simple comme 1-2-3</div>
-    <h2 class="section-title">Creez un scenario en 3 etapes</h2>
-    <p class="section-desc">Pas de fichier extensions.conf a editer, pas de dialplan a debugger. Tout se fait dans l'interface.</p>
+    <div class="section-label"><i class="bi bi-lightning-charge"></i> {{ __('scenarios.steps.label') }}</div>
+    <h2 class="section-title">{{ __('scenarios.steps.title') }}</h2>
+    <p class="section-desc">{{ __('scenarios.steps.desc') }}</p>
 
     <div class="steps">
       <div class="step">
-        <h3>Glissez vos blocs</h3>
-        <p>Choisissez les blocs dont vous avez besoin dans la palette : horaires, IVR, file d'attente, agent IA, sonnerie... Deposez-les sur le canevas.</p>
+        <h3>{{ __('scenarios.step1.title') }}</h3>
+        <p>{{ __('scenarios.step1.desc') }}</p>
       </div>
       <div class="step">
-        <h3>Connectez-les</h3>
-        <p>Reliez les blocs entre eux en tirant des liens. Chaque connexion represente un chemin d'appel. Les branches IVR et horaires creent automatiquement les ports.</p>
+        <h3>{{ __('scenarios.step2.title') }}</h3>
+        <p>{{ __('scenarios.step2.desc') }}</p>
       </div>
       <div class="step">
-        <h3>C'est en production</h3>
-        <p>Voxa Center genere automatiquement le dialplan Asterisk, le pousse dans la base Realtime, et recharge la configuration — sans redemarrage.</p>
+        <h3>{{ __('scenarios.step3.title') }}</h3>
+        <p>{{ __('scenarios.step3.desc') }}</p>
       </div>
     </div>
   </div>
@@ -243,11 +243,11 @@ section.alt{background:var(--gray-50)}
 <!-- CTA -->
 <section class="cta-band">
   <div class="container">
-    <h2>Pret a dessiner votre telephonie ?</h2>
-    <p>Installez Voxa Center gratuitement ou contactez-nous pour un accompagnement.</p>
+    <h2>{{ __('scenarios.cta.title') }}</h2>
+    <p>{{ __('scenarios.cta.desc') }}</p>
     <div class="cta-actions">
-      <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn-g primary"><i class="bi bi-download"></i> Commencer gratuitement</a>
-      <a href="/nous-contacter" class="btn-g outline"><i class="bi bi-send"></i> Nous contacter</a>
+      <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn-g primary"><i class="bi bi-download"></i> {{ __('Commencer gratuitement') }}</a>
+      <a href="/nous-contacter" class="btn-g outline"><i class="bi bi-send"></i> {{ __('Nous contacter') }}</a>
     </div>
   </div>
 </section>

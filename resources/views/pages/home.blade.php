@@ -751,21 +751,21 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
     <div class="hero-inner">
       <div class="hero-badge">
         <span class="hero-badge-icon"><span class="i i-sm" style="color:var(--success)"><svg><use href="#ico-check"/></svg></span></span>
-        Open source · Installation en 5 minutes · Propulsé par Asterisk
+        {{ __('hero.badge') }}
       </div>
 
-      <h1>La téléphonie VoIP <span class="text-primary">simplifiée</span>,<br>avec une touche d'IA</h1>
+      <h1>{{ __('hero.title.line1') }} <span class="text-primary">{{ __('hero.title.highlight') }}</span>{{ __('hero.title.line2') }}</h1>
 
-      <p class="hero-sub">Voxa Center rend la VoIP accessible à tous. Dessinez vos scénarios d'appels en drag & drop, gérez vos lignes en quelques clics — sans jamais toucher un fichier de config.</p>
+      <p class="hero-sub">{{ __('hero.sub') }}</p>
 
       <div class="hero-actions">
         <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn btn-primary btn-lg">
           <span class="i"><svg><use href="#ico-download"/></svg></span>
-          Commencer gratuitement
+          {{ __('Commencer gratuitement') }}
         </a>
         <a href="#features" class="btn btn-outline btn-lg">
           <span class="i"><svg><use href="#ico-layers"/></svg></span>
-          Voir les fonctionnalités
+          {{ __('Voir les fonctionnalites') }}
         </a>
       </div>
 
@@ -779,21 +779,21 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 
       <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="github-link" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:14px;font-weight:600;color:var(--gray-500);transition:color 0.2s;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        Voir sur GitHub
+        {{ __('Voir sur GitHub') }}
       </a>
 
       <div class="powered-bar">
         <div class="powered-chip">
           <span class="i i-sm"><svg><use href="#ico-zap"/></svg></span>
-          Propulsé par Asterisk 20
+          {{ __('Propulse par Asterisk 20') }}
         </div>
         <div class="powered-chip">
           <span class="i i-sm"><svg><use href="#ico-bot"/></svg></span>
-          Agent IA en option
+          {{ __('Agent IA en option') }}
         </div>
         <div class="powered-chip">
           <span class="i i-sm"><svg><use href="#ico-shield"/></svg></span>
-          Debian & Ubuntu
+          {{ __('Debian & Ubuntu') }}
         </div>
       </div>
     </div>
@@ -893,7 +893,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 <!-- ═══════ TRUST ═══════ -->
 <div class="trust-bar">
   <div class="container">
-    <p>Compatible avec vos opérateurs SIP</p>
+    <p>{{ __('trust.title') }}</p>
     <div class="trust-logos">
       <span>OVH Telecom</span><span>Twilio</span><span>Vonage</span><span>Sipgate</span><span>Plivo</span><span>OpenAI</span>
     </div>
@@ -903,55 +903,55 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 <!-- ═══════ FEATURES ═══════ -->
 <section id="features">
   <div class="container">
-    <div class="section-label"><span class="i i-sm"><svg><use href="#ico-layers"/></svg></span> Fonctionnalités</div>
-    <h2 class="section-title">Dessinez votre téléphonie,<br>oubliez les fichiers de config</h2>
-    <p class="section-desc">Voxa Center remplace la complexité d'Asterisk par une interface visuelle. Glissez, connectez, c'est en production.</p>
+    <div class="section-label"><span class="i i-sm"><svg><use href="#ico-layers"/></svg></span> {{ __('features.label') }}</div>
+    <h2 class="section-title">{!! __('features.title') !!}</h2>
+    <p class="section-desc">{{ __('features.desc') }}</p>
 
     <div class="features-grid">
       <div class="feature-card highlighted">
         <div class="feature-icon-wrap"><span class="i"><svg><use href="#ico-git-branch"/></svg></span></div>
-        <h3>Scénarios d'appels visuels</h3>
-        <p>Dessinez vos parcours d'appels en drag & drop : sonnerie, IVR, files d'attente, horaires, renvoi, Agent IA, synthèse vocale. Plus besoin d'écrire une seule ligne de config.</p>
+        <h3>{{ __('features.callflows.title') }}</h3>
+        <p>{{ __('features.callflows.desc') }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><span class="i"><svg><use href="#ico-phone"/></svg></span></div>
-        <h3>Lignes & Trunks SIP</h3>
-        <p>Créez vos lignes et connectez vos opérateurs en quelques clics. Proxy sortant, registration automatique, codecs configurables.</p>
+        <h3>{{ __('features.sip.title') }}</h3>
+        <p>{{ __('features.sip.desc') }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><span class="i"><svg><use href="#ico-headphones"/></svg></span></div>
-        <h3>Softphone WebRTC</h3>
-        <p>Téléphone intégré dans l'espace opérateur. Passez et recevez vos appels directement depuis le navigateur.</p>
+        <h3>{{ __('features.softphone.title') }}</h3>
+        <p>{{ __('features.softphone.desc') }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><span class="i"><svg><use href="#ico-bar-chart"/></svg></span></div>
-        <h3>Dashboard & Monitoring</h3>
-        <p>Statistiques sur 7 jours, supervision live des appels, journal CDR, appels manqués par poste, durée par opérateur.</p>
+        <h3>{{ __('features.dashboard.title') }}</h3>
+        <p>{{ __('features.dashboard.desc') }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><span class="i"><svg><use href="#ico-shield-check"/></svg></span></div>
-        <h3>Firewall & Sécurité</h3>
-        <p>Whitelist / blacklist IP, protection brute-force automatique, 3 modes de sécurité configurables, chiffrement SRTP/TLS.</p>
+        <h3>{{ __('features.firewall.title') }}</h3>
+        <p>{{ __('features.firewall.desc') }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><span class="i"><svg><use href="#ico-music"/></svg></span></div>
-        <h3>Files, Conférences & MOH</h3>
-        <p>Files d'attente configurables, salles de conférence, messagerie vocale avec notification email, musiques d'attente.</p>
+        <h3>{{ __('features.queues.title') }}</h3>
+        <p>{{ __('features.queues.desc') }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><span class="i"><svg><use href="#ico-audio-lines"/></svg></span></div>
-        <h3>Synthèse vocale locale</h3>
-        <p>Piper TTS avec 3 voix françaises. Preview audio directement dans l'éditeur de scénarios. Aucun cloud requis.</p>
+        <h3>{{ __('features.tts.title') }}</h3>
+        <p>{{ __('features.tts.desc') }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><span class="i"><svg><use href="#ico-users"/></svg></span></div>
-        <h3>Opérateurs & Caller ID</h3>
-        <p>Comptes opérateurs avec gestion des rôles, impersonation admin, numéros sortants et groupes d'accès par opérateur.</p>
+        <h3>{{ __('features.operators.title') }}</h3>
+        <p>{{ __('features.operators.desc') }}</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><span class="i"><svg><use href="#ico-bot"/></svg></span></div>
-        <h3>Agent IA vocal</h3>
-        <p>Ajoutez un agent conversationnel OpenAI Realtime dans vos scénarios. Full-duplex, 8 voix, guardrails, base de connaissances RAG.</p>
+        <h3>{{ __('features.ai.title') }}</h3>
+        <p>{{ __('features.ai.desc') }}</p>
       </div>
     </div>
   </div>
@@ -962,9 +962,9 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
   <div class="container">
     <div class="ai-grid">
       <div class="ai-content">
-        <div class="section-label"><span class="i i-sm"><svg><use href="#ico-sparkles"/></svg></span> Aller plus loin</div>
-        <h2 class="section-title">Ajoutez un agent vocal IA à vos scénarios</h2>
-        <p class="section-desc" style="margin-bottom:0">En plus de la simplicité de l'éditeur visuel, intégrez un agent conversationnel OpenAI Realtime. Vos appelants dialoguent avec une IA vocale, comme avec un humain.</p>
+        <div class="section-label"><span class="i i-sm"><svg><use href="#ico-sparkles"/></svg></span> {{ __('ai.label') }}</div>
+        <h2 class="section-title">{{ __('ai.title') }}</h2>
+        <p class="section-desc" style="margin-bottom:0">{{ __('ai.desc') }}</p>
         <ul class="ai-features-list">
           <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-arrow-lr"/></svg></span></span> Audio full-duplex — l'appelant peut interrompre l'IA naturellement</li>
           <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-mic"/></svg></span></span> 8 voix : Coral, Alloy, Ash, Echo, Sage, Shimmer, Verse, Ballad</li>
@@ -1019,8 +1019,8 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 <section id="architecture">
   <div class="container">
     <div class="section-label"><span class="i i-sm"><svg><use href="#ico-box"/></svg></span> Architecture</div>
-    <h2 class="section-title">Asterisk 20, installation native</h2>
-    <p class="section-desc">Tous les services — y compris Asterisk compilé depuis les sources — tournent nativement sur votre serveur. Compatible Debian 12, Ubuntu 22.04 et 24.04.</p>
+    <h2 class="section-title">{{ __('arch.title') }}</h2>
+    <p class="section-desc">{{ __('arch.desc') }}</p>
     <div class="arch-card">
       <div class="arch-label-dark"><span class="i i-sm"><svg><use href="#ico-terminal"/></svg></span> Serveur Debian 12 · Asterisk 20 PJSIP Realtime</div>
       <div class="arch-grid">
@@ -1077,8 +1077,8 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 <section id="pricing">
   <div class="container">
     <div class="section-label center"><span class="i i-sm"><svg><use href="#ico-credit-card"/></svg></span> Tarifs</div>
-    <h2 class="section-title center">Logiciel gratuit,<br>services professionnels</h2>
-    <p class="section-desc center">Voxa Center est 100% gratuit avec toutes les fonctionnalités. Nos services payants vous accompagnent en production.</p>
+    <h2 class="section-title center">{!! __('pricing.title') !!}</h2>
+    <p class="section-desc center">{{ __('pricing.desc') }}</p>
 
     <!-- ── COMMUNITY (full access) ── -->
     <div class="pricing-community">
@@ -1086,16 +1086,16 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
           <div>
             <div class="pricing-tier" style="margin-bottom:4px">Voxa Center</div>
-            <div class="pricing-price">Gratuit <span class="price-unit">· Open source</span></div>
+            <div class="pricing-price">{{ __('pricing.free') }} <span class="price-unit">· {{ __('pricing.opensource') }}</span></div>
           </div>
           <button class="pricing-btn pricing-btn-primary" style="width:auto; padding:12px 28px;" onclick="window.open('https://github.com/grevoka/Voxa.center.app','_blank')">
             <span style="display:flex;align-items:center;gap:8px;">
               <span class="i i-sm" style="color:#fff"><svg><use href="#ico-download"/></svg></span>
-              Installer maintenant
+              {{ __('pricing.install') }}
             </span>
           </button>
         </div>
-        <p class="pricing-desc" style="margin-bottom:24px">Toutes les fonctionnalités incluses, sans restriction. Auto-hébergé sur votre serveur Debian/Ubuntu.</p>
+        <p class="pricing-desc" style="margin-bottom:24px">{{ __('pricing.free.desc') }}</p>
         <div class="pricing-divider"></div>
         <div class="pricing-community-inner">
           <div>
@@ -1129,7 +1129,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
     </div>
 
     <!-- ── SERVICES PAYANTS ── -->
-    <div class="services-subtitle">Services professionnels</div>
+    <div class="services-subtitle">{{ __('Services professionnels') }}</div>
 
     <div class="services-grid">
       <!-- HÉBERGEMENT -->
@@ -1146,7 +1146,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Mises à jour & maintenance incluses</li>
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Disponibilité garantie 99.9%</li>
         </ul>
-        <a href="/nous-contacter" class="pricing-btn pricing-btn-primary" style="text-decoration:none">Choisir l'hébergement</a>
+        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-primary" style="text-decoration:none">Choisir l'hébergement</a>
       </div>
 
       <!-- SUIVI & SUPPORT -->
@@ -1163,7 +1163,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Assistance configuration & debug</li>
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Temps de réponse garanti</li>
         </ul>
-        <a href="/nous-contacter" class="pricing-btn pricing-btn-primary" style="text-decoration:none">Souscrire au support</a>
+        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-primary" style="text-decoration:none">Souscrire au support</a>
       </div>
 
       <!-- INSTALLATION -->
@@ -1180,7 +1180,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Tests de bon fonctionnement</li>
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Documentation de votre setup</li>
         </ul>
-        <a href="/nous-contacter" class="pricing-btn pricing-btn-outline" style="text-decoration:none">Demander un devis</a>
+        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-outline" style="text-decoration:none">Demander un devis</a>
       </div>
 
       <!-- DÉVELOPPEMENT SUR MESURE -->
@@ -1197,7 +1197,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Agents IA personnalisés</li>
           <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Cahier des charges & livraison</li>
         </ul>
-        <a href="/nous-contacter" class="pricing-btn pricing-btn-accent" style="text-decoration:none">Discuter de votre projet</a>
+        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-accent" style="text-decoration:none">Discuter de votre projet</a>
       </div>
     </div>
 
@@ -1208,8 +1208,8 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 <section id="stack">
   <div class="container">
     <div class="section-label"><span class="i i-sm"><svg><use href="#ico-cpu"/></svg></span> Stack technique</div>
-    <h2 class="section-title">Technologies éprouvées</h2>
-    <p class="section-desc">Chaque composant est choisi pour sa fiabilité en production télécom.</p>
+    <h2 class="section-title">{{ __('stack.title') }}</h2>
+    <p class="section-desc">{{ __('stack.desc') }}</p>
     <div class="stack-grid">
       <div class="stack-item asterisk-item"><div class="stack-name">Asterisk</div><div class="stack-ver">20 PJSIP</div></div>
       <div class="stack-item"><div class="stack-name">PHP</div><div class="stack-ver">8.4 FPM</div></div>
@@ -1228,16 +1228,16 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 <!-- ═══════ CTA ═══════ -->
 <section class="cta-section">
   <div class="container">
-    <h2>Votre téléphonie se dessine<br>en quelques minutes</h2>
-    <p>Installez Voxa Center gratuitement sur votre serveur Debian ou Ubuntu.</p>
+    <h2>{!! __('cta.title') !!}</h2>
+    <p>{{ __('cta.desc') }}</p>
     <div class="hero-actions">
       <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn btn-primary btn-lg">
         <span class="i"><svg><use href="#ico-download"/></svg></span>
-        Commencer gratuitement
+        {{ __('Commencer gratuitement') }}
       </a>
-      <a href="/nous-contacter" class="btn btn-outline btn-lg">
+      <a href="{{ lroute('contact') }}" class="btn btn-outline btn-lg">
         <span class="i"><svg><use href="#ico-mail"/></svg></span>
-        Contacter l'équipe
+        {{ __('Contacter l\'equipe') }}
       </a>
     </div>
   </div>

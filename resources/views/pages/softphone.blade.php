@@ -88,18 +88,18 @@ section.alt{background:var(--gray-50)}
   <div class="container">
     <div class="hero-grid">
       <div>
-        <div class="hero-badge"><i class="bi bi-headset"></i> WebRTC integre</div>
-        <h1>Un softphone<br><span>dans votre navigateur</span></h1>
-        <p>Passez et recevez vos appels directement depuis l'interface Voxa Center. Aucune installation, aucun plugin — juste votre navigateur et un casque.</p>
+        <div class="hero-badge"><i class="bi bi-headset"></i> {{ __('softphone.badge') }}</div>
+        <h1>{{ __('softphone.title') }}<br><span>{{ __('softphone.title.highlight') }}</span></h1>
+        <p>{{ __('softphone.sub') }}</p>
         <div class="hero-actions">
-          <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn-g primary"><i class="bi bi-download"></i> Commencer gratuitement</a>
-          <a href="/nous-contacter" class="btn-g outline"><i class="bi bi-send"></i> Nous contacter</a>
+          <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn-g primary"><i class="bi bi-download"></i> {{ __('Commencer gratuitement') }}</a>
+          <a href="/nous-contacter" class="btn-g outline"><i class="bi bi-send"></i> {{ __('Nous contacter') }}</a>
         </div>
       </div>
       <div>
         <!-- PHONE MOCKUP -->
         <div class="phone-mockup">
-          <div class="phone-status"><span class="dot"></span> Appel en cours — Chiffre SRTP</div>
+          <div class="phone-status"><span class="dot"></span> {{ __('softphone.mockup.status') }}</div>
           <div class="phone-caller">
             <div class="avatar"><i class="bi bi-person-fill"></i></div>
             <div class="name">Marie Dupont</div>
@@ -107,12 +107,12 @@ section.alt{background:var(--gray-50)}
           </div>
           <div class="phone-timer">02:34</div>
           <div class="phone-actions">
-            <div class="phone-btn mute"><i class="bi bi-mic-mute-fill"></i> Muet</div>
-            <div class="phone-btn"><i class="bi bi-pause-fill"></i> Pause</div>
-            <div class="phone-btn"><i class="bi bi-arrow-left-right"></i> Transfert</div>
-            <div class="phone-btn"><i class="bi bi-grid-3x3-gap-fill"></i> Clavier</div>
-            <div class="phone-btn hangup"><i class="bi bi-telephone-x-fill"></i> Raccrocher</div>
-            <div class="phone-btn"><i class="bi bi-record-circle"></i> Enregistrer</div>
+            <div class="phone-btn mute"><i class="bi bi-mic-mute-fill"></i> {{ __('softphone.mockup.mute') }}</div>
+            <div class="phone-btn"><i class="bi bi-pause-fill"></i> {{ __('softphone.mockup.hold') }}</div>
+            <div class="phone-btn"><i class="bi bi-arrow-left-right"></i> {{ __('softphone.mockup.transfer') }}</div>
+            <div class="phone-btn"><i class="bi bi-grid-3x3-gap-fill"></i> {{ __('softphone.mockup.keypad') }}</div>
+            <div class="phone-btn hangup"><i class="bi bi-telephone-x-fill"></i> {{ __('softphone.mockup.hangup') }}</div>
+            <div class="phone-btn"><i class="bi bi-record-circle"></i> {{ __('softphone.mockup.record') }}</div>
           </div>
         </div>
       </div>
@@ -123,40 +123,40 @@ section.alt{background:var(--gray-50)}
 <!-- FONCTIONNALITES -->
 <section class="alt">
   <div class="container">
-    <div class="section-label"><i class="bi bi-lightning-charge"></i> Fonctionnalites</div>
-    <h2 class="section-title">Tout ce qu'un softphone<br>professionnel doit faire</h2>
-    <p class="section-desc">Le softphone WebRTC de Voxa Center est integre dans l'espace operateur. Chaque operateur a son telephone directement dans son navigateur.</p>
+    <div class="section-label"><i class="bi bi-lightning-charge"></i> {{ __('softphone.features.label') }}</div>
+    <h2 class="section-title">{{ __('softphone.features.title') }}<br>{{ __('softphone.features.title2') }}</h2>
+    <p class="section-desc">{{ __('softphone.features.desc') }}</p>
 
     <div class="feat-grid">
       <div class="feat-card">
         <div class="fc-icon" style="background:#eff6ff;color:#3b82f6"><i class="bi bi-telephone-inbound-fill"></i></div>
-        <h3>Appels entrants & sortants</h3>
-        <p>Passez et recevez des appels VoIP depuis n'importe quel navigateur moderne. Compatible Chrome, Firefox, Edge, Safari.</p>
+        <h3>{{ __('softphone.feat.calls.title') }}</h3>
+        <p>{{ __('softphone.feat.calls.desc') }}</p>
       </div>
       <div class="feat-card">
         <div class="fc-icon" style="background:#ecfdf5;color:#059669"><i class="bi bi-shield-lock-fill"></i></div>
-        <h3>Chiffrement DTLS-SRTP</h3>
-        <p>Tous les flux audio sont chiffres de bout en bout via DTLS-SRTP. Negociation ICE automatique pour le NAT traversal.</p>
+        <h3>{{ __('softphone.feat.encryption.title') }}</h3>
+        <p>{{ __('softphone.feat.encryption.desc') }}</p>
       </div>
       <div class="feat-card">
         <div class="fc-icon" style="background:var(--primary-50);color:var(--primary)"><i class="bi bi-arrow-left-right"></i></div>
-        <h3>Transfert d'appel</h3>
-        <p>Transferez un appel en cours vers un autre poste, un numero externe, ou une file d'attente — en un clic.</p>
+        <h3>{{ __('softphone.feat.transfer.title') }}</h3>
+        <p>{{ __('softphone.feat.transfer.desc') }}</p>
       </div>
       <div class="feat-card">
         <div class="fc-icon" style="background:#fff7ed;color:#ea580c"><i class="bi bi-record-circle-fill"></i></div>
-        <h3>Enregistrement a la volee</h3>
-        <p>Lancez l'enregistrement pendant un appel (MixMonitor). Les fichiers sont accessibles depuis l'interface admin.</p>
+        <h3>{{ __('softphone.feat.recording.title') }}</h3>
+        <p>{{ __('softphone.feat.recording.desc') }}</p>
       </div>
       <div class="feat-card">
         <div class="fc-icon" style="background:var(--accent-50);color:var(--accent)"><i class="bi bi-person-badge-fill"></i></div>
-        <h3>Caller ID dynamique</h3>
-        <p>Chaque operateur peut selectionner son numero sortant parmi les numeros autorises par son groupe d'acces.</p>
+        <h3>{{ __('softphone.feat.callerid.title') }}</h3>
+        <p>{{ __('softphone.feat.callerid.desc') }}</p>
       </div>
       <div class="feat-card">
         <div class="fc-icon" style="background:#fef2f2;color:#dc2626"><i class="bi bi-bell-fill"></i></div>
-        <h3>Notifications navigateur</h3>
-        <p>Recevez une notification sonore et visuelle a chaque appel entrant, meme si l'onglet est en arriere-plan.</p>
+        <h3>{{ __('softphone.feat.notifications.title') }}</h3>
+        <p>{{ __('softphone.feat.notifications.desc') }}</p>
       </div>
     </div>
   </div>
@@ -165,19 +165,19 @@ section.alt{background:var(--gray-50)}
 <!-- STACK TECHNIQUE -->
 <section>
   <div class="container">
-    <div class="section-label"><i class="bi bi-cpu"></i> Stack technique</div>
-    <h2 class="section-title">WebRTC natif,<br>sans plugin ni extension</h2>
-    <p class="section-desc">Le softphone repose sur JsSIP et les API WebRTC standards du navigateur. Asterisk gere le signaling SIP via WebSocket.</p>
+    <div class="section-label"><i class="bi bi-cpu"></i> {{ __('softphone.stack.label') }}</div>
+    <h2 class="section-title">{{ __('softphone.stack.title') }}<br>{{ __('softphone.stack.title2') }}</h2>
+    <p class="section-desc">{{ __('softphone.stack.desc') }}</p>
 
     <div class="tech-grid">
-      <div class="tech-item"><div class="t-name">JsSIP</div><div class="t-detail">Client SIP</div></div>
-      <div class="tech-item"><div class="t-name">WebRTC</div><div class="t-detail">API navigateur</div></div>
-      <div class="tech-item"><div class="t-name">DTLS-SRTP</div><div class="t-detail">Chiffrement</div></div>
+      <div class="tech-item"><div class="t-name">JsSIP</div><div class="t-detail">{{ __('softphone.tech.jssip') }}</div></div>
+      <div class="tech-item"><div class="t-name">WebRTC</div><div class="t-detail">{{ __('softphone.tech.webrtc') }}</div></div>
+      <div class="tech-item"><div class="t-name">DTLS-SRTP</div><div class="t-detail">{{ __('softphone.tech.dtls') }}</div></div>
       <div class="tech-item"><div class="t-name">ICE / STUN</div><div class="t-detail">NAT traversal</div></div>
       <div class="tech-item"><div class="t-name">WebSocket</div><div class="t-detail">:8088 (WSS)</div></div>
       <div class="tech-item"><div class="t-name">Asterisk 20</div><div class="t-detail">PJSIP</div></div>
-      <div class="tech-item"><div class="t-name">Opus / G.722</div><div class="t-detail">Codecs HD</div></div>
-      <div class="tech-item"><div class="t-name">MixMonitor</div><div class="t-detail">Enregistrement</div></div>
+      <div class="tech-item"><div class="t-name">Opus / G.722</div><div class="t-detail">{{ __('softphone.tech.codecs') }}</div></div>
+      <div class="tech-item"><div class="t-name">MixMonitor</div><div class="t-detail">{{ __('softphone.tech.recording') }}</div></div>
     </div>
   </div>
 </section>
@@ -185,11 +185,11 @@ section.alt{background:var(--gray-50)}
 <!-- CTA -->
 <section class="cta-band">
   <div class="container">
-    <h2>Pret a telephoner depuis votre navigateur ?</h2>
-    <p>Installez Voxa Center et activez le softphone WebRTC en quelques clics.</p>
+    <h2>{{ __('softphone.cta.title') }}</h2>
+    <p>{{ __('softphone.cta.desc') }}</p>
     <div class="cta-actions">
-      <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn-g primary"><i class="bi bi-download"></i> Commencer gratuitement</a>
-      <a href="/nous-contacter" class="btn-g outline"><i class="bi bi-send"></i> Nous contacter</a>
+      <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn-g primary"><i class="bi bi-download"></i> {{ __('Commencer gratuitement') }}</a>
+      <a href="/nous-contacter" class="btn-g outline"><i class="bi bi-send"></i> {{ __('Nous contacter') }}</a>
     </div>
   </div>
 </section>

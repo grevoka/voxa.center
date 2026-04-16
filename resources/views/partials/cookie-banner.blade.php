@@ -2,13 +2,13 @@
   <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
     <div style="flex:1;min-width:280px;">
       <p style="font-size:14px;color:#cbd5e1;line-height:1.6;margin:0;">
-        Ce site utilise des <strong style="color:#fff;">cookies techniques</strong> strictement necessaires au fonctionnement (session, securite). Aucun cookie publicitaire ou de tracking.
-        <a href="/politique-de-confidentialite" style="color:#8b5cf6;text-decoration:none;font-weight:600;">En savoir plus</a>
+        {{ __('cookie.text') }}
+        <a href="{{ lroute('legal.confidentialite') }}" style="color:#8b5cf6;text-decoration:none;font-weight:600;">{{ __('cookie.learn_more') }}</a>
       </p>
     </div>
     <div style="display:flex;gap:10px;flex-shrink:0;">
-      <button onclick="acceptCookies()" style="background:linear-gradient(135deg,#06b6d4,#3b82f6,#8b5cf6,#d946ef);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .2s;">Accepter</button>
-      <button onclick="acceptCookies()" style="background:transparent;color:#94a3b8;border:1px solid #334155;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s;">Fermer</button>
+      <button onclick="acceptCookies()" style="background:linear-gradient(135deg,#06b6d4,#3b82f6,#8b5cf6,#d946ef);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .2s;">{{ __('cookie.accept') }}</button>
+      <button onclick="acceptCookies()" style="background:transparent;color:#94a3b8;border:1px solid #334155;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s;">{{ __('cookie.close') }}</button>
     </div>
   </div>
 </div>
