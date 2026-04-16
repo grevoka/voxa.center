@@ -20,6 +20,11 @@ Route::middleware(['auth', 'admin-locale'])->prefix('admin')->name('admin.')->gr
         Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     });
 
+    Route::middleware('section:analytics')->group(function () {
+        Route::get('/analytics', [AdminController::class, 'analytics'])->name('analytics');
+        Route::get('/analytics/data', [AdminController::class, 'analyticsData'])->name('analytics.data');
+    });
+
     Route::middleware('section:contacts')->group(function () {
         Route::get('/contacts', [AdminController::class, 'contacts'])->name('contacts');
         Route::get('/contacts/{contact}', [AdminController::class, 'showContact'])->name('contacts.show');
@@ -113,11 +118,11 @@ Route::prefix('espace-client')->group(function () {
 });
 
 // French routes (no prefix)
-Route::middleware('set-locale')
+Route::middleware(['set-locale', 'track-visit'])
     ->group($frontendRoutes);
 
 // Localized routes (EN, ES, DE, PL)
-Route::middleware('set-locale')
+Route::middleware(['set-locale', 'track-visit'])
     ->prefix('{locale}')
     ->where(['locale' => 'en|es|de|pl'])
     ->name('l.')

@@ -9,6 +9,7 @@ use App\Models\ContactMessage;
 use App\Models\RolePermission;
 use App\Models\Setting;
 use App\Models\User;
+use App\Models\Visit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -379,5 +380,131 @@ class AdminController extends Controller
     {
         $appointment->update(['status' => 'cancelled']);
         return back()->with('success', __('Rendez-vous annule.'));
+    }
+
+    // ─── Analytics ───
+
+    public function analytics(Request $request)
+    {
+        $period = $request->get('period', '30d');
+
+        return view('admin.analytics', compact('period'));
+    }
+
+    public function analyticsData(Request $request)
+    {
+        $period = $request->get('period', '30d');
+
+        [$from, $to] = match ($period) {
+            'today' => [today(), today()],
+            '7d' => [now()->subDays(7), today()],
+            '30d' => [now()->subDays(30), today()],
+            '90d' => [now()->subDays(90), today()],
+            '12m' => [now()->subMonths(12), today()],
+            default => [now()->subDays(30), today()],
+        };
+
+        $fromStr = $from->toDateString();
+        $toStr = $to->toDateString();
+
+        $visits = Visit::period($fromStr, $toStr);
+
+        // KPIs
+        $totalPageviews = (clone $visits)->count();
+        $uniqueVisitors = (clone $visits)->distinct('session_id')->count('session_id');
+        $totalSessions = (clone $visits)->distinct('session_id')->count('session_id');
+        $bounceCount = (clone $visits)->where('is_bounce', true)->distinct('session_id')->count('session_id');
+        $bounceRate = $totalSessions > 0 ? round($bounceCount / $totalSessions * 100, 1) : 0;
+        $avgDuration = (clone $visits)->where('duration', '>', 0)->avg('duration');
+        $avgDuration = $avgDuration ? (int) $avgDuration : 0;
+
+        // Previous period for comparison
+        $daysDiff = $from->diffInDays($to) + 1;
+        $prevFrom = $from->copy()->subDays($daysDiff)->toDateString();
+        $prevTo = $from->copy()->subDay()->toDateString();
+        $prevVisitors = Visit::period($prevFrom, $prevTo)->distinct('session_id')->count('session_id');
+        $prevPageviews = Visit::period($prevFrom, $prevTo)->count();
+
+        $visitorsChange = $prevVisitors > 0 ? round(($uniqueVisitors - $prevVisitors) / $prevVisitors * 100, 1) : 0;
+        $pageviewsChange = $prevPageviews > 0 ? round(($totalPageviews - $prevPageviews) / $prevPageviews * 100, 1) : 0;
+
+        // Chart: visitors per day
+        $groupFormat = $daysDiff > 60 ? '%Y-%m' : '%Y-%m-%d';
+        $chartRaw = Visit::period($fromStr, $toStr)
+            ->selectRaw("strftime('{$groupFormat}', created_at) as date_group, COUNT(*) as pageviews, COUNT(DISTINCT session_id) as visitors")
+            ->groupBy('date_group')
+            ->orderBy('date_group')
+            ->get();
+
+        $chart = $chartRaw->map(fn ($r) => [
+            'date' => $r->date_group,
+            'pageviews' => $r->pageviews,
+            'visitors' => $r->visitors,
+        ]);
+
+        // Top pages
+        $topPages = Visit::period($fromStr, $toStr)
+            ->selectRaw('path, COUNT(*) as views, COUNT(DISTINCT session_id) as visitors')
+            ->groupBy('path')
+            ->orderByDesc('views')
+            ->limit(10)
+            ->get();
+
+        // Referrers
+        $referrers = Visit::period($fromStr, $toStr)
+            ->whereNotNull('referrer_host')
+            ->selectRaw('referrer_host, COUNT(*) as visits, COUNT(DISTINCT session_id) as visitors')
+            ->groupBy('referrer_host')
+            ->orderByDesc('visits')
+            ->limit(10)
+            ->get();
+
+        // Browsers
+        $browsers = Visit::period($fromStr, $toStr)
+            ->whereNotNull('browser')
+            ->selectRaw('browser, COUNT(*) as visits')
+            ->groupBy('browser')
+            ->orderByDesc('visits')
+            ->limit(8)
+            ->get();
+
+        // OS
+        $operatingSystems = Visit::period($fromStr, $toStr)
+            ->whereNotNull('os')
+            ->selectRaw('os, COUNT(*) as visits')
+            ->groupBy('os')
+            ->orderByDesc('visits')
+            ->limit(8)
+            ->get();
+
+        // Devices
+        $devices = Visit::period($fromStr, $toStr)
+            ->selectRaw('device, COUNT(*) as visits')
+            ->groupBy('device')
+            ->orderByDesc('visits')
+            ->get();
+
+        // Live: last 30 minutes
+        $liveVisitors = Visit::where('created_at', '>=', now()->subMinutes(30))
+            ->distinct('session_id')
+            ->count('session_id');
+
+        return response()->json([
+            'kpis' => [
+                'visitors' => $uniqueVisitors,
+                'visitors_change' => $visitorsChange,
+                'pageviews' => $totalPageviews,
+                'pageviews_change' => $pageviewsChange,
+                'bounce_rate' => $bounceRate,
+                'avg_duration' => $avgDuration,
+                'live' => $liveVisitors,
+            ],
+            'chart' => $chart,
+            'top_pages' => $topPages,
+            'referrers' => $referrers,
+            'browsers' => $browsers,
+            'os' => $operatingSystems,
+            'devices' => $devices,
+        ]);
     }
 }

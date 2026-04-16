@@ -13,6 +13,7 @@ class RolePermission extends Model
 
     const SECTIONS = [
         'dashboard' => ['label' => 'Tableau de bord', 'icon' => 'bi-grid-1x2-fill'],
+        'analytics' => ['label' => 'Statistiques', 'icon' => 'bi-graph-up'],
         'contacts' => ['label' => 'Demandes de contact', 'icon' => 'bi-envelope-fill'],
         'users' => ['label' => 'Utilisateurs', 'icon' => 'bi-people-fill'],
         'files' => ['label' => 'Fichiers partages', 'icon' => 'bi-folder2-open'],

@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin-locale' => \App\Http\Middleware\SetAdminLocale::class,
             'client-locale' => \App\Http\Middleware\SetClientLocale::class,
             'section' => \App\Http\Middleware\CheckSection::class,
+            'track-visit' => \App\Http\Middleware\TrackVisit::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

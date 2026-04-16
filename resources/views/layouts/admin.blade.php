@@ -76,6 +76,11 @@ body{font-family:var(--font);color:var(--ink);background:var(--bg);-webkit-font-
       <i class="bi bi-grid-1x2-fill"></i> {{ __('Dashboard') }}
     </a>
     @endif
+    @if(\App\Models\RolePermission::hasAccess($userRole, 'analytics'))
+    <a href="{{ route('admin.analytics') }}" class="{{ request()->routeIs('admin.analytics*') ? 'active' : '' }}">
+      <i class="bi bi-graph-up"></i> {{ __('Analytics') }}
+    </a>
+    @endif
     @if(\App\Models\RolePermission::hasAccess($userRole, 'contacts'))
     <a href="{{ route('admin.contacts') }}" class="{{ request()->routeIs('admin.contacts*') ? 'active' : '' }}">
       <i class="bi bi-envelope-fill"></i> {{ __('Contact requests') }}
