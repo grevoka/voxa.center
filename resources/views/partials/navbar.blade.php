@@ -15,16 +15,17 @@
     <div style="display:flex;align-items:center;gap:10px;">
       {{-- Language switcher --}}
       <div style="position:relative;" class="lang-switch" onclick="this.classList.toggle('open')">
-        <button style="display:flex;align-items:center;gap:6px;padding:6px 10px;font-size:13px;font-weight:600;border-radius:8px;border:1px solid #e2e8f0;background:#fff;color:#475569;cursor:pointer;font-family:inherit;">
-          @if($loc === 'fr')&#127467;&#127479;@else&#127468;&#127463;@endif
-          <span style="font-size:11px;color:#94a3b8;">&#9662;</span>
+        <button class="lang-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          {{ strtoupper($loc) }}
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="lang-dropdown" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.1);overflow:hidden;min-width:140px;z-index:200;">
-          <a href="{{ route('home') }}" style="display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:13px;font-weight:{{ $loc === 'fr' ? '700' : '500' }};color:{{ $loc === 'fr' ? '#6d28d9' : '#475569' }};text-decoration:none;transition:background .15s;{{ $loc === 'fr' ? 'background:#f5f3ff;' : '' }}">
-            &#127467;&#127479; Fran&ccedil;ais
+        <div class="lang-dropdown">
+          <a href="{{ route('home') }}" class="{{ $loc === 'fr' ? 'active' : '' }}">
+            <span class="lang-code">FR</span> Fran&ccedil;ais
           </a>
-          <a href="/en" style="display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:13px;font-weight:{{ $loc === 'en' ? '700' : '500' }};color:{{ $loc === 'en' ? '#6d28d9' : '#475569' }};text-decoration:none;transition:background .15s;{{ $loc === 'en' ? 'background:#f5f3ff;' : '' }}">
-            &#127468;&#127463; English
+          <a href="/en" class="{{ $loc === 'en' ? 'active' : '' }}">
+            <span class="lang-code">EN</span> English
           </a>
         </div>
       </div>
@@ -34,7 +35,15 @@
   </div>
 </nav>
 <style>
-.lang-switch.open .lang-dropdown{display:block!important}
-.lang-dropdown a:hover{background:#f8fafc!important}
+.lang-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:13px;font-weight:700;border-radius:8px;border:1px solid #e2e8f0;background:#fff;color:#475569;cursor:pointer;font-family:inherit;transition:all .15s}
+.lang-btn:hover{border-color:#cbd5e1;background:#f8fafc}
+.lang-btn svg:first-child{color:#8b5cf6}
+.lang-dropdown{display:none;position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.1);overflow:hidden;min-width:150px;z-index:200}
+.lang-switch.open .lang-dropdown{display:block}
+.lang-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:13px;font-weight:500;color:#475569;text-decoration:none;transition:all .15s}
+.lang-dropdown a:hover{background:#f8fafc}
+.lang-dropdown a.active{font-weight:700;color:#6d28d9;background:#f5f3ff}
+.lang-code{display:inline-flex;align-items:center;justify-content:center;width:26px;height:18px;border-radius:4px;font-size:10px;font-weight:800;letter-spacing:.5px;background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+.lang-dropdown a.active .lang-code{background:#ede9fe;color:#6d28d9;border-color:#c4b5fd}
 @media(max-width:900px){.nav-mid{display:none!important}.hide-m2{display:none!important}}
 </style>

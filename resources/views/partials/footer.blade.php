@@ -37,10 +37,9 @@
     <div style="padding-top:24px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#475569;flex-wrap:wrap;gap:12px;">
       <div style="display:flex;align-items:center;gap:16px;">
         <span>&copy; {{ date('Y') }} Voxa Center.</span>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <a href="{{ route('home') }}" style="text-decoration:none;font-size:13px;font-weight:{{ $loc === 'fr' ? '700' : '500' }};color:{{ $loc === 'fr' ? '#8b5cf6' : '#64748b' }};">&#127467;&#127479; Fran&ccedil;ais</a>
-          <span style="color:#334155;">|</span>
-          <a href="/en" style="text-decoration:none;font-size:13px;font-weight:{{ $loc === 'en' ? '700' : '500' }};color:{{ $loc === 'en' ? '#8b5cf6' : '#64748b' }};">&#127468;&#127463; English</a>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <a href="{{ route('home') }}" style="display:inline-flex;align-items:center;gap:4px;text-decoration:none;font-size:12px;font-weight:{{ $loc === 'fr' ? '800' : '600' }};padding:4px 10px;border-radius:6px;border:1px solid {{ $loc === 'fr' ? '#c4b5fd' : '#334155' }};background:{{ $loc === 'fr' ? '#ede9fe' : 'transparent' }};color:{{ $loc === 'fr' ? '#8b5cf6' : '#64748b' }};">FR</a>
+          <a href="/en" style="display:inline-flex;align-items:center;gap:4px;text-decoration:none;font-size:12px;font-weight:{{ $loc === 'en' ? '800' : '600' }};padding:4px 10px;border-radius:6px;border:1px solid {{ $loc === 'en' ? '#c4b5fd' : '#334155' }};background:{{ $loc === 'en' ? '#ede9fe' : 'transparent' }};color:{{ $loc === 'en' ? '#8b5cf6' : '#64748b' }};">EN</a>
         </div>
       </div>
       <span>{{ __('Un produit') }} <a href="https://d4.fr" target="_blank" style="color:#8b5cf6;text-decoration:none;font-weight:600;">D4.FR</a> &middot; Open source &middot; {{ __('Propulse par') }} Asterisk</span>
