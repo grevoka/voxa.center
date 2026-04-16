@@ -773,7 +773,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
         <span style="color:var(--gray-500)">$</span>
         <code>curl -sSL https://raw.githubusercontent.com/grevoka/Voxa.center.app/main/install.sh | bash</code>
         <span class="copy-btn" id="copyBtn">
-          <span class="i i-xs"><svg><use href="#ico-copy"/></svg></span> Copier
+          <span class="i i-xs"><svg><use href="#ico-copy"/></svg></span> {{ __('Copier') }}
         </span>
       </div>
 
@@ -808,18 +808,18 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
       </div>
       <div class="mockup-body">
         <div class="mockup-sidebar">
-          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-layout-dashboard"/></svg></span> Dashboard</div>
-          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-phone"/></svg></span> Lignes SIP</div>
-          <div class="sidebar-item active"><span class="i i-sm"><svg><use href="#ico-git-branch"/></svg></span> Scénarios</div>
-          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-bot"/></svg></span> Agent IA</div>
-          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-list"/></svg></span> Journal CDR</div>
-          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-headphones"/></svg></span> Softphone</div>
-          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-shield"/></svg></span> Firewall</div>
-          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-settings"/></svg></span> Paramètres</div>
+          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-layout-dashboard"/></svg></span> {{ __('mockup.dashboard') }}</div>
+          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-phone"/></svg></span> {{ __('mockup.sip_lines') }}</div>
+          <div class="sidebar-item active"><span class="i i-sm"><svg><use href="#ico-git-branch"/></svg></span> {{ __('mockup.scenarios') }}</div>
+          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-bot"/></svg></span> {{ __('mockup.ai_agent') }}</div>
+          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-list"/></svg></span> {{ __('mockup.cdr_journal') }}</div>
+          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-headphones"/></svg></span> {{ __('mockup.softphone') }}</div>
+          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-shield"/></svg></span> {{ __('mockup.firewall') }}</div>
+          <div class="sidebar-item"><span class="i i-sm"><svg><use href="#ico-settings"/></svg></span> {{ __('mockup.settings') }}</div>
         </div>
         <div class="mockup-main" style="background:var(--gray-50); padding:20px; position:relative; overflow:hidden;">
           <div class="mockup-main-header" style="margin-bottom:16px;">
-            <h4>Scénario — Accueil principal</h4>
+            <h4>{{ __('mockup.scenario_title') }}</h4>
             <div style="display:flex;gap:8px;">
               <div style="padding:4px 10px; background:var(--white); border:1px solid var(--gray-200); border-radius:6px; font-size:11px; font-weight:600; color:var(--gray-500); display:flex; align-items:center; gap:4px;">
                 <span class="i i-xs"><svg><use href="#ico-zap"/></svg></span> Auto-save
@@ -844,7 +844,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
               <div style="margin:0 auto 4px; width:24px; height:24px; background:var(--primary-50); color:var(--primary); border-radius:6px; display:grid; place-items:center;">
                 <span class="i i-xs"><svg><use href="#ico-phone-incoming"/></svg></span>
               </div>
-              <div style="font-size:10px; font-weight:700; color:var(--gray-800);">Appel entrant</div>
+              <div style="font-size:10px; font-weight:700; color:var(--gray-800);">{{ __('mockup.incoming_call') }}</div>
             </div>
             <!-- Block: Horaires -->
             <div style="position:absolute; top:10px; left:165px; width:120px; padding:10px; background:var(--white); border:1px solid var(--gray-200); border-radius:10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.04); z-index:1;">
@@ -852,36 +852,36 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
                 <div style="width:8px; height:8px; border-radius:50%; background:#22c55e;"></div>
                 <div style="width:8px; height:8px; border-radius:50%; background:#ef4444;"></div>
               </div>
-              <div style="font-size:10px; font-weight:700; color:var(--gray-800);">Horaires</div>
-              <div style="font-size:9px; color:var(--gray-400);">Lun-Ven 9h-18h</div>
+              <div style="font-size:10px; font-weight:700; color:var(--gray-800);">{{ __('mockup.schedule') }}</div>
+              <div style="font-size:9px; color:var(--gray-400);">{{ __('mockup.schedule_detail') }}</div>
             </div>
             <!-- Block: IVR -->
             <div style="position:absolute; top:10px; left:360px; width:120px; padding:10px; background:var(--white); border:1px solid var(--gray-200); border-radius:10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.04); z-index:1;">
               <div style="margin:0 auto 4px; width:24px; height:24px; background:#fff7ed; color:#ea580c; border-radius:6px; display:grid; place-items:center;">
                 <span class="i i-xs"><svg><use href="#ico-list"/></svg></span>
               </div>
-              <div style="font-size:10px; font-weight:700; color:var(--gray-800);">Menu IVR</div>
-              <div style="font-size:9px; color:var(--gray-400);">1 → Ventes · 2 → Support</div>
+              <div style="font-size:10px; font-weight:700; color:var(--gray-800);">{{ __('mockup.ivr_menu') }}</div>
+              <div style="font-size:9px; color:var(--gray-400);">{{ __('mockup.ivr_detail') }}</div>
             </div>
             <!-- Block: File d'attente (branch 1) -->
             <div style="position:absolute; top:120px; left:105px; width:110px; padding:10px; background:var(--white); border:1px solid var(--gray-200); border-radius:10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.04); z-index:1;">
               <div style="margin:0 auto 4px; width:24px; height:24px; background:var(--success-light); color:var(--success); border-radius:6px; display:grid; place-items:center;">
                 <span class="i i-xs"><svg><use href="#ico-users"/></svg></span>
               </div>
-              <div style="font-size:10px; font-weight:700; color:var(--gray-800);">File d'attente</div>
-              <div style="font-size:9px; color:var(--gray-400);">Équipe Ventes</div>
+              <div style="font-size:10px; font-weight:700; color:var(--gray-800);">{{ __('mockup.queue') }}</div>
+              <div style="font-size:9px; color:var(--gray-400);">{{ __('mockup.queue_detail') }}</div>
             </div>
             <!-- Block: Agent IA (branch 2) -->
             <div style="position:absolute; top:120px; left:360px; width:120px; padding:10px; background:linear-gradient(135deg, var(--accent-50), var(--primary-50)); border:1px solid rgba(124,58,237,0.2); border-radius:10px; text-align:center; box-shadow:0 2px 6px rgba(124,58,237,0.08); z-index:1;">
               <div style="margin:0 auto 4px; width:24px; height:24px; background:var(--accent-50); color:var(--accent); border-radius:6px; display:grid; place-items:center;">
                 <span class="i i-xs"><svg><use href="#ico-bot"/></svg></span>
               </div>
-              <div style="font-size:10px; font-weight:700; color:var(--accent);">Agent IA</div>
-              <div style="font-size:9px; color:var(--gray-400);">Support · Coral</div>
+              <div style="font-size:10px; font-weight:700; color:var(--accent);">{{ __('mockup.ai_agent_block') }}</div>
+              <div style="font-size:9px; color:var(--gray-400);">{{ __('mockup.ai_agent_detail') }}</div>
             </div>
             <!-- Drag hint -->
             <div style="position:absolute; bottom:8px; right:12px; font-size:10px; color:var(--gray-400); display:flex; align-items:center; gap:4px; z-index:1;">
-              <span class="i i-xs"><svg><use href="#ico-git-branch"/></svg></span> Glissez-déposez vos blocs
+              <span class="i i-xs"><svg><use href="#ico-git-branch"/></svg></span> {{ __('mockup.drag_hint') }}
             </div>
           </div>
         </div>
@@ -966,13 +966,13 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
         <h2 class="section-title">{{ __('ai.title') }}</h2>
         <p class="section-desc" style="margin-bottom:0">{{ __('ai.desc') }}</p>
         <ul class="ai-features-list">
-          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-arrow-lr"/></svg></span></span> Audio full-duplex — l'appelant peut interrompre l'IA naturellement</li>
-          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-mic"/></svg></span></span> 8 voix : Coral, Alloy, Ash, Echo, Sage, Shimmer, Verse, Ballad</li>
-          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-database"/></svg></span></span> Base de connaissances RAG — vos documents contextualisent l'agent</li>
-          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-shield-check"/></svg></span></span> Guardrails automatiques — cadrage sujet, pas de divulgation IA</li>
-          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-phone-off"/></svg></span></span> Détection de fin de conversation — raccrochage automatique</li>
-          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-file-text"/></svg></span></span> Historique consultable — transcription complète et coût estimé</li>
-          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-wallet"/></svg></span></span> Dashboard de facturation — suivi budget jour / semaine / mois</li>
+          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-arrow-lr"/></svg></span></span> {{ __('ai.feat.duplex') }}</li>
+          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-mic"/></svg></span></span> {{ __('ai.feat.voices') }}</li>
+          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-database"/></svg></span></span> {{ __('ai.feat.rag') }}</li>
+          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-shield-check"/></svg></span></span> {{ __('ai.feat.guardrails') }}</li>
+          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-phone-off"/></svg></span></span> {{ __('ai.feat.hangup_detection') }}</li>
+          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-file-text"/></svg></span></span> {{ __('ai.feat.history') }}</li>
+          <li><span class="li-icon"><span class="i i-xs"><svg><use href="#ico-wallet"/></svg></span></span> {{ __('ai.feat.billing') }}</li>
         </ul>
       </div>
       <div>
@@ -980,8 +980,8 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
           <div class="ai-flow-chain">
             <div class="ai-flow-step">
               <div class="ai-flow-step-icon"><span class="i i-lg"><svg><use href="#ico-phone-incoming"/></svg></span></div>
-              <div class="ai-flow-step-name">Appelant</div>
-              <div class="ai-flow-step-detail">Téléphone SIP</div>
+              <div class="ai-flow-step-name">{{ __('ai.feat.caller') }}</div>
+              <div class="ai-flow-step-detail">{{ __('ai.feat.sip_phone') }}</div>
             </div>
             <div class="ai-flow-arrow"><span class="i"><svg><use href="#ico-chevron-right"/></svg></span></div>
             <div class="ai-flow-step">
@@ -1004,7 +1004,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
           </div>
           <div class="ai-duplex-bar">
             <span class="i i-sm"><svg><use href="#ico-repeat"/></svg></span>
-            Audio full-duplex bidirectionnel sur toute la chaîne
+            {{ __('ai.feat.duplex_bar') }}
           </div>
           <div class="ai-voices-wrap">
             <span class="ai-voice">Coral</span><span class="ai-voice">Alloy</span><span class="ai-voice">Ash</span><span class="ai-voice">Echo</span><span class="ai-voice">Sage</span><span class="ai-voice">Shimmer</span><span class="ai-voice">Verse</span><span class="ai-voice">Ballad</span>
@@ -1018,16 +1018,16 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 <!-- ═══════ ARCHITECTURE ═══════ -->
 <section id="architecture">
   <div class="container">
-    <div class="section-label"><span class="i i-sm"><svg><use href="#ico-box"/></svg></span> Architecture</div>
+    <div class="section-label"><span class="i i-sm"><svg><use href="#ico-box"/></svg></span> {{ __('arch.label') }}</div>
     <h2 class="section-title">{{ __('arch.title') }}</h2>
     <p class="section-desc">{{ __('arch.desc') }}</p>
     <div class="arch-card">
-      <div class="arch-label-dark"><span class="i i-sm"><svg><use href="#ico-terminal"/></svg></span> Serveur Debian 12 · Asterisk 20 PJSIP Realtime</div>
+      <div class="arch-label-dark"><span class="i i-sm"><svg><use href="#ico-terminal"/></svg></span> {{ __('arch.server_label') }}</div>
       <div class="arch-grid">
         <div class="arch-node span-2">
           <div class="arch-node-port">:443</div>
           <div class="arch-node-name">Nginx</div>
-          <div class="arch-node-detail">HTTPS + WebSocket proxy</div>
+          <div class="arch-node-detail">{{ __('arch.nginx_detail') }}</div>
         </div>
         <div class="arch-node span-2">
           <div class="arch-node-port">socket</div>
@@ -1047,26 +1047,26 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
         <div class="arch-node">
           <div class="arch-node-port">:6379</div>
           <div class="arch-node-name">Redis 7</div>
-          <div class="arch-node-detail">Sessions & Cache</div>
+          <div class="arch-node-detail">{{ __('arch.redis_detail') }}</div>
         </div>
         <div class="arch-node">
           <div class="arch-node-port">:8088</div>
           <div class="arch-node-name">WebSocket</div>
-          <div class="arch-node-detail">Softphone WebRTC</div>
+          <div class="arch-node-detail">{{ __('arch.websocket_detail') }}</div>
         </div>
         <div class="arch-node span-2 ai-node">
           <div class="arch-node-port">:9092 localhost</div>
           <div class="arch-node-name">voxa-ai</div>
-          <div class="arch-node-detail">AudioSocket — OpenAI Realtime (Python)</div>
+          <div class="arch-node-detail">{{ __('arch.voxa_ai_detail') }}</div>
         </div>
         <div class="arch-node span-2 ai-node">
           <div class="arch-node-port">/opt/piper</div>
           <div class="arch-node-name">Piper TTS</div>
-          <div class="arch-node-detail">3 voix françaises · Synthèse locale</div>
+          <div class="arch-node-detail">{{ __('arch.piper_detail') }}</div>
         </div>
         <div class="arch-node span-4 base-node">
           <div class="arch-node-name">Systemd</div>
-          <div class="arch-node-detail">Fail2ban · Let's Encrypt · Queue Worker · Cron · Services managés</div>
+          <div class="arch-node-detail">{{ __('arch.systemd_detail') }}</div>
         </div>
       </div>
     </div>
@@ -1076,7 +1076,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 <!-- ═══════ PRICING ═══════ -->
 <section id="pricing">
   <div class="container">
-    <div class="section-label center"><span class="i i-sm"><svg><use href="#ico-credit-card"/></svg></span> Tarifs</div>
+    <div class="section-label center"><span class="i i-sm"><svg><use href="#ico-credit-card"/></svg></span> {{ __('Tarifs') }}</div>
     <h2 class="section-title center">{!! __('pricing.title') !!}</h2>
     <p class="section-desc center">{{ __('pricing.desc') }}</p>
 
@@ -1099,29 +1099,29 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
         <div class="pricing-divider"></div>
         <div class="pricing-community-inner">
           <div>
-            <div class="pricing-group-label">Téléphonie</div>
+            <div class="pricing-group-label">{{ __('pricing.community.telephony') }}</div>
             <ul class="pricing-list" style="margin-bottom:0">
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Lignes & Trunks SIP illimités</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Éditeur visuel de scénarios</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Files d'attente & Conférences</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Messagerie vocale + email SMTP</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Firewall SIP & Fail2ban</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Dashboard, CDR & Supervision live</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Console Asterisk intégrée</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Multi-langue FR / EN</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.sip_unlimited') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.visual_editor') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.queues_conf') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.voicemail') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.firewall') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.dashboard') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.asterisk_console') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.multilang') }}</li>
             </ul>
           </div>
           <div>
-            <div class="pricing-group-label">IA & Avancé</div>
+            <div class="pricing-group-label">{{ __('pricing.community.ai_advanced') }}</div>
             <ul class="pricing-list" style="margin-bottom:0">
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Agent IA OpenAI Realtime</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Base de connaissances RAG</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Historique IA & facturation</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Piper TTS — synthèse vocale locale</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Softphone WebRTC intégré</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Opérateurs RBAC & Caller ID</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Enregistrement d'appels</li>
-              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Installation automatique 1 clic</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.ai_openai') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.rag') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.ai_history') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.piper_tts') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.softphone') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.rbac') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.recording') }}</li>
+              <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.community.one_click') }}</li>
             </ul>
           </div>
         </div>
@@ -1135,69 +1135,69 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
       <!-- HÉBERGEMENT -->
       <div class="service-card primary-border">
         <div class="service-icon orange"><span class="i i-lg"><svg><use href="#ico-cloud"/></svg></span></div>
-        <h3>Hébergement clé en main</h3>
-        <div class="service-price">29,90 € <span class="unit">HT / mois</span></div>
-        <div class="service-from">À partir de</div>
-        <p class="service-desc">Nous hébergeons et maintenons Voxa Center pour vous. Vous n'avez rien à installer ni à administrer.</p>
+        <h3>{{ __('pricing.hosting.title') }}</h3>
+        <div class="service-price">{{ __('pricing.hosting.price') }} <span class="unit">{{ __('pricing.hosting.unit') }}</span></div>
+        <div class="service-from">{{ __('pricing.hosting.from') }}</div>
+        <p class="service-desc">{{ __('pricing.hosting.desc') }}</p>
         <ul class="service-features">
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Serveur dédié & infogéré</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Voxa Center préinstallé et prêt à l'emploi</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Certificats SSL & sauvegardes automatiques</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Mises à jour & maintenance incluses</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Disponibilité garantie 99.9%</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.hosting.feat1') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.hosting.feat2') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.hosting.feat3') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.hosting.feat4') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.hosting.feat5') }}</li>
         </ul>
-        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-primary" style="text-decoration:none">Choisir l'hébergement</a>
+        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-primary" style="text-decoration:none">{{ __('pricing.hosting.cta') }}</a>
       </div>
 
       <!-- SUIVI & SUPPORT -->
       <div class="service-card">
         <div class="service-icon blue"><span class="i i-lg"><svg><use href="#ico-headphones"/></svg></span></div>
-        <h3>Support & Suivi</h3>
-        <div class="service-price">250 € <span class="unit">HT / mois</span></div>
-        <div class="service-from">À partir de</div>
-        <p class="service-desc">Forfait de suivi technique mensuel pour votre installation Voxa Center en production.</p>
+        <h3>{{ __('pricing.support.title') }}</h3>
+        <div class="service-price">{{ __('pricing.support.price') }} <span class="unit">{{ __('pricing.support.unit') }}</span></div>
+        <div class="service-from">{{ __('pricing.support.from') }}</div>
+        <p class="service-desc">{{ __('pricing.support.desc') }}</p>
         <ul class="service-features">
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Support technique prioritaire</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Monitoring & alertes proactives</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Mises à jour & patchs de sécurité</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Assistance configuration & debug</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Temps de réponse garanti</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.support.feat1') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.support.feat2') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.support.feat3') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.support.feat4') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.support.feat5') }}</li>
         </ul>
-        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-primary" style="text-decoration:none">Souscrire au support</a>
+        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-primary" style="text-decoration:none">{{ __('pricing.support.cta') }}</a>
       </div>
 
       <!-- INSTALLATION -->
       <div class="service-card">
         <div class="service-icon green"><span class="i i-lg"><svg><use href="#ico-server"/></svg></span></div>
-        <h3>Aide à l'installation</h3>
-        <div class="service-price">299 € <span class="unit">HT</span></div>
-        <div class="service-from">À partir de · Prestation unique</div>
-        <p class="service-desc">Installation et mise en service complète de Voxa Center sur votre serveur par notre équipe.</p>
+        <h3>{{ __('pricing.install.title') }}</h3>
+        <div class="service-price">{{ __('pricing.install.price') }} <span class="unit">{{ __('pricing.install.unit') }}</span></div>
+        <div class="service-from">{{ __('pricing.install.from') }}</div>
+        <p class="service-desc">{{ __('pricing.install.desc') }}</p>
         <ul class="service-features">
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Installation & configuration serveur</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Certificats SSL & sécurisation</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Configuration trunks & lignes SIP</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Tests de bon fonctionnement</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Documentation de votre setup</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.install.feat1') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.install.feat2') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.install.feat3') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.install.feat4') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.install.feat5') }}</li>
         </ul>
-        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-outline" style="text-decoration:none">Demander un devis</a>
+        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-outline" style="text-decoration:none">{{ __('pricing.install.cta') }}</a>
       </div>
 
       <!-- DÉVELOPPEMENT SUR MESURE -->
       <div class="service-card">
         <div class="service-icon purple"><span class="i i-lg"><svg><use href="#ico-cpu"/></svg></span></div>
-        <h3>Développement sur mesure</h3>
-        <div class="service-price">Sur devis</div>
-        <div class="service-from">Besoins spécifiques & intégrations</div>
-        <p class="service-desc">Développement de fonctionnalités personnalisées, intégrations CRM/ERP, et adaptations métier.</p>
+        <h3>{{ __('pricing.custom.title') }}</h3>
+        <div class="service-price">{{ __('pricing.custom.price') }}</div>
+        <div class="service-from">{{ __('pricing.custom.from') }}</div>
+        <p class="service-desc">{{ __('pricing.custom.desc') }}</p>
         <ul class="service-features">
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Fonctionnalités sur mesure</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Intégrations API & CRM/ERP</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Scénarios d'appels avancés</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Agents IA personnalisés</li>
-          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> Cahier des charges & livraison</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.custom.feat1') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.custom.feat2') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.custom.feat3') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.custom.feat4') }}</li>
+          <li><span class="i i-sm icon-check"><svg><use href="#ico-check"/></svg></span> {{ __('pricing.custom.feat5') }}</li>
         </ul>
-        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-accent" style="text-decoration:none">Discuter de votre projet</a>
+        <a href="{{ lroute('contact') }}" class="pricing-btn pricing-btn-accent" style="text-decoration:none">{{ __('pricing.custom.cta') }}</a>
       </div>
     </div>
 
@@ -1207,7 +1207,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 <!-- ═══════ STACK ═══════ -->
 <section id="stack">
   <div class="container">
-    <div class="section-label"><span class="i i-sm"><svg><use href="#ico-cpu"/></svg></span> Stack technique</div>
+    <div class="section-label"><span class="i i-sm"><svg><use href="#ico-cpu"/></svg></span> {{ __('stack.label') }}</div>
     <h2 class="section-title">{{ __('stack.title') }}</h2>
     <p class="section-desc">{{ __('stack.desc') }}</p>
     <div class="stack-grid">
@@ -1251,10 +1251,10 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 document.getElementById('installCmd').addEventListener('click', function() {
   navigator.clipboard.writeText('curl -sSL https://raw.githubusercontent.com/grevoka/Voxa.center.app/main/install.sh | bash');
   const btn = document.getElementById('copyBtn');
-  btn.innerHTML = '<span class="i i-xs" style="color:var(--success)"><svg><use href="#ico-check"/></svg></span> Copié !';
+  btn.innerHTML = '<span class="i i-xs" style="color:var(--success)"><svg><use href="#ico-check"/></svg></span> {{ __("Copie !") }}';
   btn.style.color = 'var(--success)';
   setTimeout(() => {
-    btn.innerHTML = '<span class="i i-xs"><svg><use href="#ico-copy"/></svg></span> Copier';
+    btn.innerHTML = '<span class="i i-xs"><svg><use href="#ico-copy"/></svg></span> {{ __("Copier") }}';
     btn.style.color = '';
   }, 2000);
 });
