@@ -26,13 +26,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:#1e293b;background:#f8fafc
 @endpush
 
 @section('content')
-<nav class="legal-nav">
-  <div class="legal-nav-inner">
-    <a href="/" class="brand"><img src="/images/logo.png" alt="Voxa Center"> Voxa Center</a>
-    <a href="/" class="back">&larr; Retour au site</a>
-  </div>
-</nav>
-
 <div class="legal-wrap">
   <h1>Conditions Generales d'Utilisation</h1>
   <p class="updated">Derniere mise a jour : {{ date('d/m/Y') }}</p>

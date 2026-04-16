@@ -126,19 +126,7 @@ textarea.fc{resize:vertical;min-height:90px}
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar-top">
-  <div class="navbar-inner">
-    <a href="/" class="navbar-brand">
-      <div class="navbar-logo"><img src="/images/logo.png" alt="Voxa Center"></div>
-      Voxa Center
-    </a>
-    <div style="display:flex;gap:10px;align-items:center">
-      <a href="/" class="btn-nav"><i class="bi bi-arrow-left"></i> Retour au site</a>
-      <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn-nav"><i class="bi bi-github"></i> GitHub</a>
-    </div>
-  </div>
-</nav>
+@include('partials.navbar')
 
 <!-- DEMO SECTION -->
 <section class="demo-section" id="demo">

@@ -28,13 +28,6 @@ table.price-table td{padding:10px 14px;border:1px solid #e2e8f0;color:#475569}
 @endpush
 
 @section('content')
-<nav class="legal-nav">
-  <div class="legal-nav-inner">
-    <a href="/" class="brand"><img src="/images/logo.png" alt="Voxa Center"> Voxa Center</a>
-    <a href="/" class="back">&larr; Retour au site</a>
-  </div>
-</nav>
-
 <div class="legal-wrap">
   <h1>Conditions Generales de Vente</h1>
   <p class="updated">Derniere mise a jour : {{ date('d/m/Y') }}</p>

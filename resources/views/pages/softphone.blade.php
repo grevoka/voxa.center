@@ -83,17 +83,6 @@ section.alt{background:var(--gray-50)}
 @endpush
 
 @section('content')
-<nav class="nav-top">
-  <div class="container nav-inner">
-    <a href="/" class="nav-brand"><img src="/images/logo.png" alt="Voxa Center"> Voxa Center</a>
-    <div class="nav-links">
-      <a href="/" class="hide-m"><i class="bi bi-arrow-left"></i> Accueil</a>
-      <a href="/scenarios" class="hide-m"><i class="bi bi-diagram-3"></i> Scenarios</a>
-      <a href="/nous-contacter" class="cta"><i class="bi bi-send"></i> Nous contacter</a>
-    </div>
-  </div>
-</nav>
-
 <!-- HERO -->
 <section class="hero">
   <div class="container">

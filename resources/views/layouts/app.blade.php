@@ -26,6 +26,7 @@ $showHreflang = $hreflangRoute && in_array($hreflangRoute, $frontendRoutes);
 @stack('styles')
 </head>
 <body>
+@include('partials.navbar')
 @yield('content')
 
 @include('partials.footer')

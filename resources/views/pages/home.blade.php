@@ -742,26 +742,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
   <symbol id="ico-cloud" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></symbol>
 </svg>
 
-<!-- ═══════ NAVBAR ═══════ -->
-<nav class="navbar" id="navbar">
-  <div class="container navbar-inner">
-    <a href="/" class="navbar-brand">
-      <div class="navbar-logo"><img src="/images/logo.png" alt="Voxa Center"></div>
-      Voxa Center
-    </a>
-    <div class="navbar-links">
-      <a href="/scenarios">Scenarios</a>
-      <a href="/softphone">Softphone</a>
-      <a href="#ai">Agent IA</a>
-      <a href="#pricing">Tarifs</a>
-      <a href="https://github.com/grevoka/Voxa.center.app" target="_blank">GitHub</a>
-    </div>
-    <div class="navbar-actions">
-      <a href="#pricing" class="btn btn-outline btn-sm">Voir les tarifs</a>
-      <a href="/nous-contacter" class="btn btn-primary btn-sm">Nous contacter</a>
-    </div>
-  </div>
-</nav>
+@include('partials.navbar')
 
 <!-- ═══════ HERO ═══════ -->
 <section class="hero">
@@ -1266,12 +1247,6 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 @include('partials.cookie-banner')
 
 <script>
-// Navbar scroll
-const nav = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 30);
-});
-
 // Copy install command
 document.getElementById('installCmd').addEventListener('click', function() {
   navigator.clipboard.writeText('curl -sSL https://raw.githubusercontent.com/grevoka/Voxa.center.app/main/install.sh | bash');
