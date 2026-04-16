@@ -11,9 +11,9 @@
       <div style="display:flex;gap:64px;flex-wrap:wrap;">
         <div>
           <h5 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:16px;">Produit</h5>
-          <a href="/#features" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">Fonctionnalites</a>
+          <a href="/scenarios" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">Scenarios d'appels</a>
+          <a href="/softphone" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">Softphone WebRTC</a>
           <a href="/#ai" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">Agent IA</a>
-          <a href="/#architecture" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">Architecture</a>
           <a href="/#pricing" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">Tarifs</a>
         </div>
         <div>

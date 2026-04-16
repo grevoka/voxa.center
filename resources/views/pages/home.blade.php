@@ -750,9 +750,9 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
       Voxa Center
     </a>
     <div class="navbar-links">
-      <a href="#features">Fonctionnalités</a>
+      <a href="/scenarios">Scenarios</a>
+      <a href="/softphone">Softphone</a>
       <a href="#ai">Agent IA</a>
-      <a href="#architecture">Architecture</a>
       <a href="#pricing">Tarifs</a>
       <a href="https://github.com/grevoka/Voxa.center.app" target="_blank">GitHub</a>
     </div>
