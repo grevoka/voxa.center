@@ -476,6 +476,8 @@
     "Visiteurs": "Visitors",
     "Detail par session / IP": "Detail by session / IP",
     "Rechercher par IP...": "Search by IP...",
+    "Rechercher par IP ou hostname...": "Search by IP or hostname...",
+    "Duree": "Duration",
     "sessions": "sessions",
     "Direct": "Direct",
     "Duree totale": "Total duration",

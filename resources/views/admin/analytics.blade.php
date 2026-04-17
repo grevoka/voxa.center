@@ -139,10 +139,10 @@
 
 <!-- ═══════ TAB: ACQUISITION ═══════ -->
 <div class="tab-panel" id="tab-acquisition">
-  <div class="pie-grid" style="grid-template-columns:1fr 1fr;margin-bottom:28px">
-    <div class="pie-card" style="height:320px">
+  <div class="data-grid" style="grid-template-columns:1fr 1fr;margin-bottom:28px">
+    <div class="pie-card" style="min-height:400px;display:flex;flex-direction:column">
       <h3><i class="bi bi-signpost-split"></i> {{ __('Sources') }}</h3>
-      <canvas id="sourcesChart"></canvas>
+      <div style="flex:1;position:relative"><canvas id="sourcesChart" style="height:100%!important"></canvas></div>
     </div>
     <div class="data-card">
       <div class="dh"><h3><i class="bi bi-box-arrow-in-right"></i> {{ __('Sites referents') }}</h3></div>
