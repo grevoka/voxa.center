@@ -58,10 +58,10 @@
 
 /* PIE CHARTS */
 .pie-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
-.pie-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px}
+.pie-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column}
 .pie-card h3{font-size:14px;font-weight:700;color:var(--navy);margin:0 0 16px;display:flex;align-items:center;gap:6px}
 .pie-card h3 i{color:var(--mid)}
-.pie-card canvas{width:100%!important;height:180px!important}
+.pie-card canvas{width:100%!important;min-height:220px}
 
 /* Visitor row in recent */
 .rv-row{display:flex;align-items:center;padding:10px 20px;border-bottom:1px solid #f1f5f9;gap:10px;font-size:13px;text-decoration:none;color:inherit;transition:background .1s}
@@ -155,9 +155,9 @@
 <!-- ═══════ TAB: ACQUISITION ═══════ -->
 <div class="tab-panel" id="tab-acquisition">
   <div class="data-grid" style="grid-template-columns:1fr 1fr;margin-bottom:28px">
-    <div class="pie-card" style="min-height:400px;display:flex;flex-direction:column">
+    <div class="pie-card">
       <h3><i class="bi bi-signpost-split"></i> {{ __('Sources') }}</h3>
-      <div style="flex:1;position:relative"><canvas id="sourcesChart" style="height:100%!important"></canvas></div>
+      <canvas id="sourcesChart" style="min-height:300px"></canvas>
     </div>
     <div class="data-card">
       <div class="dh"><h3><i class="bi bi-box-arrow-in-right"></i> {{ __('Sites referents') }}</h3></div>
@@ -211,8 +211,8 @@
   <div class="data-grid" style="grid-template-columns:1fr 1fr;margin-bottom:28px">
     {{-- World map --}}
     <div class="pie-card" style="min-height:420px;display:flex;flex-direction:column">
-      <h3><i class="bi bi-globe-americas"></i> {{ __('Carte du monde') }}</h3>
-      <div id="worldMap" style="flex:1;position:relative;min-height:350px"></div>
+      <h3><i class="bi bi-globe-americas"></i> {{ __('Visiteurs par pays') }}</h3>
+      <div id="worldMap" style="flex:1;min-height:300px"></div>
     </div>
 
     {{-- Countries table --}}
@@ -441,47 +441,26 @@
 
   function renderWorldMap(countries){
     const container = document.getElementById('worldMap');
-    const countryData = {};
-    let maxV = 1;
-    countries.forEach(c => { countryData[c.code.toUpperCase()] = c.visitors; if(c.visitors > maxV) maxV = c.visitors; });
-
-    // Load jvectormap-compatible SVG world map
-    container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--slate);font-size:13px"><i class="bi bi-globe-americas" style="font-size:48px;display:block;margin-bottom:12px;color:var(--border)"></i>{{ __("Chargement de la carte...") }}</div>';
-
-    // Use a simple SVG world map
-    fetch('https://cdn.jsdelivr.net/npm/world-map-svg@1.0.0/world.svg').then(r=>r.text()).then(svg=>{
-      container.innerHTML = svg;
-      const svgEl = container.querySelector('svg');
-      if(!svgEl) return;
-      svgEl.style.width = '100%';
-      svgEl.style.height = '100%';
-      svgEl.style.maxHeight = '350px';
-
-      // Style all paths
-      svgEl.querySelectorAll('path').forEach(p => {
-        const id = (p.id || p.getAttribute('data-id') || '').toUpperCase();
-        const val = countryData[id] || 0;
-        if(val > 0){
-          const intensity = Math.min(val / maxV, 1);
-          const r = Math.round(109 - intensity * 70);
-          const g = Math.round(40 + intensity * 0);
-          const b = Math.round(217 - intensity * 30);
-          p.style.fill = `rgb(${r},${g},${b})`;
-          p.style.cursor = 'pointer';
-          p.setAttribute('title', id + ': ' + val + ' visiteurs');
-        } else {
-          p.style.fill = '#e2e8f0';
-        }
-        p.style.stroke = '#fff';
-        p.style.strokeWidth = '0.5';
-        p.style.transition = 'fill .2s';
-        p.addEventListener('mouseenter', function(){ if(val>0) this.style.opacity='.7'; });
-        p.addEventListener('mouseleave', function(){ this.style.opacity='1'; });
-      });
-    }).catch(()=>{
-      // Fallback: simple country bars
-      container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--slate);font-size:13px">{{ __("Carte non disponible") }}</div>';
+    if(!countries || countries.length === 0){
+      container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--slate);font-size:13px"><i class="bi bi-globe-americas" style="font-size:40px;margin-right:12px;color:var(--border)"></i>{{ __("Aucune donnee") }}</div>';
+      return;
+    }
+    const max = countries[0].visitors;
+    let html = '<div style="display:flex;flex-direction:column;gap:8px;padding:8px 0;height:100%;overflow-y:auto">';
+    countries.forEach(c => {
+      const pct = Math.max(Math.round(c.visitors / max * 100), 4);
+      html += '<div style="display:flex;align-items:center;gap:10px">' +
+        '<span style="font-size:20px;width:28px;text-align:center">' + c.flag + '</span>' +
+        '<span style="font-size:13px;font-weight:600;color:var(--ink);min-width:100px">' + escHtml(c.name) + '</span>' +
+        '<div style="flex:1;height:24px;background:#f1f5f9;border-radius:6px;overflow:hidden">' +
+          '<div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#6d28d9,#8b5cf6);border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;min-width:40px">' +
+            '<span style="font-size:11px;font-weight:700;color:#fff">' + c.visitors + '</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
     });
+    html += '</div>';
+    container.innerHTML = html;
   }
 
   function renderRecentVisitors(visitors){
