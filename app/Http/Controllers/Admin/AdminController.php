@@ -407,7 +407,8 @@ class AdminController extends Controller
         $fromStr = $from->toDateString();
         $toStr = $to->toDateString();
 
-        $visits = Visit::period($fromStr, $toStr);
+        // Human visits only (exclude bots for main KPIs)
+        $visits = Visit::period($fromStr, $toStr)->where('is_bot', false);
 
         // KPIs
         $totalPageviews = (clone $visits)->count();
@@ -422,15 +423,15 @@ class AdminController extends Controller
         $daysDiff = $from->diffInDays($to) + 1;
         $prevFrom = $from->copy()->subDays($daysDiff)->toDateString();
         $prevTo = $from->copy()->subDay()->toDateString();
-        $prevVisitors = Visit::period($prevFrom, $prevTo)->distinct('session_id')->count('session_id');
-        $prevPageviews = Visit::period($prevFrom, $prevTo)->count();
+        $prevVisitors = Visit::period($prevFrom, $prevTo)->where('is_bot', false)->distinct('session_id')->count('session_id');
+        $prevPageviews = Visit::period($prevFrom, $prevTo)->where('is_bot', false)->count();
 
         $visitorsChange = $prevVisitors > 0 ? round(($uniqueVisitors - $prevVisitors) / $prevVisitors * 100, 1) : 0;
         $pageviewsChange = $prevPageviews > 0 ? round(($totalPageviews - $prevPageviews) / $prevPageviews * 100, 1) : 0;
 
         // Chart: visitors per day
         $groupFormat = $daysDiff > 60 ? '%Y-%m' : '%Y-%m-%d';
-        $chartRaw = Visit::period($fromStr, $toStr)
+        $chartRaw = Visit::period($fromStr, $toStr)->where('is_bot', false)
             ->selectRaw("strftime('{$groupFormat}', created_at) as date_group, COUNT(*) as pageviews, COUNT(DISTINCT session_id) as visitors")
             ->groupBy('date_group')
             ->orderBy('date_group')
@@ -442,16 +443,16 @@ class AdminController extends Controller
             'visitors' => $r->visitors,
         ]);
 
-        // Top pages
-        $topPages = Visit::period($fromStr, $toStr)
+        // Top pages (humans only)
+        $topPages = Visit::period($fromStr, $toStr)->where('is_bot', false)
             ->selectRaw('path, COUNT(*) as views, COUNT(DISTINCT session_id) as visitors')
             ->groupBy('path')
             ->orderByDesc('views')
             ->limit(10)
             ->get();
 
-        // Referrers (with clean names)
-        $referrersRaw = Visit::period($fromStr, $toStr)
+        // Referrers (humans only, with clean names)
+        $referrersRaw = Visit::period($fromStr, $toStr)->where('is_bot', false)
             ->whereNotNull('referrer_host')
             ->selectRaw('referrer_host, COUNT(*) as visits, COUNT(DISTINCT session_id) as visitors')
             ->groupBy('referrer_host')
@@ -466,15 +467,15 @@ class AdminController extends Controller
             'visitors' => $r->visitors,
         ]);
 
-        // Sources breakdown (direct, search, social, referral)
-        $sources = Visit::period($fromStr, $toStr)
+        // Sources breakdown (humans only)
+        $sources = Visit::period($fromStr, $toStr)->where('is_bot', false)
             ->selectRaw('source, COUNT(*) as visits, COUNT(DISTINCT session_id) as visitors')
             ->groupBy('source')
             ->orderByDesc('visits')
             ->get();
 
-        // Browsers
-        $browsers = Visit::period($fromStr, $toStr)
+        // Browsers (humans only)
+        $browsers = Visit::period($fromStr, $toStr)->where('is_bot', false)
             ->whereNotNull('browser')
             ->selectRaw('browser, COUNT(*) as visits')
             ->groupBy('browser')
@@ -482,8 +483,8 @@ class AdminController extends Controller
             ->limit(8)
             ->get();
 
-        // OS
-        $operatingSystems = Visit::period($fromStr, $toStr)
+        // OS (humans only)
+        $operatingSystems = Visit::period($fromStr, $toStr)->where('is_bot', false)
             ->whereNotNull('os')
             ->selectRaw('os, COUNT(*) as visits')
             ->groupBy('os')
@@ -491,17 +492,28 @@ class AdminController extends Controller
             ->limit(8)
             ->get();
 
-        // Devices
-        $devices = Visit::period($fromStr, $toStr)
+        // Devices (humans only)
+        $devices = Visit::period($fromStr, $toStr)->where('is_bot', false)
             ->selectRaw('device, COUNT(*) as visits')
             ->groupBy('device')
             ->orderByDesc('visits')
             ->get();
 
-        // Live: last 30 minutes
+        // Live: last 30 minutes (humans only)
         $liveVisitors = Visit::where('created_at', '>=', now()->subMinutes(30))
+            ->where('is_bot', false)
             ->distinct('session_id')
             ->count('session_id');
+
+        // Bot stats
+        $botTotal = Visit::period($fromStr, $toStr)->where('is_bot', true)->count();
+        $topBots = Visit::period($fromStr, $toStr)->where('is_bot', true)
+            ->whereNotNull('bot_name')
+            ->selectRaw('bot_name, COUNT(*) as hits')
+            ->groupBy('bot_name')
+            ->orderByDesc('hits')
+            ->limit(10)
+            ->get();
 
         return response()->json([
             'kpis' => [
@@ -520,6 +532,7 @@ class AdminController extends Controller
             'browsers' => $browsers,
             'os' => $operatingSystems,
             'devices' => $devices,
+            'bots' => ['total' => $botTotal, 'top' => $topBots],
         ]);
     }
 
@@ -538,7 +551,9 @@ class AdminController extends Controller
                 MIN(source) as source,
                 MIN(device) as device,
                 MIN(browser) as browser,
-                MIN(os) as os
+                MIN(os) as os,
+                MAX(is_bot) as is_bot,
+                MIN(bot_name) as bot_name
             ')
             ->groupBy('session_id', 'ip')
             ->orderByDesc('last_seen');
@@ -588,6 +603,8 @@ class AdminController extends Controller
             'ip' => $first->ip,
             'hostname' => $first->hostname,
             'country' => $first->country,
+            'is_bot' => $first->is_bot,
+            'bot_name' => $first->bot_name,
             'first_seen' => $first->created_at,
             'last_seen' => $last->created_at,
             'pageviews' => $pageviews,

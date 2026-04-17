@@ -80,6 +80,11 @@
           @endif
           {{ $v->source === 'direct' ? __('Direct') : ($v->referrer_host ? \App\Models\Visit::cleanReferrerName($v->referrer_host) : __('Direct')) }}
         </span>
+        @if($v->is_bot)
+          <span class="v-badge" style="background:#fef2f2;color:#dc2626;border-color:#fecaca"><i class="bi bi-robot"></i> {{ $v->bot_name ?: 'Bot' }}</span>
+        @else
+          <span class="v-badge" style="background:#ecfdf5;color:#059669;border-color:#a7f3d0"><i class="bi bi-person"></i> {{ __('Humain') }}</span>
+        @endif
         <span class="v-badge"><i class="bi bi-{{ $v->device === 'mobile' ? 'phone' : ($v->device === 'tablet' ? 'tablet' : 'laptop') }}"></i> {{ ucfirst($v->device) }}</span>
         @if($v->browser)<span class="v-badge">{{ $v->browser }}</span>@endif
         @if($v->os)<span class="v-badge">{{ $v->os }}</span>@endif

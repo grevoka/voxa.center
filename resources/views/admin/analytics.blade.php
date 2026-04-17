@@ -143,6 +143,15 @@
   </div>
 </div>
 
+<!-- BOTS -->
+<div class="data-card" style="margin-bottom:28px">
+  <div class="dh">
+    <h3><i class="bi bi-robot"></i> {{ __('Bots & Crawlers') }}</h3>
+    <span id="botTotal" style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--slate)"></span>
+  </div>
+  <div id="topBots"><div class="data-empty"><i class="bi bi-hourglass-split"></i> {{ __('Chargement...') }}</div></div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script>
 (function(){
@@ -166,6 +175,7 @@
     renderPie('browsersChart', browsersChart, data.browsers, 'browser', 'visits');
     renderPie('osChart', osChart, data.os, 'os', 'visits');
     document.getElementById('liveCount').textContent = data.kpis.live;
+    renderBots(data.bots);
   }
 
   // ─── KPIs ───
@@ -331,6 +341,33 @@
   });
 
   function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+  // ─── Bots ───
+  const botIcons = {'Googlebot':'🔍','Google':'🔍','Googlebot Images':'🖼️','Google Ads':'📢','Google Lighthouse':'💡','Google PageSpeed':'⚡',
+    'Bingbot':'🔎','Bing Preview':'🔎','DuckDuckBot':'🦆','Yahoo Slurp':'🔎','Baidu Spider':'🔎','YandexBot':'🔎',
+    'OpenAI GPTBot':'🤖','ChatGPT User':'🤖','OpenAI SearchBot':'🤖','Anthropic ClaudeBot':'🧠','Anthropic Claude':'🧠','Anthropic AI':'🧠',
+    'Common Crawl':'📚','Cohere AI':'🤖','Meta AI':'👁️','Perplexity Bot':'🔮','AmazonBot':'📦',
+    'Facebook Crawler':'👤','Twitter Bot':'🐦','LinkedIn Bot':'💼','Discord Bot':'🎮','Slack Bot':'💬','Telegram Bot':'✈️',
+    'SEMrush Bot':'📊','Ahrefs Bot':'📊','Moz DotBot':'📊','Majestic Bot':'📊',
+    'UptimeRobot':'🟢','Pingdom':'🟢','GTmetrix':'📐',
+    'Shodan':'🔒','Censys Scanner':'🔒','ZGrab Scanner':'🔒',
+    'cURL':'⌨️','Wget':'⌨️','Python Requests':'🐍','Python':'🐍','Go HTTP':'⌨️','Headless Chrome':'👻'};
+  function renderBots(bots){
+    document.getElementById('botTotal').textContent = bots.total.toLocaleString('fr-FR') + ' hits';
+    const c = document.getElementById('topBots');
+    if(!bots.top || bots.top.length === 0){c.innerHTML='<div class="data-empty">{{ __("Aucun bot detecte") }}</div>';return;}
+    const max = bots.top[0].hits;
+    c.innerHTML = bots.top.map((r,i) => {
+      const icon = botIcons[r.bot_name] || '🤖';
+      return '<div class="data-row">' +
+        '<span class="data-rank">' + (i+1) + '</span>' +
+        '<span style="font-size:18px;width:24px;text-align:center">' + icon + '</span>' +
+        '<span class="data-name">' + escHtml(r.bot_name) + '</span>' +
+        '<div class="data-bar"><div class="data-bar-fill" style="width:' + Math.round(r.hits/max*100) + '%;background:#94a3b8"></div></div>' +
+        '<span class="data-value" style="color:var(--slate)">' + r.hits.toLocaleString('fr-FR') + '</span>' +
+      '</div>';
+    }).join('');
+  }
 
   // ─── Init ───
   load();

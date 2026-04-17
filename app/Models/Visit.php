@@ -22,6 +22,8 @@ class Visit extends Model
         'browser_version',
         'os',
         'country',
+        'is_bot',
+        'bot_name',
         'source',
         'is_bounce',
         'duration',
@@ -29,6 +31,7 @@ class Visit extends Model
 
     protected $casts = [
         'created_at' => 'datetime',
+        'is_bot' => 'boolean',
         'is_bounce' => 'boolean',
     ];
 
@@ -187,6 +190,169 @@ class Visit extends Model
         ];
 
         return $names[$host] ?? $host;
+    }
+
+    /**
+     * Detect if a user agent is a bot and identify it.
+     * Returns ['is_bot' => bool, 'bot_name' => string|null]
+     */
+    public static function detectBot(?string $ua, ?string $hostname = null): array
+    {
+        if (!$ua) {
+            return ['is_bot' => true, 'bot_name' => 'Unknown'];
+        }
+
+        $uaLower = strtolower($ua);
+        $hostLower = strtolower($hostname ?? '');
+
+        // Known bots — ordered by specificity (most specific first)
+        $bots = [
+            // Search engines
+            'googlebot' => 'Googlebot',
+            'googlebot-image' => 'Googlebot Images',
+            'googlebot-video' => 'Googlebot Video',
+            'google-inspectiontool' => 'Google Inspection',
+            'googleother' => 'GoogleOther',
+            'google-extended' => 'Google Extended',
+            'adsbot-google' => 'Google Ads',
+            'mediapartners-google' => 'Google AdSense',
+            'apis-google' => 'Google APIs',
+            'feedfetcher-google' => 'Google Feed',
+            'bingbot' => 'Bingbot',
+            'bingpreview' => 'Bing Preview',
+            'msnbot' => 'MSNBot',
+            'slurp' => 'Yahoo Slurp',
+            'duckduckbot' => 'DuckDuckBot',
+            'baiduspider' => 'Baidu Spider',
+            'yandexbot' => 'YandexBot',
+            'yandeximages' => 'Yandex Images',
+            'sogou' => 'Sogou Spider',
+            'exabot' => 'Exabot',
+            'qwantify' => 'Qwant',
+
+            // AI crawlers
+            'gptbot' => 'OpenAI GPTBot',
+            'chatgpt-user' => 'ChatGPT User',
+            'oai-searchbot' => 'OpenAI SearchBot',
+            'claudebot' => 'Anthropic ClaudeBot',
+            'claude-web' => 'Anthropic Claude',
+            'anthropic-ai' => 'Anthropic AI',
+            'ccbot' => 'Common Crawl',
+            'cohere-ai' => 'Cohere AI',
+            'bytespider' => 'ByteDance Spider',
+            'petalbot' => 'PetalBot (Huawei)',
+            'amazonbot' => 'AmazonBot',
+            'meta-externalagent' => 'Meta AI',
+            'facebookexternalhit' => 'Facebook Crawler',
+            'perplexitybot' => 'Perplexity Bot',
+            'youbot' => 'You.com Bot',
+            'applebot' => 'Applebot',
+            'diffbot' => 'Diffbot',
+
+            // SEO tools
+            'semrushbot' => 'SEMrush Bot',
+            'ahrefsbot' => 'Ahrefs Bot',
+            'dotbot' => 'Moz DotBot',
+            'rogerbot' => 'Moz RogerBot',
+            'mj12bot' => 'Majestic Bot',
+            'screaming frog' => 'Screaming Frog',
+            'sitebulb' => 'Sitebulb',
+            'seokicks' => 'SEOkicks',
+            'serpstatbot' => 'Serpstat Bot',
+
+            // Social
+            'twitterbot' => 'Twitter Bot',
+            'linkedinbot' => 'LinkedIn Bot',
+            'pinterest' => 'Pinterest Bot',
+            'telegrambot' => 'Telegram Bot',
+            'whatsapp' => 'WhatsApp Preview',
+            'slackbot' => 'Slack Bot',
+            'discordbot' => 'Discord Bot',
+            'skypeuripreview' => 'Skype Preview',
+
+            // Monitoring & tools
+            'uptimerobot' => 'UptimeRobot',
+            'pingdom' => 'Pingdom',
+            'statuscake' => 'StatusCake',
+            'site24x7' => 'Site24x7',
+            'hetrixtools' => 'HetrixTools',
+            'lighthouse' => 'Google Lighthouse',
+            'pagespeed' => 'Google PageSpeed',
+            'gtmetrix' => 'GTmetrix',
+
+            // Security scanners
+            'nessus' => 'Nessus Scanner',
+            'nikto' => 'Nikto Scanner',
+            'masscan' => 'Masscan',
+            'zgrab' => 'ZGrab Scanner',
+            'censys' => 'Censys Scanner',
+            'shodan' => 'Shodan',
+
+            // Generic patterns (keep last)
+            'bot/' => 'Bot (generic)',
+            'bot;' => 'Bot (generic)',
+            'crawler' => 'Crawler (generic)',
+            'spider' => 'Spider (generic)',
+            'crawl/' => 'Crawler (generic)',
+            'headlesschrome' => 'Headless Chrome',
+            'phantomjs' => 'PhantomJS',
+            'selenium' => 'Selenium',
+            'puppeteer' => 'Puppeteer',
+            'playwright' => 'Playwright',
+            'curl/' => 'cURL',
+            'wget/' => 'Wget',
+            'python-requests' => 'Python Requests',
+            'python-urllib' => 'Python urllib',
+            'python/' => 'Python',
+            'go-http-client' => 'Go HTTP',
+            'java/' => 'Java HTTP',
+            'ruby/' => 'Ruby HTTP',
+            'perl/' => 'Perl HTTP',
+            'php/' => 'PHP HTTP',
+            'node-fetch' => 'Node.js Fetch',
+            'axios/' => 'Axios',
+            'httpie/' => 'HTTPie',
+            'postman' => 'Postman',
+            'insomnia' => 'Insomnia',
+        ];
+
+        foreach ($bots as $pattern => $name) {
+            if (str_contains($uaLower, $pattern)) {
+                return ['is_bot' => true, 'bot_name' => $name];
+            }
+        }
+
+        // Check hostname for known bot patterns
+        if ($hostLower) {
+            $hostBots = [
+                'googlebot.com' => 'Googlebot',
+                'google.com' => 'Google',
+                'search.msn.com' => 'Bingbot',
+                'crawl.yahoo.net' => 'Yahoo Slurp',
+                'baidu.com' => 'Baidu Spider',
+                'yandex.ru' => 'YandexBot',
+                'yandex.net' => 'YandexBot',
+                'yandex.com' => 'YandexBot',
+                'semrush.com' => 'SEMrush Bot',
+                'ahrefs.com' => 'Ahrefs Bot',
+                'amazonaws.com' => 'AWS Bot',
+                'compute.google' => 'Google Cloud Bot',
+                'fbsv' => 'Facebook',
+            ];
+
+            foreach ($hostBots as $hostPattern => $name) {
+                if (str_contains($hostLower, $hostPattern)) {
+                    return ['is_bot' => true, 'bot_name' => $name];
+                }
+            }
+        }
+
+        // Short or empty user agent
+        if (strlen($ua) < 30) {
+            return ['is_bot' => true, 'bot_name' => 'Suspicious UA'];
+        }
+
+        return ['is_bot' => false, 'bot_name' => null];
     }
 
     /**

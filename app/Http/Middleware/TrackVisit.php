@@ -8,12 +8,6 @@ use Illuminate\Http\Request;
 
 class TrackVisit
 {
-    private const BOT_PATTERNS = [
-        'bot', 'crawl', 'spider', 'slurp', 'mediapartners', 'facebookexternalhit',
-        'bingpreview', 'lighthouse', 'pingdom', 'uptimerobot', 'curl', 'wget',
-        'python', 'go-http', 'java/', 'headlesschrome', 'phantomjs',
-    ];
-
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
@@ -28,14 +22,9 @@ class TrackVisit
         }
 
         $ua = $request->userAgent() ?? '';
-        $uaLower = strtolower($ua);
-        foreach (self::BOT_PATTERNS as $pattern) {
-            if (str_contains($uaLower, $pattern)) {
-                return $response;
-            }
-        }
 
-        if (strlen($ua) < 10) {
+        // Skip completely empty UA
+        if (strlen($ua) === 0) {
             return $response;
         }
 
@@ -45,7 +34,7 @@ class TrackVisit
             $referrer = $request->headers->get('referer');
             $referrerHost = Visit::parseReferrerHost($referrer);
 
-            // Check if self-referral
+            // Check self-referral
             $siteHost = $request->getHost();
             $isSelfReferral = $referrerHost && ($referrerHost === $siteHost || str_ends_with($referrerHost, '.' . $siteHost));
 
@@ -54,7 +43,7 @@ class TrackVisit
                 $referrer = null;
             }
 
-            // For subsequent pages in the same session, inherit the original referrer
+            // Inherit session referrer
             if (!$referrerHost) {
                 $firstVisit = Visit::where('session_id', $sessionId)
                     ->where('created_at', '>=', now()->subMinutes(30))
@@ -68,37 +57,45 @@ class TrackVisit
                 }
             }
 
-            // Detect source category
             $source = Visit::detectSource($referrerHost);
-
-            // Bounce tracking
-            $sessionPageCount = Visit::where('session_id', $sessionId)
-                ->where('created_at', '>=', now()->subMinutes(30))
-                ->count();
-
-            if ($sessionPageCount > 0) {
-                Visit::where('session_id', $sessionId)
-                    ->where('is_bounce', true)
-                    ->where('created_at', '>=', now()->subMinutes(30))
-                    ->update(['is_bounce' => false]);
-            }
-
-            // Duration from last pageview
-            $lastVisit = Visit::where('session_id', $sessionId)
-                ->where('created_at', '>=', now()->subMinutes(30))
-                ->latest('created_at')
-                ->first();
-
-            if ($lastVisit) {
-                $duration = (int) now()->diffInSeconds($lastVisit->created_at);
-                if ($duration > 0 && $duration < 1800) {
-                    $lastVisit->update(['duration' => $duration]);
-                }
-            }
 
             // Resolve IP (cached 24h)
             $ip = $request->ip();
             $resolved = Visit::resolveIp($ip);
+
+            // Detect bot (using UA + hostname)
+            $botInfo = Visit::detectBot($ua, $resolved['hostname']);
+
+            // Bounce tracking (only for humans)
+            $isBounce = true;
+            if (!$botInfo['is_bot']) {
+                $sessionPageCount = Visit::where('session_id', $sessionId)
+                    ->where('is_bot', false)
+                    ->where('created_at', '>=', now()->subMinutes(30))
+                    ->count();
+
+                if ($sessionPageCount > 0) {
+                    Visit::where('session_id', $sessionId)
+                        ->where('is_bounce', true)
+                        ->where('created_at', '>=', now()->subMinutes(30))
+                        ->update(['is_bounce' => false]);
+                    $isBounce = false;
+                }
+
+                // Duration from last pageview
+                $lastVisit = Visit::where('session_id', $sessionId)
+                    ->where('is_bot', false)
+                    ->where('created_at', '>=', now()->subMinutes(30))
+                    ->latest('created_at')
+                    ->first();
+
+                if ($lastVisit) {
+                    $duration = (int) now()->diffInSeconds($lastVisit->created_at);
+                    if ($duration > 0 && $duration < 1800) {
+                        $lastVisit->update(['duration' => $duration]);
+                    }
+                }
+            }
 
             Visit::create([
                 'session_id' => $sessionId,
@@ -115,7 +112,9 @@ class TrackVisit
                 'browser_version' => $parsed['browserVersion'],
                 'os' => $parsed['os'],
                 'country' => $resolved['country'],
-                'is_bounce' => $sessionPageCount === 0,
+                'is_bot' => $botInfo['is_bot'],
+                'bot_name' => $botInfo['bot_name'],
+                'is_bounce' => $isBounce,
             ]);
         } catch (\Throwable) {
             // Never break the request for analytics

@@ -42,6 +42,11 @@
         @if($visitor->country)<span title="{{ \App\Models\Visit::countryName($visitor->country) }}">{{ \App\Models\Visit::countryFlag($visitor->country) }}</span> @endif
         {{ $visitor->ip }}
       </span>
+      @if($visitor->is_bot)
+        <span class="source-badge" style="background:#fef2f2;color:#dc2626"><i class="bi bi-robot"></i> {{ $visitor->bot_name ?: 'Bot' }}</span>
+      @else
+        <span class="source-badge" style="background:#ecfdf5;color:#059669"><i class="bi bi-person"></i> {{ __('Humain') }}</span>
+      @endif
       <span class="source-badge {{ $visitor->source }}">
         @if($visitor->source === 'search')<i class="bi bi-search"></i> {{ __('Moteurs de recherche') }}
         @elseif($visitor->source === 'social')<i class="bi bi-share"></i> {{ __('Reseaux sociaux') }}
