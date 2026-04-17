@@ -24,6 +24,11 @@
 .v-arrow{color:var(--border);font-size:16px}
 .live-dot-sm{width:6px;height:6px;background:#22c55e;border-radius:50%;animation:livePulse 2s infinite;display:inline-block}
 @keyframes livePulse{0%,100%{opacity:1}50%{opacity:.3}}
+.pagination-wrap{display:flex;align-items:center;justify-content:center;gap:4px;margin-top:24px}
+.pg-btn{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;padding:0 10px;border-radius:8px;font-size:13px;font-weight:600;font-family:var(--font);color:var(--slate);background:#fff;border:1.5px solid var(--border);text-decoration:none;transition:all .15s;cursor:pointer}
+.pg-btn:hover:not(.active):not(.disabled){border-color:var(--mid);color:var(--mid);background:#f8fafc}
+.pg-btn.active{background:var(--mid);color:#fff;border-color:var(--mid)}
+.pg-btn.disabled{opacity:.4;cursor:default}
 </style>
 @endpush
 
@@ -91,8 +96,22 @@
 </div>
 
 @if($visitors->hasPages())
-<div style="margin-top:20px;display:flex;justify-content:center">
-  {{ $visitors->withQueryString()->links() }}
+<div class="pagination-wrap">
+  @php $pg = $visitors->withQueryString(); @endphp
+  @if($pg->onFirstPage())
+    <span class="pg-btn disabled">&laquo;</span>
+  @else
+    <a href="{{ $pg->previousPageUrl() }}" class="pg-btn">&laquo;</a>
+  @endif
+  @foreach($pg->getUrlRange(1, $pg->lastPage()) as $page => $url)
+    <a href="{{ $url }}" class="pg-btn {{ $page == $pg->currentPage() ? 'active' : '' }}">{{ $page }}</a>
+  @endforeach
+  @if($pg->hasMorePages())
+    <a href="{{ $pg->nextPageUrl() }}" class="pg-btn">&raquo;</a>
+  @else
+    <span class="pg-btn disabled">&raquo;</span>
+  @endif
+  <span style="font-size:12px;color:var(--slate);margin-left:12px">{{ $pg->firstItem() }}-{{ $pg->lastItem() }} / {{ $pg->total() }}</span>
 </div>
 @endif
 @endsection
