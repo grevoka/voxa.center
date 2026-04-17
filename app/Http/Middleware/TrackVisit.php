@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 
 class TrackVisit
 {
-    /**
-     * Bots to ignore.
-     */
     private const BOT_PATTERNS = [
         'bot', 'crawl', 'spider', 'slurp', 'mediapartners', 'facebookexternalhit',
         'bingpreview', 'lighthouse', 'pingdom', 'uptimerobot', 'curl', 'wget',
@@ -21,18 +18,15 @@ class TrackVisit
     {
         $response = $next($request);
 
-        // Only track GET requests with successful HTML responses
         if (!$request->isMethod('GET') || $response->getStatusCode() !== 200) {
             return $response;
         }
 
-        // Skip assets, API, admin, espace-client
         $path = $request->path();
         if (preg_match('#^(admin|espace-client|api/|storage/|_debugbar|up)#', $path)) {
             return $response;
         }
 
-        // Skip bots
         $ua = $request->userAgent() ?? '';
         $uaLower = strtolower($ua);
         foreach (self::BOT_PATTERNS as $pattern) {
@@ -41,7 +35,6 @@ class TrackVisit
             }
         }
 
-        // Skip if no user agent (likely a bot)
         if (strlen($ua) < 10) {
             return $response;
         }
@@ -52,19 +45,37 @@ class TrackVisit
             $referrer = $request->headers->get('referer');
             $referrerHost = Visit::parseReferrerHost($referrer);
 
-            // Don't count self-referrals
+            // Check if self-referral
             $siteHost = $request->getHost();
-            if ($referrerHost && $referrerHost === $siteHost) {
+            $isSelfReferral = $referrerHost && ($referrerHost === $siteHost || str_ends_with($referrerHost, '.' . $siteHost));
+
+            if ($isSelfReferral) {
                 $referrerHost = null;
                 $referrer = null;
             }
 
-            // Check if this is a bounce (only page in session)
+            // For subsequent pages in the same session, inherit the original referrer
+            if (!$referrerHost) {
+                $firstVisit = Visit::where('session_id', $sessionId)
+                    ->where('created_at', '>=', now()->subMinutes(30))
+                    ->whereNotNull('referrer_host')
+                    ->oldest('created_at')
+                    ->first();
+
+                if ($firstVisit) {
+                    $referrerHost = $firstVisit->referrer_host;
+                    $referrer = $firstVisit->referrer;
+                }
+            }
+
+            // Detect source category
+            $source = Visit::detectSource($referrerHost);
+
+            // Bounce tracking
             $sessionPageCount = Visit::where('session_id', $sessionId)
                 ->where('created_at', '>=', now()->subMinutes(30))
                 ->count();
 
-            // Update previous page's bounce status if this is a second page
             if ($sessionPageCount > 0) {
                 Visit::where('session_id', $sessionId)
                     ->where('is_bounce', true)
@@ -72,7 +83,7 @@ class TrackVisit
                     ->update(['is_bounce' => false]);
             }
 
-            // Calculate duration from last pageview in session
+            // Duration from last pageview
             $lastVisit = Visit::where('session_id', $sessionId)
                 ->where('created_at', '>=', now()->subMinutes(30))
                 ->latest('created_at')
@@ -92,6 +103,7 @@ class TrackVisit
                 'path' => '/' . ltrim($path, '/'),
                 'referrer' => $referrer ? substr($referrer, 0, 2048) : null,
                 'referrer_host' => $referrerHost,
+                'source' => $source,
                 'user_agent' => substr($ua, 0, 1024),
                 'device' => $parsed['device'],
                 'browser' => $parsed['browser'],

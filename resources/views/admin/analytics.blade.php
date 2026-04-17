@@ -57,7 +57,8 @@
 .analytics-loading i{font-size:24px;display:block;margin-bottom:12px;animation:spin 1s linear infinite}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 
-@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.data-grid{grid-template-columns:1fr}.pie-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.data-grid{grid-template-columns:1fr}.pie-grid{grid-template-columns:repeat(2,1fr)!important}}
+@media(max-width:600px){.pie-grid{grid-template-columns:1fr!important}}
 </style>
 @endpush
 
@@ -122,7 +123,11 @@
 </div>
 
 <!-- PIE CHARTS -->
-<div class="pie-grid">
+<div class="pie-grid" style="grid-template-columns:repeat(4,1fr)">
+  <div class="pie-card">
+    <h3><i class="bi bi-signpost-split"></i> {{ __('Sources') }}</h3>
+    <canvas id="sourcesChart"></canvas>
+  </div>
   <div class="pie-card">
     <h3><i class="bi bi-laptop"></i> {{ __('Appareils') }}</h3>
     <canvas id="devicesChart"></canvas>
@@ -142,7 +147,7 @@
 (function(){
   const API = '{{ route("admin.analytics.data") }}';
   let period = '{{ $period }}';
-  let mainChart, devicesChart, browsersChart, osChart;
+  let mainChart, devicesChart, browsersChart, osChart, sourcesChart;
 
   const colors = ['#6d28d9','#3b82f6','#06b6d4','#d946ef','#f59e0b','#10b981','#ef4444','#8b5cf6'];
   const chartFont = {family:"'Plus Jakarta Sans',sans-serif"};
@@ -155,6 +160,7 @@
     renderMainChart(data.chart);
     renderTable('topPages', data.top_pages, 'path', 'views');
     renderReferrers(data.referrers);
+    renderSourcesPie(data.sources);
     renderPie('devicesChart', devicesChart, data.devices, 'device', 'visits');
     renderPie('browsersChart', browsersChart, data.browsers, 'browser', 'visits');
     renderPie('osChart', osChart, data.os, 'os', 'visits');
@@ -262,6 +268,22 @@
   }
 
   // ─── Pie Charts ───
+  // ─── Sources Pie ───
+  const sourceLabels = {direct:'{{ __("Trafic direct") }}',search:'{{ __("Moteurs de recherche") }}',social:'{{ __("Reseaux sociaux") }}',referral:'{{ __("Sites referents") }}'};
+  const sourceColors = {direct:'#94a3b8',search:'#6d28d9',social:'#d946ef',referral:'#06b6d4'};
+  function renderSourcesPie(rows){
+    const ctx = document.getElementById('sourcesChart').getContext('2d');
+    if(sourcesChart) sourcesChart.destroy();
+    const labels = rows.map(r => sourceLabels[r.source] || r.source);
+    const data = rows.map(r => r.visits);
+    const bg = rows.map(r => sourceColors[r.source] || '#94a3b8');
+    sourcesChart = new Chart(ctx, {
+      type:'doughnut',
+      data:{labels,datasets:[{data,backgroundColor:bg,borderWidth:2,borderColor:'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{...chartFont,size:11},padding:10,usePointStyle:true,pointStyle:'circle'}},tooltip:{backgroundColor:'#0f172a',titleFont:chartFont,bodyFont:chartFont,padding:10,cornerRadius:8}}}
+    });
+  }
+
   function renderPie(canvasId, chartRef, rows, nameKey, valueKey){
     const ctx = document.getElementById(canvasId).getContext('2d');
     if(chartRef) chartRef.destroy();

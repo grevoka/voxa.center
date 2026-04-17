@@ -345,7 +345,7 @@
     "softphone.cta.title": "Prêt à téléphoner depuis votre navigateur ?",
     "softphone.cta.desc": "Installez Voxa Center et activez le softphone WebRTC en quelques clics.",
 
-    "cookie.text": "Ce site utilise des cookies techniques strictement nécessaires au fonctionnement (session, sécurité). Aucun cookie publicitaire ou de tracking.",
+    "cookie.text": "Ce site utilise des cookies techniques (session, sécurité) et des cookies de mesure d'audience interne (statistiques de consultation). Aucune donnée n'est partagée avec des tiers.",
     "cookie.learn_more": "En savoir plus",
     "cookie.accept": "Accepter",
     "cookie.close": "Fermer",
@@ -472,6 +472,12 @@
     "stack.label": "Stack technique",
     "Copier": "Copier",
     "Copie !": "Copié !",
+
+    "Sources": "Sources",
+    "Trafic direct": "Trafic direct",
+    "Moteurs de recherche": "Moteurs de recherche",
+    "Reseaux sociaux": "Réseaux sociaux",
+    "Sites referents": "Sites référents",
 
     "meta.default_title": "Voxa Center — Téléphonie VoIP simplifiée & Agent IA",
     "meta.contact_title": "Nous contacter — Voxa Center",

@@ -450,13 +450,27 @@ class AdminController extends Controller
             ->limit(10)
             ->get();
 
-        // Referrers
-        $referrers = Visit::period($fromStr, $toStr)
+        // Referrers (with clean names)
+        $referrersRaw = Visit::period($fromStr, $toStr)
             ->whereNotNull('referrer_host')
             ->selectRaw('referrer_host, COUNT(*) as visits, COUNT(DISTINCT session_id) as visitors')
             ->groupBy('referrer_host')
             ->orderByDesc('visits')
-            ->limit(10)
+            ->limit(15)
+            ->get();
+
+        $referrers = $referrersRaw->map(fn ($r) => [
+            'referrer_host' => Visit::cleanReferrerName($r->referrer_host),
+            'raw_host' => $r->referrer_host,
+            'visits' => $r->visits,
+            'visitors' => $r->visitors,
+        ]);
+
+        // Sources breakdown (direct, search, social, referral)
+        $sources = Visit::period($fromStr, $toStr)
+            ->selectRaw('source, COUNT(*) as visits, COUNT(DISTINCT session_id) as visitors')
+            ->groupBy('source')
+            ->orderByDesc('visits')
             ->get();
 
         // Browsers
@@ -502,6 +516,7 @@ class AdminController extends Controller
             'chart' => $chart,
             'top_pages' => $topPages,
             'referrers' => $referrers,
+            'sources' => $sources,
             'browsers' => $browsers,
             'os' => $operatingSystems,
             'devices' => $devices,

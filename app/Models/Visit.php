@@ -21,6 +21,7 @@ class Visit extends Model
         'browser_version',
         'os',
         'country',
+        'source',
         'is_bounce',
         'duration',
     ];
@@ -90,8 +91,101 @@ class Visit extends Model
         if (!$referrer) return null;
         $host = parse_url($referrer, PHP_URL_HOST);
         if (!$host) return null;
-        // Remove www.
         return preg_replace('/^www\./i', '', $host);
+    }
+
+    /**
+     * Detect the traffic source from a referrer host.
+     */
+    public static function detectSource(?string $referrerHost): string
+    {
+        if (!$referrerHost) {
+            return 'direct';
+        }
+
+        // Search engines
+        $searchEngines = [
+            'google.com', 'google.fr', 'google.de', 'google.es', 'google.co.uk', 'google.it', 'google.pl', 'google.ca', 'google.be', 'google.ch',
+            'bing.com',
+            'yahoo.com', 'search.yahoo.com',
+            'duckduckgo.com',
+            'baidu.com',
+            'yandex.ru', 'yandex.com',
+            'ecosia.org',
+            'qwant.com',
+            'startpage.com',
+            'brave.com', 'search.brave.com',
+            'perplexity.ai',
+        ];
+
+        foreach ($searchEngines as $engine) {
+            if ($referrerHost === $engine || str_ends_with($referrerHost, '.' . $engine)) {
+                return 'search';
+            }
+        }
+
+        // Social networks
+        $socialNetworks = [
+            'facebook.com', 'l.facebook.com', 'lm.facebook.com', 'm.facebook.com',
+            'instagram.com', 'l.instagram.com',
+            'twitter.com', 'x.com', 't.co',
+            'linkedin.com', 'lnkd.in',
+            'reddit.com', 'old.reddit.com',
+            'youtube.com', 'm.youtube.com',
+            'tiktok.com',
+            'pinterest.com', 'pin.it',
+            'threads.net',
+            'mastodon.social',
+            'bsky.app',
+            'discord.com',
+            'telegram.org', 't.me',
+            'whatsapp.com',
+        ];
+
+        foreach ($socialNetworks as $social) {
+            if ($referrerHost === $social || str_ends_with($referrerHost, '.' . $social)) {
+                return 'social';
+            }
+        }
+
+        return 'referral';
+    }
+
+    /**
+     * Get a clean display name for known referrer hosts.
+     */
+    public static function cleanReferrerName(?string $host): ?string
+    {
+        if (!$host) return null;
+
+        $names = [
+            'google.com' => 'Google', 'google.fr' => 'Google', 'google.de' => 'Google', 'google.es' => 'Google', 'google.co.uk' => 'Google', 'google.it' => 'Google', 'google.pl' => 'Google', 'google.ca' => 'Google', 'google.be' => 'Google', 'google.ch' => 'Google',
+            'bing.com' => 'Bing',
+            'yahoo.com' => 'Yahoo', 'search.yahoo.com' => 'Yahoo',
+            'duckduckgo.com' => 'DuckDuckGo',
+            'baidu.com' => 'Baidu',
+            'yandex.ru' => 'Yandex', 'yandex.com' => 'Yandex',
+            'ecosia.org' => 'Ecosia',
+            'qwant.com' => 'Qwant',
+            'startpage.com' => 'Startpage',
+            'search.brave.com' => 'Brave Search', 'brave.com' => 'Brave Search',
+            'perplexity.ai' => 'Perplexity',
+            'facebook.com' => 'Facebook', 'l.facebook.com' => 'Facebook', 'lm.facebook.com' => 'Facebook', 'm.facebook.com' => 'Facebook',
+            'instagram.com' => 'Instagram', 'l.instagram.com' => 'Instagram',
+            'twitter.com' => 'X (Twitter)', 'x.com' => 'X (Twitter)', 't.co' => 'X (Twitter)',
+            'linkedin.com' => 'LinkedIn', 'lnkd.in' => 'LinkedIn',
+            'reddit.com' => 'Reddit', 'old.reddit.com' => 'Reddit',
+            'youtube.com' => 'YouTube', 'm.youtube.com' => 'YouTube',
+            'tiktok.com' => 'TikTok',
+            'pinterest.com' => 'Pinterest', 'pin.it' => 'Pinterest',
+            'threads.net' => 'Threads',
+            'bsky.app' => 'Bluesky',
+            'discord.com' => 'Discord',
+            't.me' => 'Telegram',
+            'github.com' => 'GitHub',
+        ];
+
+        return $names[$host] ?? $host;
     }
 
     // ─── Scopes ───
