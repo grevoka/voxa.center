@@ -31,6 +31,7 @@ $showHreflang = $hreflangRoute && in_array($hreflangRoute, $frontendRoutes);
 
 @include('partials.footer')
 @include('partials.cookie-banner')
+@include('partials.visit-tracker')
 
 @stack('scripts')
 </body>

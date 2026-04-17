@@ -7,6 +7,7 @@ use App\Models\Appointment;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Models\Setting;
+use App\Models\Visit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -129,6 +130,24 @@ class PageController extends Controller
         Mail::to($client->email)->locale($client->locale)->send(new ContactConfirmation($client, $contact));
 
         return back()->with('success', __('Merci ! Votre demande a bien ete envoyee. Nous revenons vers vous sous 24h.'));
+    }
+
+    public function visitDuration(Request $request)
+    {
+        $duration = (int) $request->input('duration', 0);
+        $sessionId = $request->session()->getId();
+
+        if ($duration < 1 || $duration > 3600 || !$sessionId) {
+            return response()->json(['ok' => false]);
+        }
+
+        // Update the last visit in this session
+        Visit::where('session_id', $sessionId)
+            ->latest('created_at')
+            ->limit(1)
+            ->update(['duration' => $duration]);
+
+        return response()->json(['ok' => true]);
     }
 
     public function availableSlots(Request $request)

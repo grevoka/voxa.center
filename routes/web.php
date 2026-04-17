@@ -98,8 +98,9 @@ $frontendRoutes = function () {
     Route::get('/politique-de-confidentialite', [PageController::class, 'confidentialite'])->name('legal.confidentialite');
 };
 
-// API: available slots
+// API
 Route::get('/api/available-slots', [PageController::class, 'availableSlots'])->name('api.available-slots');
+Route::post('/api/visit-duration', [PageController::class, 'visitDuration'])->name('api.visit-duration');
 
 // Client area (no locale prefix)
 Route::prefix('espace-client')->group(function () {

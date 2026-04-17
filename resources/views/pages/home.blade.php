@@ -1245,6 +1245,7 @@ footer { background: var(--gray-900); color: var(--gray-400); padding: 64px 0 40
 
 @include('partials.footer')
 @include('partials.cookie-banner')
+@include('partials.visit-tracker')
 
 <script>
 // Copy install command
