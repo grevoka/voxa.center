@@ -140,7 +140,7 @@ section.alt{background:var(--gray-50)}
         <p>{{ __('c2c.sub') }}</p>
         <div class="hero-actions">
           <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn-g primary"><i class="bi bi-download"></i> {{ __('Commencer gratuitement') }}</a>
-          <a href="{{ lroute('contact') }}" class="btn-g outline"><i class="bi bi-send"></i> {{ __('Nous contacter') }}</a>
+          <a href="{{ lroute('click-to-call.usecases') }}" class="btn-g outline"><i class="bi bi-lightbulb"></i> {{ __('Voir les cas d\'usage') }}</a>
         </div>
       </div>
       <div>
@@ -356,6 +356,7 @@ section.alt{background:var(--gray-50)}
     <p>{{ __('c2c.cta.desc') }}</p>
     <div class="cta-actions">
       <a href="https://github.com/grevoka/Voxa.center.app" target="_blank" class="btn-g primary"><i class="bi bi-download"></i> {{ __('Commencer gratuitement') }}</a>
+      <a href="{{ lroute('click-to-call.usecases') }}" class="btn-g outline"><i class="bi bi-lightbulb"></i> {{ __('Voir les cas d\'usage') }}</a>
       <a href="{{ lroute('contact') }}" class="btn-g outline"><i class="bi bi-send"></i> {{ __('Nous contacter') }}</a>
     </div>
   </div>
