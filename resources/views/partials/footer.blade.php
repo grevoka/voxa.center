@@ -14,6 +14,7 @@
           <h5 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:16px;">{{ __('Produit') }}</h5>
           <a href="{{ lroute('scenarios') }}" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">{{ __('Scenarios d\'appels') }}</a>
           <a href="{{ lroute('softphone') }}" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">Softphone WebRTC</a>
+          <a href="{{ lroute('click-to-call') }}" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">Click to Call</a>
           <a href="{{ lroute('home') }}#ai" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">{{ __('Agent IA') }}</a>
           <a href="{{ lroute('home') }}#pricing" style="display:block;font-size:14px;color:#94a3b8;margin-bottom:10px;text-decoration:none;transition:color .2s;">{{ __('Tarifs') }}</a>
         </div>

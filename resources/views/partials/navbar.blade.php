@@ -8,6 +8,7 @@
     <div class="nav-mid">
       <a href="{{ lroute('scenarios') }}">{{ __('Scenarios') }}</a>
       <a href="{{ lroute('softphone') }}">Softphone</a>
+      <a href="{{ lroute('click-to-call') }}">Click to Call</a>
       <a href="{{ lroute('home') }}#ai">{{ __('Agent IA') }}</a>
       <a href="{{ lroute('home') }}#pricing">{{ __('Tarifs') }}</a>
       <a href="https://github.com/grevoka/Voxa.center.app" target="_blank">GitHub</a>
@@ -46,6 +47,10 @@
       <a href="{{ lroute('softphone') }}" onclick="closeMobileMenu()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
         Softphone
+      </a>
+      <a href="{{ lroute('click-to-call') }}" onclick="closeMobileMenu()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.05 5A5 5 0 0119 8.95M15.05 1A9 9 0 0123 8.94M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Click to Call
       </a>
       <a href="{{ lroute('home') }}#ai" onclick="closeMobileMenu()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect x="2" y="8" width="20" height="14" rx="2"/><path d="M6 18h.01M18 18h.01M9 13a3 3 0 106 0"/></svg>

@@ -11,7 +11,7 @@ $hreflangRoute = Route::currentRouteName();
 if ($hreflangRoute && str_starts_with($hreflangRoute, 'l.')) {
     $hreflangRoute = substr($hreflangRoute, 2);
 }
-$frontendRoutes = ['home','contact.submit','fonctionnalites','tarifs','contact','legal.cgu','legal.cgv','legal.confidentialite'];
+$frontendRoutes = ['home','contact.submit','fonctionnalites','tarifs','contact','scenarios','softphone','click-to-call','legal.cgu','legal.cgv','legal.confidentialite'];
 $showHreflang = $hreflangRoute && in_array($hreflangRoute, $frontendRoutes);
 @endphp
 @if($showHreflang)

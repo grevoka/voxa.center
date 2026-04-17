@@ -45,6 +45,11 @@ class PageController extends Controller
         return view('pages.softphone');
     }
 
+    public function clickToCall()
+    {
+        return view('pages.click-to-call');
+    }
+
     public function cgu()
     {
         return view('pages.legal.cgu');
