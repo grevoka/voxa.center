@@ -38,7 +38,10 @@
 <div class="visitor-header">
   <div>
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
-      <span class="visitor-ip">{{ $visitor->ip }}</span>
+      <span class="visitor-ip">
+        @if($visitor->country)<span title="{{ \App\Models\Visit::countryName($visitor->country) }}">{{ \App\Models\Visit::countryFlag($visitor->country) }}</span> @endif
+        {{ $visitor->ip }}
+      </span>
       <span class="source-badge {{ $visitor->source }}">
         @if($visitor->source === 'search')<i class="bi bi-search"></i> {{ __('Moteurs de recherche') }}
         @elseif($visitor->source === 'social')<i class="bi bi-share"></i> {{ __('Reseaux sociaux') }}
@@ -80,9 +83,21 @@
   </div>
 </div>
 
-<!-- DEVICE INFO -->
+<!-- DEVICE & GEO INFO -->
 <div class="detail-card" style="margin-bottom:28px">
   <div style="display:flex;gap:32px;flex-wrap:wrap">
+    @if($visitor->hostname)
+    <div class="detail-row" style="border:none;padding:0">
+      <span class="detail-label"><i class="bi bi-hdd-network"></i> Hostname</span>
+      <span class="detail-value" style="font-family:var(--mono);font-size:13px">{{ $visitor->hostname }}</span>
+    </div>
+    @endif
+    @if($visitor->country)
+    <div class="detail-row" style="border:none;padding:0">
+      <span class="detail-label"><i class="bi bi-geo-alt"></i> {{ __('Pays') }}</span>
+      <span class="detail-value">{{ \App\Models\Visit::countryFlag($visitor->country) }} {{ \App\Models\Visit::countryName($visitor->country) }}</span>
+    </div>
+    @endif
     <div class="detail-row" style="border:none;padding:0">
       <span class="detail-label"><i class="bi bi-{{ $visitor->device === 'mobile' ? 'phone' : ($visitor->device === 'tablet' ? 'tablet' : 'laptop') }}"></i> {{ __('Appareil') }}</span>
       <span class="detail-value">{{ ucfirst($visitor->device) }}</span>

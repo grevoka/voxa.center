@@ -528,6 +528,8 @@ class AdminController extends Controller
         $query = Visit::selectRaw('
                 session_id,
                 ip,
+                MIN(hostname) as hostname,
+                MIN(country) as country,
                 MIN(created_at) as first_seen,
                 MAX(created_at) as last_seen,
                 COUNT(*) as pageviews,
@@ -542,7 +544,11 @@ class AdminController extends Controller
             ->orderByDesc('last_seen');
 
         if ($request->filled('search')) {
-            $query->where('ip', 'like', '%' . $request->search . '%');
+            $query->where(function ($q) use ($request) {
+                $s = $request->search;
+                $q->where('ip', 'like', "%{$s}%")
+                  ->orWhere('hostname', 'like', "%{$s}%");
+            });
         }
 
         if ($request->filled('period')) {
@@ -580,6 +586,8 @@ class AdminController extends Controller
         $visitor = (object) [
             'session_id' => $sessionId,
             'ip' => $first->ip,
+            'hostname' => $first->hostname,
+            'country' => $first->country,
             'first_seen' => $first->created_at,
             'last_seen' => $last->created_at,
             'pageviews' => $pageviews,

@@ -96,9 +96,14 @@ class TrackVisit
                 }
             }
 
+            // Resolve IP (cached 24h)
+            $ip = $request->ip();
+            $resolved = Visit::resolveIp($ip);
+
             Visit::create([
                 'session_id' => $sessionId,
-                'ip' => $request->ip(),
+                'ip' => $ip,
+                'hostname' => $resolved['hostname'],
                 'url' => $request->fullUrl(),
                 'path' => '/' . ltrim($path, '/'),
                 'referrer' => $referrer ? substr($referrer, 0, 2048) : null,
@@ -109,7 +114,7 @@ class TrackVisit
                 'browser' => $parsed['browser'],
                 'browser_version' => $parsed['browserVersion'],
                 'os' => $parsed['os'],
-                'country' => null,
+                'country' => $resolved['country'],
                 'is_bounce' => $sessionPageCount === 0,
             ]);
         } catch (\Throwable) {

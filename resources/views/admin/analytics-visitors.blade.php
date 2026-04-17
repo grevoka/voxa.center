@@ -11,7 +11,7 @@
 .visitor-row{display:flex;align-items:center;padding:14px 20px;border-bottom:1px solid #f1f5f9;gap:16px;transition:background .1s;text-decoration:none;color:inherit}
 .visitor-row:hover{background:#fafbfe}
 .visitor-row:last-child{border-bottom:none}
-.v-ip{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);min-width:120px}
+.v-ip{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);min-width:160px;max-width:260px}
 .v-meta{display:flex;gap:6px;flex-wrap:wrap;flex:1}
 .v-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;background:var(--bg);color:var(--slate);border:1px solid var(--border)}
 .v-badge.search{background:#f5f3ff;color:#6d28d9;border-color:#c4b5fd}
@@ -67,7 +67,9 @@
         @if($v->last_seen >= now()->subMinutes(5))
           <span class="live-dot-sm"></span>
         @endif
+        @if($v->country)<span title="{{ \App\Models\Visit::countryName($v->country) }}">{{ \App\Models\Visit::countryFlag($v->country) }}</span> @endif
         {{ $v->ip }}
+        @if($v->hostname)<br><span style="font-size:11px;font-weight:400;color:var(--slate);font-family:var(--mono)">{{ $v->hostname }}</span>@endif
       </span>
       <span class="v-meta">
         <span class="v-badge {{ $v->source }}">

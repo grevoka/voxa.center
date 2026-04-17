@@ -11,6 +11,7 @@ class Visit extends Model
     protected $fillable = [
         'session_id',
         'ip',
+        'hostname',
         'url',
         'path',
         'referrer',
@@ -186,6 +187,77 @@ class Visit extends Model
         ];
 
         return $names[$host] ?? $host;
+    }
+
+    /**
+     * Resolve IP to hostname and country code.
+     * Uses gethostbyaddr for reverse DNS + ip-api.com for geolocation.
+     * Results are cached per IP for 24h.
+     */
+    public static function resolveIp(string $ip): array
+    {
+        $cacheKey = "ip_resolve_{$ip}";
+
+        return \Illuminate\Support\Facades\Cache::remember($cacheKey, 86400, function () use ($ip) {
+            $result = ['hostname' => null, 'country' => null];
+
+            // Reverse DNS
+            try {
+                $host = gethostbyaddr($ip);
+                if ($host && $host !== $ip) {
+                    $result['hostname'] = $host;
+                }
+            } catch (\Throwable) {}
+
+            // GeoIP via ip-api.com (free, no key, 45 req/min)
+            try {
+                $ctx = stream_context_create(['http' => ['timeout' => 2]]);
+                $json = @file_get_contents("http://ip-api.com/json/{$ip}?fields=countryCode", false, $ctx);
+                if ($json) {
+                    $data = json_decode($json, true);
+                    if (!empty($data['countryCode'])) {
+                        $result['country'] = strtolower($data['countryCode']);
+                    }
+                }
+            } catch (\Throwable) {}
+
+            return $result;
+        });
+    }
+
+    /**
+     * Convert a 2-letter country code to a flag emoji.
+     */
+    public static function countryFlag(?string $code): string
+    {
+        if (!$code || strlen($code) !== 2) {
+            return '';
+        }
+        $code = strtoupper($code);
+        $flag = mb_chr(0x1F1E6 + ord($code[0]) - ord('A'))
+              . mb_chr(0x1F1E6 + ord($code[1]) - ord('A'));
+        return $flag;
+    }
+
+    /**
+     * Country code to name.
+     */
+    public static function countryName(?string $code): string
+    {
+        if (!$code) return '';
+        $countries = [
+            'fr' => 'France', 'us' => 'United States', 'gb' => 'United Kingdom', 'de' => 'Germany',
+            'es' => 'Spain', 'it' => 'Italy', 'nl' => 'Netherlands', 'be' => 'Belgium', 'ch' => 'Switzerland',
+            'ca' => 'Canada', 'br' => 'Brazil', 'jp' => 'Japan', 'cn' => 'China', 'in' => 'India',
+            'au' => 'Australia', 'ru' => 'Russia', 'pl' => 'Poland', 'pt' => 'Portugal', 'se' => 'Sweden',
+            'no' => 'Norway', 'dk' => 'Denmark', 'fi' => 'Finland', 'ie' => 'Ireland', 'at' => 'Austria',
+            'mx' => 'Mexico', 'ar' => 'Argentina', 'cl' => 'Chile', 'co' => 'Colombia', 'za' => 'South Africa',
+            'kr' => 'South Korea', 'sg' => 'Singapore', 'hk' => 'Hong Kong', 'tw' => 'Taiwan',
+            'ma' => 'Morocco', 'tn' => 'Tunisia', 'dz' => 'Algeria', 'sn' => 'Senegal', 'ci' => 'Ivory Coast',
+            'ro' => 'Romania', 'cz' => 'Czech Republic', 'hu' => 'Hungary', 'bg' => 'Bulgaria',
+            'lu' => 'Luxembourg', 'ua' => 'Ukraine', 'il' => 'Israel', 'ae' => 'UAE', 'tr' => 'Turkey',
+        ];
+        return $countries[strtolower($code)] ?? strtoupper($code);
     }
 
     // ─── Scopes ───
