@@ -58,10 +58,11 @@
 
 /* PIE CHARTS */
 .pie-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
-.pie-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column}
+.pie-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px}
 .pie-card h3{font-size:14px;font-weight:700;color:var(--navy);margin:0 0 16px;display:flex;align-items:center;gap:6px}
 .pie-card h3 i{color:var(--mid)}
-.pie-card canvas{width:100%!important;min-height:220px}
+.pie-chart-wrap{position:relative;height:220px}
+.pie-chart-wrap canvas{position:absolute;inset:0}
 
 /* Visitor row in recent */
 .rv-row{display:flex;align-items:center;padding:10px 20px;border-bottom:1px solid #f1f5f9;gap:10px;font-size:13px;text-decoration:none;color:inherit;transition:background .1s}
@@ -157,7 +158,7 @@
   <div class="data-grid" style="grid-template-columns:1fr 1fr;margin-bottom:28px">
     <div class="pie-card">
       <h3><i class="bi bi-signpost-split"></i> {{ __('Sources') }}</h3>
-      <canvas id="sourcesChart" style="min-height:300px"></canvas>
+      <div class="pie-chart-wrap" style="height:280px"><canvas id="sourcesChart"></canvas></div>
     </div>
     <div class="data-card">
       <div class="dh"><h3><i class="bi bi-box-arrow-in-right"></i> {{ __('Sites referents') }}</h3></div>
@@ -171,15 +172,15 @@
   <div class="pie-grid">
     <div class="pie-card">
       <h3><i class="bi bi-laptop"></i> {{ __('Appareils') }}</h3>
-      <canvas id="devicesChart"></canvas>
+      <div class="pie-chart-wrap"><canvas id="devicesChart"></canvas></div>
     </div>
     <div class="pie-card">
       <h3><i class="bi bi-globe"></i> {{ __('Navigateurs') }}</h3>
-      <canvas id="browsersChart"></canvas>
+      <div class="pie-chart-wrap"><canvas id="browsersChart"></canvas></div>
     </div>
     <div class="pie-card">
       <h3><i class="bi bi-cpu"></i> {{ __('Systemes') }}</h3>
-      <canvas id="osChart"></canvas>
+      <div class="pie-chart-wrap"><canvas id="osChart"></canvas></div>
     </div>
   </div>
 </div>
@@ -226,7 +227,7 @@
   <div class="pie-grid" style="grid-template-columns:1fr 2fr;margin-bottom:28px">
     <div class="pie-card">
       <h3><i class="bi bi-pie-chart"></i> {{ __('Humains vs Bots') }}</h3>
-      <canvas id="humanBotChart"></canvas>
+      <div class="pie-chart-wrap"><canvas id="humanBotChart"></canvas></div>
     </div>
 
     {{-- Recent visitors --}}
