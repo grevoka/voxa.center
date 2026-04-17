@@ -63,6 +63,21 @@
 .pie-card h3 i{color:var(--mid)}
 .pie-card canvas{width:100%!important;height:180px!important}
 
+/* Visitor row in recent */
+.rv-row{display:flex;align-items:center;padding:10px 20px;border-bottom:1px solid #f1f5f9;gap:10px;font-size:13px;text-decoration:none;color:inherit;transition:background .1s}
+.rv-row:last-child{border-bottom:none}
+.rv-row:hover{background:#fafbfe}
+.rv-avatar{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.rv-avatar.human{background:#ecfdf5;color:#059669}
+.rv-avatar.bot{background:#fef2f2;color:#dc2626}
+.rv-ip{font-family:var(--mono);font-weight:600;color:var(--ink);min-width:110px;font-size:12px}
+.rv-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px;white-space:nowrap}
+.rv-tag.human{background:#ecfdf5;color:#059669}.rv-tag.bot{background:#fef2f2;color:#dc2626}
+.rv-meta{flex:1;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.rv-detail{font-size:11px;color:var(--slate)}
+.rv-time{font-size:11px;color:var(--slate);text-align:right;min-width:80px}
+.rv-arrow{color:var(--border);font-size:14px}
+
 @media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.data-grid{grid-template-columns:1fr}.pie-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.pie-grid{grid-template-columns:1fr}.analytics-tabs{overflow-x:auto}.a-tab{white-space:nowrap;padding:10px 14px;font-size:13px}}
 </style>
@@ -75,7 +90,6 @@
     <p style="font-size:14px;color:var(--slate);margin:4px 0 0">{{ __('Statistiques de consultation du site') }}</p>
   </div>
   <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-    <a href="{{ route('admin.analytics.visitors') }}" class="btn-admin outline" style="font-size:12px"><i class="bi bi-people"></i> {{ __('Visiteurs') }}</a>
     <span class="live-dot"><span class="dot"></span> <span id="liveCount">0</span> {{ __('en ligne') }}</span>
     <div class="period-tabs" id="periodTabs">
       <button class="period-tab" data-period="today">{{ __('Today') }}</button>
@@ -92,6 +106,7 @@
   <button class="a-tab active" data-tab="overview"><i class="bi bi-speedometer2"></i> {{ __('Vue d\'ensemble') }}</button>
   <button class="a-tab" data-tab="acquisition"><i class="bi bi-signpost-split"></i> {{ __('Acquisition') }}</button>
   <button class="a-tab" data-tab="audience"><i class="bi bi-people"></i> {{ __('Audience') }}</button>
+  <button class="a-tab" data-tab="visitors"><i class="bi bi-geo-alt"></i> {{ __('Visiteurs') }}</button>
   <button class="a-tab" data-tab="bots"><i class="bi bi-robot"></i> {{ __('Bots') }} <span id="botBadge" style="font-size:10px;font-weight:800;background:var(--bg);color:var(--slate);padding:1px 7px;border-radius:99px;border:1px solid var(--border)">0</span></button>
 </div>
 
@@ -169,6 +184,62 @@
   </div>
 </div>
 
+<!-- ═══════ TAB: VISITEURS ═══════ -->
+<div class="tab-panel" id="tab-visitors">
+  {{-- KPIs: Humans vs Bots --}}
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:28px">
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="bi bi-person-check"></i> {{ __('Humains') }}</div>
+      <div class="kpi-value" id="kpiHumans">&mdash;</div>
+      <div class="kpi-sub">{{ __('sessions') }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="bi bi-robot"></i> {{ __('Bots') }}</div>
+      <div class="kpi-value" id="kpiBotsCount">&mdash;</div>
+      <div class="kpi-sub">{{ __('sessions') }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="bi bi-eye"></i> {{ __('Pages (humains)') }}</div>
+      <div class="kpi-value" id="kpiHumanPV">&mdash;</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="bi bi-eye"></i> {{ __('Pages (bots)') }}</div>
+      <div class="kpi-value" id="kpiBotPV">&mdash;</div>
+    </div>
+  </div>
+
+  <div class="data-grid" style="grid-template-columns:1fr 1fr;margin-bottom:28px">
+    {{-- World map --}}
+    <div class="pie-card" style="min-height:420px;display:flex;flex-direction:column">
+      <h3><i class="bi bi-globe-americas"></i> {{ __('Carte du monde') }}</h3>
+      <div id="worldMap" style="flex:1;position:relative;min-height:350px"></div>
+    </div>
+
+    {{-- Countries table --}}
+    <div class="data-card">
+      <div class="dh"><h3><i class="bi bi-geo-alt"></i> {{ __('Pays') }}</h3></div>
+      <div id="countriesTable"><div class="data-empty"><i class="bi bi-hourglass-split"></i> {{ __('Chargement...') }}</div></div>
+    </div>
+  </div>
+
+  {{-- Human/Bot pie --}}
+  <div class="pie-grid" style="grid-template-columns:1fr 2fr;margin-bottom:28px">
+    <div class="pie-card">
+      <h3><i class="bi bi-pie-chart"></i> {{ __('Humains vs Bots') }}</h3>
+      <canvas id="humanBotChart"></canvas>
+    </div>
+
+    {{-- Recent visitors --}}
+    <div class="data-card">
+      <div class="dh">
+        <h3><i class="bi bi-clock-history"></i> {{ __('Visiteurs recents') }}</h3>
+        <a href="{{ route('admin.analytics.visitors') }}" style="font-size:12px;font-weight:600;color:var(--mid);text-decoration:none">{{ __('Voir tout') }} &rarr;</a>
+      </div>
+      <div id="recentVisitors"><div class="data-empty"><i class="bi bi-hourglass-split"></i> {{ __('Chargement...') }}</div></div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════ TAB: BOTS ═══════ -->
 <div class="tab-panel" id="tab-bots">
   <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);margin-bottom:28px">
@@ -226,6 +297,8 @@
     renderPie('devicesChart', devicesChart, data.devices, 'device', 'visits');
     renderPie('browsersChart', browsersChart, data.browsers, 'browser', 'visits');
     renderPie('osChart', osChart, data.os, 'os', 'visits');
+    // Visitors tab
+    renderVisitorsTab(data);
     // Bots
     renderBots(data.bots);
     // Live
@@ -328,6 +401,111 @@
   }
 
   function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+  // ─── Visitors Tab ───
+  let humanBotChart;
+  function renderVisitorsTab(data){
+    const hb = data.human_bot_split;
+    document.getElementById('kpiHumans').textContent = hb.humans.toLocaleString('fr-FR');
+    document.getElementById('kpiBotsCount').textContent = hb.bots.toLocaleString('fr-FR');
+    document.getElementById('kpiHumanPV').textContent = hb.human_pageviews.toLocaleString('fr-FR');
+    document.getElementById('kpiBotPV').textContent = hb.bot_pageviews.toLocaleString('fr-FR');
+
+    // Human vs Bot pie
+    const ctx = document.getElementById('humanBotChart').getContext('2d');
+    if(humanBotChart) humanBotChart.destroy();
+    humanBotChart = new Chart(ctx, {
+      type:'doughnut',
+      data:{labels:['{{ __("Humains") }}','{{ __("Bots") }}'],datasets:[{data:[hb.humans,hb.bots],backgroundColor:['#059669','#dc2626'],borderWidth:2,borderColor:'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{...chartFont,size:11},padding:10,usePointStyle:true,pointStyle:'circle'}},tooltip:{backgroundColor:'#0f172a',titleFont:chartFont,bodyFont:chartFont,padding:10,cornerRadius:8}}}
+    });
+
+    // Countries table
+    renderCountries(data.countries);
+
+    // World map
+    renderWorldMap(data.countries);
+
+    // Recent visitors
+    renderRecentVisitors(data.recent_visitors);
+  }
+
+  function renderCountries(countries){
+    const c = document.getElementById('countriesTable');
+    if(!countries || countries.length === 0){c.innerHTML='<div class="data-empty">{{ __("Aucune donnee") }}</div>';return;}
+    const max = countries[0].visitors;
+    c.innerHTML = countries.map((r,i) =>
+      '<div class="data-row"><span class="data-rank">'+(i+1)+'</span><span style="font-size:18px;width:24px;text-align:center">'+r.flag+'</span><span class="data-name">'+escHtml(r.name)+'</span><div class="data-bar"><div class="data-bar-fill" style="width:'+Math.round(r.visitors/max*100)+'%"></div></div><span class="data-value">'+r.visitors+'</span></div>'
+    ).join('');
+  }
+
+  function renderWorldMap(countries){
+    const container = document.getElementById('worldMap');
+    const countryData = {};
+    let maxV = 1;
+    countries.forEach(c => { countryData[c.code.toUpperCase()] = c.visitors; if(c.visitors > maxV) maxV = c.visitors; });
+
+    // Load jvectormap-compatible SVG world map
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--slate);font-size:13px"><i class="bi bi-globe-americas" style="font-size:48px;display:block;margin-bottom:12px;color:var(--border)"></i>{{ __("Chargement de la carte...") }}</div>';
+
+    // Use a simple SVG world map
+    fetch('https://cdn.jsdelivr.net/npm/world-map-svg@1.0.0/world.svg').then(r=>r.text()).then(svg=>{
+      container.innerHTML = svg;
+      const svgEl = container.querySelector('svg');
+      if(!svgEl) return;
+      svgEl.style.width = '100%';
+      svgEl.style.height = '100%';
+      svgEl.style.maxHeight = '350px';
+
+      // Style all paths
+      svgEl.querySelectorAll('path').forEach(p => {
+        const id = (p.id || p.getAttribute('data-id') || '').toUpperCase();
+        const val = countryData[id] || 0;
+        if(val > 0){
+          const intensity = Math.min(val / maxV, 1);
+          const r = Math.round(109 - intensity * 70);
+          const g = Math.round(40 + intensity * 0);
+          const b = Math.round(217 - intensity * 30);
+          p.style.fill = `rgb(${r},${g},${b})`;
+          p.style.cursor = 'pointer';
+          p.setAttribute('title', id + ': ' + val + ' visiteurs');
+        } else {
+          p.style.fill = '#e2e8f0';
+        }
+        p.style.stroke = '#fff';
+        p.style.strokeWidth = '0.5';
+        p.style.transition = 'fill .2s';
+        p.addEventListener('mouseenter', function(){ if(val>0) this.style.opacity='.7'; });
+        p.addEventListener('mouseleave', function(){ this.style.opacity='1'; });
+      });
+    }).catch(()=>{
+      // Fallback: simple country bars
+      container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--slate);font-size:13px">{{ __("Carte non disponible") }}</div>';
+    });
+  }
+
+  function renderRecentVisitors(visitors){
+    const c = document.getElementById('recentVisitors');
+    if(!visitors || visitors.length === 0){c.innerHTML='<div class="data-empty">{{ __("Aucun visiteur") }}</div>';return;}
+    c.innerHTML = visitors.map(v => {
+      const isBot = v.is_bot == 1;
+      const flag = v.country ? String.fromCodePoint(...[...v.country.toUpperCase()].map(c=>0x1F1E6+c.charCodeAt(0)-65)) : '';
+      const now = new Date();
+      const last = new Date(v.last_seen);
+      const diffMin = Math.round((now - last) / 60000);
+      const timeAgo = diffMin < 1 ? '{{ __("maintenant") }}' : diffMin < 60 ? diffMin + 'min' : Math.round(diffMin/60) + 'h';
+      const dur = parseInt(v.total_duration) || 0;
+      const dm = Math.floor(dur/60); const ds = dur%60;
+      return '<a href="/admin/analytics/visitor/'+v.session_id+'" class="rv-row">' +
+        '<div class="rv-avatar '+(isBot?'bot':'human')+'"><i class="bi bi-'+(isBot?'robot':'person-fill')+'"></i></div>' +
+        '<span class="rv-ip">'+flag+' '+escHtml(v.ip)+'</span>' +
+        '<span class="rv-tag '+(isBot?'bot':'human')+'">'+(isBot?(v.bot_name||'Bot'):'{{ __("Humain") }}')+'</span>' +
+        '<span class="rv-meta"><span class="rv-detail">'+v.pageviews+' pages · '+dm+'m'+String(ds).padStart(2,'0')+'s</span></span>' +
+        '<span class="rv-time">'+timeAgo+'</span>' +
+        '<span class="rv-arrow"><i class="bi bi-chevron-right"></i></span>' +
+      '</a>';
+    }).join('');
+  }
 
   // ─── Period Tabs ───
   document.querySelectorAll('.period-tab').forEach(tab => {

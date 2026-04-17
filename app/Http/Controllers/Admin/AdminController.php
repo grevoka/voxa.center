@@ -515,6 +515,38 @@ class AdminController extends Controller
             ->limit(10)
             ->get();
 
+        // Countries (humans only)
+        $countries = Visit::period($fromStr, $toStr)->where('is_bot', false)
+            ->whereNotNull('country')
+            ->selectRaw('country, COUNT(DISTINCT session_id) as visitors, COUNT(*) as pageviews')
+            ->groupBy('country')
+            ->orderByDesc('visitors')
+            ->limit(20)
+            ->get()
+            ->map(fn ($r) => [
+                'code' => $r->country,
+                'name' => Visit::countryName($r->country),
+                'flag' => Visit::countryFlag($r->country),
+                'visitors' => $r->visitors,
+                'pageviews' => $r->pageviews,
+            ]);
+
+        // Human vs bot split
+        $humanBotSplit = [
+            'humans' => Visit::period($fromStr, $toStr)->where('is_bot', false)->distinct('session_id')->count('session_id'),
+            'bots' => Visit::period($fromStr, $toStr)->where('is_bot', true)->distinct('session_id')->count('session_id'),
+            'human_pageviews' => Visit::period($fromStr, $toStr)->where('is_bot', false)->count(),
+            'bot_pageviews' => Visit::period($fromStr, $toStr)->where('is_bot', true)->count(),
+        ];
+
+        // Recent visitors (last 20 sessions)
+        $recentVisitors = Visit::period($fromStr, $toStr)
+            ->selectRaw('session_id, ip, MIN(hostname) as hostname, MIN(country) as country, MIN(created_at) as first_seen, MAX(created_at) as last_seen, COUNT(*) as pageviews, SUM(duration) as total_duration, MIN(referrer_host) as referrer_host, MIN(source) as source, MIN(device) as device, MIN(browser) as browser, MIN(os) as os, MAX(is_bot) as is_bot, MIN(bot_name) as bot_name')
+            ->groupBy('session_id', 'ip')
+            ->orderByDesc('last_seen')
+            ->limit(20)
+            ->get();
+
         return response()->json([
             'kpis' => [
                 'visitors' => $uniqueVisitors,
@@ -533,6 +565,9 @@ class AdminController extends Controller
             'os' => $operatingSystems,
             'devices' => $devices,
             'bots' => ['total' => $botTotal, 'top' => $topBots],
+            'countries' => $countries,
+            'human_bot_split' => $humanBotSplit,
+            'recent_visitors' => $recentVisitors,
         ]);
     }
 
