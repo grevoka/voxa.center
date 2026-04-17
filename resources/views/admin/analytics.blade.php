@@ -69,6 +69,7 @@
     <p style="font-size:14px;color:var(--slate);margin:4px 0 0">{{ __('Statistiques de consultation du site') }}</p>
   </div>
   <div style="display:flex;align-items:center;gap:12px">
+    <a href="{{ route('admin.analytics.visitors') }}" class="btn-admin outline" style="font-size:12px"><i class="bi bi-people"></i> {{ __('Visiteurs') }}</a>
     <span class="live-dot"><span class="dot"></span> <span id="liveCount">0</span> {{ __('en ligne') }}</span>
     <div class="period-tabs" id="periodTabs">
       <button class="period-tab" data-period="today">{{ __('Today') }}</button>

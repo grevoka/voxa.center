@@ -522,4 +522,77 @@ class AdminController extends Controller
             'devices' => $devices,
         ]);
     }
+
+    public function analyticsVisitors(Request $request)
+    {
+        $query = Visit::selectRaw('
+                session_id,
+                ip,
+                MIN(created_at) as first_seen,
+                MAX(created_at) as last_seen,
+                COUNT(*) as pageviews,
+                SUM(duration) as total_duration,
+                MIN(referrer_host) as referrer_host,
+                MIN(source) as source,
+                MIN(device) as device,
+                MIN(browser) as browser,
+                MIN(os) as os
+            ')
+            ->groupBy('session_id', 'ip')
+            ->orderByDesc('last_seen');
+
+        if ($request->filled('search')) {
+            $query->where('ip', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('period')) {
+            $days = match ($request->period) {
+                'today' => 0,
+                '7d' => 7,
+                '30d' => 30,
+                default => 7,
+            };
+            $query->where('created_at', '>=', now()->subDays($days));
+        } else {
+            $query->where('created_at', '>=', now()->subDays(7));
+        }
+
+        $visitors = $query->paginate(50);
+
+        return view('admin.analytics-visitors', compact('visitors'));
+    }
+
+    public function analyticsVisitorDetail(string $sessionId)
+    {
+        $visits = Visit::where('session_id', $sessionId)
+            ->orderBy('created_at')
+            ->get();
+
+        if ($visits->isEmpty()) {
+            abort(404);
+        }
+
+        $first = $visits->first();
+        $last = $visits->last();
+        $totalDuration = $visits->sum('duration');
+        $pageviews = $visits->count();
+
+        $visitor = (object) [
+            'session_id' => $sessionId,
+            'ip' => $first->ip,
+            'first_seen' => $first->created_at,
+            'last_seen' => $last->created_at,
+            'pageviews' => $pageviews,
+            'total_duration' => $totalDuration,
+            'device' => $first->device,
+            'browser' => $first->browser,
+            'browser_version' => $first->browser_version,
+            'os' => $first->os,
+            'referrer_host' => $first->referrer_host,
+            'referrer' => $first->referrer,
+            'source' => $first->source,
+        ];
+
+        return view('admin.analytics-visitor-detail', compact('visitor', 'visits'));
+    }
 }

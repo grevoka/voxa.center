@@ -23,6 +23,8 @@ Route::middleware(['auth', 'admin-locale'])->prefix('admin')->name('admin.')->gr
     Route::middleware('section:analytics')->group(function () {
         Route::get('/analytics', [AdminController::class, 'analytics'])->name('analytics');
         Route::get('/analytics/data', [AdminController::class, 'analyticsData'])->name('analytics.data');
+        Route::get('/analytics/visitors', [AdminController::class, 'analyticsVisitors'])->name('analytics.visitors');
+        Route::get('/analytics/visitor/{sessionId}', [AdminController::class, 'analyticsVisitorDetail'])->name('analytics.visitor');
     });
 
     Route::middleware('section:contacts')->group(function () {
