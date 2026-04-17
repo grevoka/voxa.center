@@ -3,7 +3,7 @@
 
 @push('styles')
 <style>
-.analytics-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px}
+.analytics-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:20px}
 .analytics-header h1{font-size:28px;font-weight:800;color:var(--navy);margin:0}
 .period-tabs{display:flex;gap:4px;background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:3px}
 .period-tab{padding:7px 14px;font-size:13px;font-weight:600;border-radius:7px;cursor:pointer;color:var(--slate);border:none;background:transparent;font-family:var(--font);transition:all .15s}
@@ -12,6 +12,16 @@
 .live-dot{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#059669;background:#ecfdf5;padding:6px 14px;border-radius:999px;border:1px solid #a7f3d0}
 .live-dot .dot{width:8px;height:8px;background:#059669;border-radius:50%;animation:livePulse 2s infinite}
 @keyframes livePulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* TABS */
+.analytics-tabs{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:28px;padding:0}
+.a-tab{padding:12px 20px;font-size:14px;font-weight:600;color:var(--slate);cursor:pointer;border:none;background:none;font-family:var(--font);position:relative;transition:all .15s;display:flex;align-items:center;gap:7px}
+.a-tab:hover{color:var(--ink)}
+.a-tab.active{color:var(--mid)}
+.a-tab.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--mid);border-radius:2px 2px 0 0}
+.a-tab i{font-size:15px}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
 
 /* KPI CARDS */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
@@ -26,7 +36,8 @@
 
 /* CHART */
 .chart-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:24px;margin-bottom:28px}
-.chart-card h3{font-size:16px;font-weight:700;color:var(--navy);margin:0 0 20px}
+.chart-card h3{font-size:16px;font-weight:700;color:var(--navy);margin:0 0 20px;display:flex;align-items:center;gap:8px}
+.chart-card h3 i{color:var(--mid)}
 .chart-card canvas{width:100%!important;height:280px!important}
 
 /* DATA TABLES */
@@ -52,13 +63,8 @@
 .pie-card h3 i{color:var(--mid)}
 .pie-card canvas{width:100%!important;height:180px!important}
 
-/* Loading */
-.analytics-loading{text-align:center;padding:60px;color:var(--slate);font-size:14px}
-.analytics-loading i{font-size:24px;display:block;margin-bottom:12px;animation:spin 1s linear infinite}
-@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-
-@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.data-grid{grid-template-columns:1fr}.pie-grid{grid-template-columns:repeat(2,1fr)!important}}
-@media(max-width:600px){.pie-grid{grid-template-columns:1fr!important}}
+@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.data-grid{grid-template-columns:1fr}.pie-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.pie-grid{grid-template-columns:1fr}.analytics-tabs{overflow-x:auto}.a-tab{white-space:nowrap;padding:10px 14px;font-size:13px}}
 </style>
 @endpush
 
@@ -68,7 +74,7 @@
     <h1><i class="bi bi-graph-up" style="color:var(--mid)"></i> {{ __('Analytics') }}</h1>
     <p style="font-size:14px;color:var(--slate);margin:4px 0 0">{{ __('Statistiques de consultation du site') }}</p>
   </div>
-  <div style="display:flex;align-items:center;gap:12px">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
     <a href="{{ route('admin.analytics.visitors') }}" class="btn-admin outline" style="font-size:12px"><i class="bi bi-people"></i> {{ __('Visiteurs') }}</a>
     <span class="live-dot"><span class="dot"></span> <span id="liveCount">0</span> {{ __('en ligne') }}</span>
     <div class="period-tabs" id="periodTabs">
@@ -81,75 +87,107 @@
   </div>
 </div>
 
-<!-- KPIs -->
-<div class="kpi-grid">
-  <div class="kpi-card">
-    <div class="kpi-label"><i class="bi bi-people"></i> {{ __('Visitors') }}</div>
-    <div class="kpi-value" id="kpiVisitors">—</div>
-    <div class="kpi-change neutral" id="kpiVisitorsChange"></div>
+<!-- TABS -->
+<div class="analytics-tabs">
+  <button class="a-tab active" data-tab="overview"><i class="bi bi-speedometer2"></i> {{ __('Vue d\'ensemble') }}</button>
+  <button class="a-tab" data-tab="acquisition"><i class="bi bi-signpost-split"></i> {{ __('Acquisition') }}</button>
+  <button class="a-tab" data-tab="audience"><i class="bi bi-people"></i> {{ __('Audience') }}</button>
+  <button class="a-tab" data-tab="bots"><i class="bi bi-robot"></i> {{ __('Bots') }} <span id="botBadge" style="font-size:10px;font-weight:800;background:var(--bg);color:var(--slate);padding:1px 7px;border-radius:99px;border:1px solid var(--border)">0</span></button>
+</div>
+
+<!-- ═══════ TAB: VUE D'ENSEMBLE ═══════ -->
+<div class="tab-panel active" id="tab-overview">
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="bi bi-people"></i> {{ __('Visitors') }}</div>
+      <div class="kpi-value" id="kpiVisitors">&mdash;</div>
+      <div class="kpi-change neutral" id="kpiVisitorsChange"></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="bi bi-eye"></i> {{ __('Pages vues') }}</div>
+      <div class="kpi-value" id="kpiPageviews">&mdash;</div>
+      <div class="kpi-change neutral" id="kpiPageviewsChange"></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="bi bi-arrow-return-left"></i> {{ __('Taux de rebond') }}</div>
+      <div class="kpi-value" id="kpiBounce">&mdash;</div>
+      <div class="kpi-sub">{{ __('1 seule page visitee') }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="bi bi-clock"></i> {{ __('Duree moyenne') }}</div>
+      <div class="kpi-value" id="kpiDuration">&mdash;</div>
+      <div class="kpi-sub">{{ __('par session') }}</div>
+    </div>
   </div>
-  <div class="kpi-card">
-    <div class="kpi-label"><i class="bi bi-eye"></i> {{ __('Pages vues') }}</div>
-    <div class="kpi-value" id="kpiPageviews">—</div>
-    <div class="kpi-change neutral" id="kpiPageviewsChange"></div>
+
+  <div class="chart-card">
+    <h3><i class="bi bi-bar-chart-line"></i> {{ __('Visitors & Pages vues') }}</h3>
+    <canvas id="mainChart"></canvas>
   </div>
-  <div class="kpi-card">
-    <div class="kpi-label"><i class="bi bi-arrow-return-left"></i> {{ __('Taux de rebond') }}</div>
-    <div class="kpi-value" id="kpiBounce">—</div>
-    <div class="kpi-sub">{{ __('1 seule page visitee') }}</div>
-  </div>
-  <div class="kpi-card">
-    <div class="kpi-label"><i class="bi bi-clock"></i> {{ __('Duree moyenne') }}</div>
-    <div class="kpi-value" id="kpiDuration">—</div>
-    <div class="kpi-sub">{{ __('par session') }}</div>
+
+  <div class="data-grid">
+    <div class="data-card">
+      <div class="dh"><h3><i class="bi bi-file-earmark-text"></i> {{ __('Pages les plus visitees') }}</h3></div>
+      <div id="topPages"><div class="data-empty"><i class="bi bi-hourglass-split"></i> {{ __('Chargement...') }}</div></div>
+    </div>
+    <div class="data-card">
+      <div class="dh"><h3><i class="bi bi-box-arrow-in-right"></i> {{ __('Sources de trafic') }}</h3></div>
+      <div id="referrers"><div class="data-empty"><i class="bi bi-hourglass-split"></i> {{ __('Chargement...') }}</div></div>
+    </div>
   </div>
 </div>
 
-<!-- CHART -->
-<div class="chart-card">
-  <h3><i class="bi bi-bar-chart-line" style="color:var(--mid)"></i> {{ __('Visitors & Pages vues') }}</h3>
-  <canvas id="mainChart"></canvas>
-</div>
-
-<!-- DATA TABLES -->
-<div class="data-grid">
-  <div class="data-card">
-    <div class="dh"><h3><i class="bi bi-file-earmark-text"></i> {{ __('Pages les plus visitees') }}</h3></div>
-    <div id="topPages"><div class="data-empty"><i class="bi bi-hourglass-split"></i> {{ __('Chargement...') }}</div></div>
-  </div>
-  <div class="data-card">
-    <div class="dh"><h3><i class="bi bi-box-arrow-in-right"></i> {{ __('Sources de trafic') }}</h3></div>
-    <div id="referrers"><div class="data-empty"><i class="bi bi-hourglass-split"></i> {{ __('Chargement...') }}</div></div>
+<!-- ═══════ TAB: ACQUISITION ═══════ -->
+<div class="tab-panel" id="tab-acquisition">
+  <div class="pie-grid" style="grid-template-columns:1fr 1fr;margin-bottom:28px">
+    <div class="pie-card" style="height:320px">
+      <h3><i class="bi bi-signpost-split"></i> {{ __('Sources') }}</h3>
+      <canvas id="sourcesChart"></canvas>
+    </div>
+    <div class="data-card">
+      <div class="dh"><h3><i class="bi bi-box-arrow-in-right"></i> {{ __('Sites referents') }}</h3></div>
+      <div id="referrersAcq"><div class="data-empty"><i class="bi bi-hourglass-split"></i> {{ __('Chargement...') }}</div></div>
+    </div>
   </div>
 </div>
 
-<!-- PIE CHARTS -->
-<div class="pie-grid" style="grid-template-columns:repeat(4,1fr)">
-  <div class="pie-card">
-    <h3><i class="bi bi-signpost-split"></i> {{ __('Sources') }}</h3>
-    <canvas id="sourcesChart"></canvas>
-  </div>
-  <div class="pie-card">
-    <h3><i class="bi bi-laptop"></i> {{ __('Appareils') }}</h3>
-    <canvas id="devicesChart"></canvas>
-  </div>
-  <div class="pie-card">
-    <h3><i class="bi bi-globe"></i> {{ __('Navigateurs') }}</h3>
-    <canvas id="browsersChart"></canvas>
-  </div>
-  <div class="pie-card">
-    <h3><i class="bi bi-cpu"></i> {{ __('Systemes') }}</h3>
-    <canvas id="osChart"></canvas>
+<!-- ═══════ TAB: AUDIENCE ═══════ -->
+<div class="tab-panel" id="tab-audience">
+  <div class="pie-grid">
+    <div class="pie-card">
+      <h3><i class="bi bi-laptop"></i> {{ __('Appareils') }}</h3>
+      <canvas id="devicesChart"></canvas>
+    </div>
+    <div class="pie-card">
+      <h3><i class="bi bi-globe"></i> {{ __('Navigateurs') }}</h3>
+      <canvas id="browsersChart"></canvas>
+    </div>
+    <div class="pie-card">
+      <h3><i class="bi bi-cpu"></i> {{ __('Systemes') }}</h3>
+      <canvas id="osChart"></canvas>
+    </div>
   </div>
 </div>
 
-<!-- BOTS -->
-<div class="data-card" style="margin-bottom:28px">
-  <div class="dh">
-    <h3><i class="bi bi-robot"></i> {{ __('Bots & Crawlers') }}</h3>
-    <span id="botTotal" style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--slate)"></span>
+<!-- ═══════ TAB: BOTS ═══════ -->
+<div class="tab-panel" id="tab-bots">
+  <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);margin-bottom:28px">
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="bi bi-robot"></i> {{ __('Total hits bots') }}</div>
+      <div class="kpi-value" id="kpiBotTotal">&mdash;</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="bi bi-diagram-3"></i> {{ __('Bots differents') }}</div>
+      <div class="kpi-value" id="kpiBotUnique">&mdash;</div>
+    </div>
   </div>
-  <div id="topBots"><div class="data-empty"><i class="bi bi-hourglass-split"></i> {{ __('Chargement...') }}</div></div>
+
+  <div class="data-card" style="margin-bottom:28px">
+    <div class="dh">
+      <h3><i class="bi bi-robot"></i> {{ __('Classement des bots') }}</h3>
+    </div>
+    <div id="topBots"><div class="data-empty"><i class="bi bi-hourglass-split"></i> {{ __('Chargement...') }}</div></div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
@@ -162,20 +200,36 @@
   const colors = ['#6d28d9','#3b82f6','#06b6d4','#d946ef','#f59e0b','#10b981','#ef4444','#8b5cf6'];
   const chartFont = {family:"'Plus Jakarta Sans',sans-serif"};
 
+  // ─── Tab switching ───
+  document.querySelectorAll('.a-tab').forEach(tab => {
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.a-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+    });
+  });
+
   // ─── Load Data ───
   async function load(){
     const res = await fetch(API + '?period=' + period);
     const data = await res.json();
+    // Overview
     renderKPIs(data.kpis);
     renderMainChart(data.chart);
     renderTable('topPages', data.top_pages, 'path', 'views');
-    renderReferrers(data.referrers);
+    renderReferrers('referrers', data.referrers);
+    // Acquisition
     renderSourcesPie(data.sources);
+    renderReferrers('referrersAcq', data.referrers);
+    // Audience
     renderPie('devicesChart', devicesChart, data.devices, 'device', 'visits');
     renderPie('browsersChart', browsersChart, data.browsers, 'browser', 'visits');
     renderPie('osChart', osChart, data.os, 'os', 'visits');
-    document.getElementById('liveCount').textContent = data.kpis.live;
+    // Bots
     renderBots(data.bots);
+    // Live
+    document.getElementById('liveCount').textContent = data.kpis.live;
   }
 
   // ─── KPIs ───
@@ -186,14 +240,13 @@
     const m = Math.floor(k.avg_duration / 60);
     const s = k.avg_duration % 60;
     document.getElementById('kpiDuration').textContent = m + 'm ' + String(s).padStart(2,'0') + 's';
-
     renderChange('kpiVisitorsChange', k.visitors_change);
     renderChange('kpiPageviewsChange', k.pageviews_change);
   }
 
   function renderChange(id, val){
     const el = document.getElementById(id);
-    if(val === 0){el.className='kpi-change neutral';el.innerHTML='— vs periode precedente';return;}
+    if(val === 0){el.className='kpi-change neutral';el.innerHTML='&mdash; vs periode precedente';return;}
     const up = val > 0;
     el.className = 'kpi-change ' + (up ? 'up' : 'down');
     el.innerHTML = '<i class="bi bi-arrow-' + (up?'up':'down') + '"></i> ' + (up?'+':'') + val + '% vs periode precedente';
@@ -203,49 +256,15 @@
   function renderMainChart(chartData){
     const ctx = document.getElementById('mainChart').getContext('2d');
     if(mainChart) mainChart.destroy();
-
     mainChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: chartData.map(d => d.date),
-        datasets: [
-          {
-            label: 'Visiteurs',
-            data: chartData.map(d => d.visitors),
-            backgroundColor: 'rgba(109,40,217,0.15)',
-            borderColor: '#6d28d9',
-            borderWidth: 2,
-            borderRadius: 6,
-            order: 2,
-          },
-          {
-            label: 'Pages vues',
-            data: chartData.map(d => d.pageviews),
-            type: 'line',
-            borderColor: '#06b6d4',
-            backgroundColor: 'rgba(6,182,212,0.08)',
-            borderWidth: 2.5,
-            pointRadius: 0,
-            pointHoverRadius: 5,
-            tension: 0.35,
-            fill: true,
-            order: 1,
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {mode:'index',intersect:false},
-        plugins: {
-          legend: {position:'top',align:'end',labels:{font:chartFont,usePointStyle:true,pointStyle:'circle',padding:16}},
-          tooltip: {backgroundColor:'#0f172a',titleFont:chartFont,bodyFont:chartFont,padding:12,cornerRadius:8},
-        },
-        scales: {
-          x: {grid:{display:false},ticks:{font:{...chartFont,size:11},color:'#94a3b8',maxRotation:0}},
-          y: {beginAtZero:true,grid:{color:'#f1f5f9'},ticks:{font:{...chartFont,size:11},color:'#94a3b8'}},
-        }
-      }
+      type:'bar',
+      data:{labels:chartData.map(d=>d.date),datasets:[
+        {label:'{{ __("Visitors") }}',data:chartData.map(d=>d.visitors),backgroundColor:'rgba(109,40,217,0.15)',borderColor:'#6d28d9',borderWidth:2,borderRadius:6,order:2},
+        {label:'{{ __("Pages vues") }}',data:chartData.map(d=>d.pageviews),type:'line',borderColor:'#06b6d4',backgroundColor:'rgba(6,182,212,0.08)',borderWidth:2.5,pointRadius:0,pointHoverRadius:5,tension:.35,fill:true,order:1}
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+        plugins:{legend:{position:'top',align:'end',labels:{font:chartFont,usePointStyle:true,pointStyle:'circle',padding:16}},tooltip:{backgroundColor:'#0f172a',titleFont:chartFont,bodyFont:chartFont,padding:12,cornerRadius:8}},
+        scales:{x:{grid:{display:false},ticks:{font:{...chartFont,size:11},color:'#94a3b8',maxRotation:0}},y:{beginAtZero:true,grid:{color:'#f1f5f9'},ticks:{font:{...chartFont,size:11},color:'#94a3b8'}}}}
     });
   }
 
@@ -255,80 +274,60 @@
     if(!rows || rows.length === 0){c.innerHTML='<div class="data-empty">{{ __("Aucune donnee") }}</div>';return;}
     const max = rows[0][valueKey];
     c.innerHTML = rows.map((r,i) =>
-      '<div class="data-row">' +
-        '<span class="data-rank">' + (i+1) + '</span>' +
-        '<span class="data-name">' + escHtml(r[nameKey]) + '</span>' +
-        '<div class="data-bar"><div class="data-bar-fill" style="width:' + Math.round(r[valueKey]/max*100) + '%"></div></div>' +
-        '<span class="data-value">' + r[valueKey].toLocaleString('fr-FR') + '</span>' +
-      '</div>'
+      '<div class="data-row"><span class="data-rank">'+(i+1)+'</span><span class="data-name">'+escHtml(r[nameKey])+'</span><div class="data-bar"><div class="data-bar-fill" style="width:'+Math.round(r[valueKey]/max*100)+'%"></div></div><span class="data-value">'+r[valueKey].toLocaleString('fr-FR')+'</span></div>'
     ).join('');
   }
 
-  function renderReferrers(rows){
-    const c = document.getElementById('referrers');
+  function renderReferrers(containerId, rows){
+    const c = document.getElementById(containerId);
     if(!rows || rows.length === 0){c.innerHTML='<div class="data-empty">{{ __("Trafic direct uniquement") }}</div>';return;}
     const max = rows[0].visits;
     c.innerHTML = rows.map((r,i) =>
-      '<div class="data-row">' +
-        '<span class="data-rank">' + (i+1) + '</span>' +
-        '<span class="data-name">' + escHtml(r.referrer_host) + '</span>' +
-        '<div class="data-bar"><div class="data-bar-fill" style="width:' + Math.round(r.visits/max*100) + '%;background:#06b6d4"></div></div>' +
-        '<span class="data-value">' + r.visitors.toLocaleString('fr-FR') + '</span>' +
-      '</div>'
+      '<div class="data-row"><span class="data-rank">'+(i+1)+'</span><span class="data-name">'+escHtml(r.referrer_host)+'</span><div class="data-bar"><div class="data-bar-fill" style="width:'+Math.round(r.visits/max*100)+'%;background:#06b6d4"></div></div><span class="data-value">'+r.visitors.toLocaleString('fr-FR')+'</span></div>'
     ).join('');
   }
 
-  // ─── Pie Charts ───
   // ─── Sources Pie ───
   const sourceLabels = {direct:'{{ __("Trafic direct") }}',search:'{{ __("Moteurs de recherche") }}',social:'{{ __("Reseaux sociaux") }}',referral:'{{ __("Sites referents") }}'};
   const sourceColors = {direct:'#94a3b8',search:'#6d28d9',social:'#d946ef',referral:'#06b6d4'};
   function renderSourcesPie(rows){
     const ctx = document.getElementById('sourcesChart').getContext('2d');
     if(sourcesChart) sourcesChart.destroy();
-    const labels = rows.map(r => sourceLabels[r.source] || r.source);
-    const data = rows.map(r => r.visits);
-    const bg = rows.map(r => sourceColors[r.source] || '#94a3b8');
     sourcesChart = new Chart(ctx, {
       type:'doughnut',
-      data:{labels,datasets:[{data,backgroundColor:bg,borderWidth:2,borderColor:'#fff'}]},
+      data:{labels:rows.map(r=>sourceLabels[r.source]||r.source),datasets:[{data:rows.map(r=>r.visits),backgroundColor:rows.map(r=>sourceColors[r.source]||'#94a3b8'),borderWidth:2,borderColor:'#fff'}]},
       options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{...chartFont,size:11},padding:10,usePointStyle:true,pointStyle:'circle'}},tooltip:{backgroundColor:'#0f172a',titleFont:chartFont,bodyFont:chartFont,padding:10,cornerRadius:8}}}
     });
   }
 
+  // ─── Pie Charts ───
   function renderPie(canvasId, chartRef, rows, nameKey, valueKey){
     const ctx = document.getElementById(canvasId).getContext('2d');
     if(chartRef) chartRef.destroy();
-
-    const labels = rows.map(r => r[nameKey] || 'Inconnu');
-    const data = rows.map(r => r[valueKey]);
-
     const chart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: labels,
-        datasets: [{
-          data: data,
-          backgroundColor: colors.slice(0, labels.length),
-          borderWidth: 2,
-          borderColor: '#fff',
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '60%',
-        plugins: {
-          legend: {position:'bottom',labels:{font:{...chartFont,size:11},padding:10,usePointStyle:true,pointStyle:'circle'}},
-          tooltip: {backgroundColor:'#0f172a',titleFont:chartFont,bodyFont:chartFont,padding:10,cornerRadius:8},
-        }
-      }
+      type:'doughnut',
+      data:{labels:rows.map(r=>r[nameKey]||'Inconnu'),datasets:[{data:rows.map(r=>r[valueKey]),backgroundColor:colors.slice(0,rows.length),borderWidth:2,borderColor:'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{...chartFont,size:11},padding:10,usePointStyle:true,pointStyle:'circle'}},tooltip:{backgroundColor:'#0f172a',titleFont:chartFont,bodyFont:chartFont,padding:10,cornerRadius:8}}}
     });
-
-    // Store reference
-    if(canvasId === 'devicesChart') devicesChart = chart;
-    else if(canvasId === 'browsersChart') browsersChart = chart;
-    else if(canvasId === 'osChart') osChart = chart;
+    if(canvasId==='devicesChart')devicesChart=chart;else if(canvasId==='browsersChart')browsersChart=chart;else if(canvasId==='osChart')osChart=chart;
   }
+
+  // ─── Bots ───
+  const botIcons = {'Googlebot':'🔍','Google':'🔍','Googlebot Images':'🖼️','Google Ads':'📢','Google Lighthouse':'💡','Google PageSpeed':'⚡','Bingbot':'🔎','Bing Preview':'🔎','DuckDuckBot':'🦆','Yahoo Slurp':'🔎','Baidu Spider':'🔎','YandexBot':'🔎','OpenAI GPTBot':'🤖','ChatGPT User':'🤖','OpenAI SearchBot':'🤖','Anthropic ClaudeBot':'🧠','Anthropic Claude':'🧠','Anthropic AI':'🧠','Common Crawl':'📚','Cohere AI':'🤖','Meta AI':'👁️','Perplexity Bot':'🔮','AmazonBot':'📦','Facebook Crawler':'👤','Twitter Bot':'🐦','LinkedIn Bot':'💼','Discord Bot':'🎮','Slack Bot':'💬','Telegram Bot':'✈️','SEMrush Bot':'📊','Ahrefs Bot':'📊','Moz DotBot':'📊','Majestic Bot':'📊','UptimeRobot':'🟢','Pingdom':'🟢','GTmetrix':'📐','Shodan':'🔒','Censys Scanner':'🔒','ZGrab Scanner':'🔒','cURL':'⌨️','Wget':'⌨️','Python Requests':'🐍','Python':'🐍','Go HTTP':'⌨️','Headless Chrome':'👻'};
+  function renderBots(bots){
+    document.getElementById('kpiBotTotal').textContent = bots.total.toLocaleString('fr-FR');
+    document.getElementById('kpiBotUnique').textContent = bots.top ? bots.top.length : 0;
+    document.getElementById('botBadge').textContent = bots.total.toLocaleString('fr-FR');
+    const c = document.getElementById('topBots');
+    if(!bots.top || bots.top.length === 0){c.innerHTML='<div class="data-empty">{{ __("Aucun bot detecte") }}</div>';return;}
+    const max = bots.top[0].hits;
+    c.innerHTML = bots.top.map((r,i) => {
+      const icon = botIcons[r.bot_name] || '🤖';
+      return '<div class="data-row"><span class="data-rank">'+(i+1)+'</span><span style="font-size:18px;width:24px;text-align:center">'+icon+'</span><span class="data-name">'+escHtml(r.bot_name)+'</span><div class="data-bar"><div class="data-bar-fill" style="width:'+Math.round(r.hits/max*100)+'%;background:#94a3b8"></div></div><span class="data-value" style="color:var(--slate)">'+r.hits.toLocaleString('fr-FR')+'</span></div>';
+    }).join('');
+  }
+
+  function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 
   // ─── Period Tabs ───
   document.querySelectorAll('.period-tab').forEach(tab => {
@@ -340,44 +339,10 @@
     });
   });
 
-  function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-
-  // ─── Bots ───
-  const botIcons = {'Googlebot':'🔍','Google':'🔍','Googlebot Images':'🖼️','Google Ads':'📢','Google Lighthouse':'💡','Google PageSpeed':'⚡',
-    'Bingbot':'🔎','Bing Preview':'🔎','DuckDuckBot':'🦆','Yahoo Slurp':'🔎','Baidu Spider':'🔎','YandexBot':'🔎',
-    'OpenAI GPTBot':'🤖','ChatGPT User':'🤖','OpenAI SearchBot':'🤖','Anthropic ClaudeBot':'🧠','Anthropic Claude':'🧠','Anthropic AI':'🧠',
-    'Common Crawl':'📚','Cohere AI':'🤖','Meta AI':'👁️','Perplexity Bot':'🔮','AmazonBot':'📦',
-    'Facebook Crawler':'👤','Twitter Bot':'🐦','LinkedIn Bot':'💼','Discord Bot':'🎮','Slack Bot':'💬','Telegram Bot':'✈️',
-    'SEMrush Bot':'📊','Ahrefs Bot':'📊','Moz DotBot':'📊','Majestic Bot':'📊',
-    'UptimeRobot':'🟢','Pingdom':'🟢','GTmetrix':'📐',
-    'Shodan':'🔒','Censys Scanner':'🔒','ZGrab Scanner':'🔒',
-    'cURL':'⌨️','Wget':'⌨️','Python Requests':'🐍','Python':'🐍','Go HTTP':'⌨️','Headless Chrome':'👻'};
-  function renderBots(bots){
-    document.getElementById('botTotal').textContent = bots.total.toLocaleString('fr-FR') + ' hits';
-    const c = document.getElementById('topBots');
-    if(!bots.top || bots.top.length === 0){c.innerHTML='<div class="data-empty">{{ __("Aucun bot detecte") }}</div>';return;}
-    const max = bots.top[0].hits;
-    c.innerHTML = bots.top.map((r,i) => {
-      const icon = botIcons[r.bot_name] || '🤖';
-      return '<div class="data-row">' +
-        '<span class="data-rank">' + (i+1) + '</span>' +
-        '<span style="font-size:18px;width:24px;text-align:center">' + icon + '</span>' +
-        '<span class="data-name">' + escHtml(r.bot_name) + '</span>' +
-        '<div class="data-bar"><div class="data-bar-fill" style="width:' + Math.round(r.hits/max*100) + '%;background:#94a3b8"></div></div>' +
-        '<span class="data-value" style="color:var(--slate)">' + r.hits.toLocaleString('fr-FR') + '</span>' +
-      '</div>';
-    }).join('');
-  }
-
   // ─── Init ───
   load();
-  // Refresh live count every 60s
   setInterval(async () => {
-    try{
-      const r = await fetch(API + '?period=' + period);
-      const d = await r.json();
-      document.getElementById('liveCount').textContent = d.kpis.live;
-    }catch(e){}
+    try{const r=await fetch(API+'?period='+period);const d=await r.json();document.getElementById('liveCount').textContent=d.kpis.live;}catch(e){}
   }, 60000);
 })();
 </script>
