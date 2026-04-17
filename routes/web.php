@@ -94,6 +94,7 @@ $frontendRoutes = function () {
     Route::get('/scenarios', [PageController::class, 'scenarios'])->name('scenarios');
     Route::get('/softphone', [PageController::class, 'softphone'])->name('softphone');
     Route::get('/click-to-call', [PageController::class, 'clickToCall'])->name('click-to-call');
+    Route::get('/click-to-call/cas-usage', [PageController::class, 'clickToCallUsecases'])->name('click-to-call.usecases');
 
     // Legal pages
     Route::get('/conditions-generales-utilisation', [PageController::class, 'cgu'])->name('legal.cgu');

@@ -50,6 +50,11 @@ class PageController extends Controller
         return view('pages.click-to-call');
     }
 
+    public function clickToCallUsecases()
+    {
+        return view('pages.click-to-call-usecases');
+    }
+
     public function cgu()
     {
         return view('pages.legal.cgu');
